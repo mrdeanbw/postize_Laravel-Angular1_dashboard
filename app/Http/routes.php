@@ -1,4 +1,6 @@
 <?php
+use Input;
+use Request;
 use View;
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +21,14 @@ Route::get('/', function () {
 Route::get('/{any}', function () {
 	View::share('page', 'post');
     return view('pages.post');
+});
+
+Route::post('/more-posts', function () {
+
+	if(Request::ajax()) {
+
+		$data = Input::all();
+
+		return view('partials.' . $data['action']);
+	}
 });

@@ -13,10 +13,13 @@
 
     <section>
         <h1 class="section-heading">You may also like:</h1>
-    
-        @include('partials.you-may-like')
-
-        <span href="" class="btn load">Load more</span>
+        
+        <div class="articles fill-content">
+            @include('partials.you-may-like')
+        </div>
+        
+        {{-- Load related posts of different categories --}}
+        <span href="" class="btn load" data-action="you-may-like" data-category="0">Load more</span>
     </section>
 
 </div>

@@ -7,10 +7,16 @@
 	{
 		FastClick.attach(document.body);
 
+		$.ajaxSetup({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+			}
+		});
+
 		$('.slider').owlCarousel({
 			loop:true,
 			autoplay: true,
-			autoplayTimeout:3000
+			autoplayTimeout:3000,
 			autoplayHoverPause:true,
 			responsive:{
 				0:{
@@ -127,6 +133,30 @@
 
 			var w = window.open(url,'Share','width=550,height=400');
 			return false;
+		});
+
+		$('.load').on('click', function() {
+
+			var $action = $(this).data('action');
+			var $cat = $(this).data('category');
+
+			$.ajax({
+				type: 'POST',
+				url: '/more-posts',
+				data: {
+					action: $action,
+					category: $cat
+				},
+				beforeSend: function () {
+					$('.fill-content').css({'opacity':'0.3'});
+				},
+				success: function (response) {
+					setTimeout(function () {
+						$('.fill-content').append(response);
+						$('.fill-content').css({'opacity':'1'});
+					}, 500);
+				}
+			});
 		});
 	});
 
