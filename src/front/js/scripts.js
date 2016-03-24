@@ -46,12 +46,20 @@
 				$('.page').removeAttr('style'); 
 				$('.resize').removeAttr('style'); 
 				$('.resize-post-header').removeAttr('style'); 
+				$('.sticky').trigger('sticky_kit:detach');
 				return;
 			}
 
 			var pWidth = width - 315; // 315: Sidebar + 15px margin
 			var hWidth = width - 456; // 456: Logo + Sidebar + 15px margin
 			var postHeaderWidth = width - 341; // 341: Logo small + Sidebar + 15px margin
+
+			/* jshint ignore:start */
+			$('.sticky').stick_in_parent({
+				parent: "body",
+				offset_top: 80
+			});
+			/* jshint ignore:end */
 
 			$('.page').css({width:pWidth}); 
 			$('.resize').css({width:hWidth});
@@ -84,12 +92,6 @@
 		$(document).scroll(function() {
 			scrollManager();
 		});
-
-		/* jshint ignore:start */
-		// $('.sticky').stick_in_parent({
-		// 	parent: "body"
-		// });
-		/* jshint ignore:end */
 
 		function scrollManager (argument) {
 

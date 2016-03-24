@@ -41,7 +41,7 @@
         <aside>
             <div class="share">
                 <div class="fb-like" data-href="http://postize.com/" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
-                <a class="twitter-follow-button" href="https://twitter.com/TwitterDev" data-show-screen-name="false">Follow</a>
+                <a class="twitter-follow-button" href="https://twitter.com/TwitterDev" data-show-screen-name="false"></a>
             </div>
 
             <span class="magnifier show-search"><svg><use xlink:href="#svg-search"></use></svg></span>

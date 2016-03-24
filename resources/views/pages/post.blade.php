@@ -156,13 +156,15 @@
 
 	@include('partials.sidebar-articles')
 
-	<div class="add sticky">
-		<a href="">
-			<img src="{!! asset('assets/front/img/300.jpg') !!}" alt="">
-		</a>
-	</div>
+	<div class="sticky">
+		<div class="add">
+			<a href="">
+				<img src="{!! asset('assets/front/img/300.jpg') !!}" alt="">
+			</a>
+		</div>
 	
-	@include('partials.subscribe')
+		@include('partials.subscribe')
+	</div>
 	
 </aside>
 @endsection  
