@@ -9,6 +9,9 @@
 
 		$('.slider').owlCarousel({
 			loop:true,
+			autoplay: true,
+			autoplayTimeout:3000
+			autoplayHoverPause:true,
 			responsive:{
 				0:{
 					items:1,
@@ -35,15 +38,19 @@
 
 			if ( $(window).width() <= 800 ) {
 				$('.page').removeAttr('style'); 
-				$('.nav--main').removeAttr('style'); 
+				$('.resize').removeAttr('style'); 
+				$('.resize-post-header').removeAttr('style'); 
 				return;
 			}
 
 			var pWidth = width - 315; // 315: Sidebar + 15px margin
 			var hWidth = width - 456; // 456: Logo + Sidebar + 15px margin
+			var postHeaderWidth = width - 341; // 341: Logo small + Sidebar + 15px margin
 
 			$('.page').css({width:pWidth}); 
-			$('.nav--main').css({width:hWidth});
+			$('.resize').css({width:hWidth});
+			$('.resize-post-header').css({width:postHeaderWidth});
+
 			$('.arrow').removeClass('animate');
 			$('.modal').removeClass('animate');
 			$('.search').removeClass('animate');
@@ -55,7 +62,7 @@
 		});
 
 		$(document).on('click', '.show-search', function () {
-			$('.search').toggleClass('animate');
+			$(this).siblings('.search').toggleClass('animate');
 		});
 
 		$(document).on('click', '.mobile-search', function () {
@@ -81,22 +88,46 @@
 		function scrollManager (argument) {
 
 			var scroll = $(document).scrollTop();
-			// var stickyScroll = $('.sticky').scrollTop();
 
-			// console.log(stickyScroll);
+			$('.arrow').removeClass('animate');
+			$('.modal').removeClass('animate');
+			$('.search').removeClass('animate');
 
 			if ( scroll >=500 ) {
 
-				if ( $('.go-top').hasClass('show') )
-					return;
-
-				$('.go-top').addClass('show');
+				if ( ! $('.go-top').hasClass('show') )
+					$('.go-top').addClass('show');
 			}
 
 			else {
 				$('.go-top').removeClass('show');
-			} 
+			}
+
+			if ( $('.header--post').length )
+			{
+				if ( scroll >=300 && $(window).width() > 500 ) {
+
+					if ( ! $('.header--post').hasClass('animate') )
+					{
+						$('.header--post').addClass('animate');
+						$('.header--main').addClass('animate');
+					}
+				}
+
+				else {
+					$('.header--post').removeClass('animate');
+					$('.header--main').removeClass('animate');
+				}
+			}
 		}
+
+		$('.share-buttons a').on('click', function(e) {
+			e.preventDefault();
+			var url = $(this).attr('href');
+
+			var w = window.open(url,'Share','width=550,height=400');
+			return false;
+		});
 	});
 
 

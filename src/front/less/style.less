@@ -5,6 +5,7 @@
 @import "../../modules/less/hamburgers";
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700);
 @import url(https://fonts.googleapis.com/css?family=Oswald:400,700);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 /*=================================
 =            Variables            =
@@ -229,16 +230,20 @@ a {
 =            SITE HEADER            =
 ===================================*/
 
-.site-header {
+.header {
 	position: fixed;
-	z-index: 9999;
+	z-index: 9998;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 60px;
 	padding-bottom: 2px;
-	transition: left 400ms ease;
+	transition: all 400ms ease;
 	transform: translateZ(0);
+
+	&.animate {
+		top: -65px;
+	}
 
 	&:after {
 		content: "";
@@ -376,6 +381,44 @@ a {
 			}
 		}
 	}
+
+	&--post {
+		top: -65px;
+		z-index: 9999;
+
+		&.animate {
+			top: 0;
+		}
+
+		.logo {
+			width: 26px;
+		}
+
+		h2 {
+			position: relative;
+			padding-left: 15px;
+			z-index: 3;
+			color: #464d55;
+			font-family: @oswald;
+			font-size: 18px;
+			font-weight: 400;
+			line-height: 26px;
+
+			@media only screen and (max-width: 500px) {
+				display: none;
+			}
+		}
+
+		@media only screen and (max-width: 800px) {
+			aside {
+				width: 50px;
+				
+				.share {
+					display: none;
+				}
+			}
+		}
+	}
 }
 
 /*=====  End of SITE HEADER  ======*/
@@ -385,7 +428,7 @@ a {
 =            NAVIGATIONS            =
 ==================================*/
 
-.side-open .site-header,
+.side-open .header,
 .side-open .site {
 	left: -@mobileNavWidth;
 }
@@ -481,6 +524,7 @@ a {
 		height: 17px;
 		margin-top: 5px;
 		padding: 0 10px;
+		width: 617px;
 
 		a, .more {
 			display: flex;
@@ -694,7 +738,11 @@ a {
 		padding-top: 80px;
 
 		.page {
-			width: 100%;
+			width: 758px;
+
+			@media only screen and (max-width: 800px) {
+				width: 100%;
+			}
 		}
 
 		.sidebar {
@@ -780,6 +828,8 @@ a {
 
 .slider {
 	width: 100%;
+	// max-height: 500px;
+	// overflow-y: hidden;
 
 	.owl-dots {
 		position: absolute;
@@ -827,7 +877,7 @@ a {
 	justify-content: space-between;
 	width: 100%;
 
-	@media only screen and (max-width: 360px) {
+	@media only screen and (max-width:360px) {
 		justify-content: center;
 	}
 }
@@ -1140,6 +1190,7 @@ a {
 
 		@media only screen and (max-width: 410px) {
 			width: 100%;
+			max-width: 350px;
 			margin-bottom: 20px;
 
 			.info {
@@ -1164,16 +1215,24 @@ a {
 		}
 
 		.content {
-			padding: 30px 15px;
+			padding: 20px 15px 30px;
 			font-family: Verdana;
+
+			@media only screen and (max-width: 600px) {
+				padding: 15px;
+			}
 		}
 
 		h1 {
 			font-family: @oswald;
-			font-size: 35px;
+			font-size: 2.5em;
 			font-weight: 700;
-			line-height: 50px;
-			margin-bottom: 25px;
+			line-height: 1.5em;
+			margin-bottom: 30px;
+
+			@media only screen and (max-width: 600px) {
+				font-size: 2em;
+			}
 		}
 
 		h2 {
@@ -1181,12 +1240,22 @@ a {
 			font-weight: 700;
 			line-height: 26px;
 			margin-bottom: 25px;
+
+			@media only screen and (max-width: 600px) {
+				font-size: 16px;
+				line-height: 24px;
+			}
 		}
 
 		p {
 			font-size: 16px;
 			line-height: 26px;
 			margin-bottom: 25px;
+
+			@media only screen and (max-width: 600px) {
+				font-size: 14px;
+				line-height: 24px;
+			}
 
 			img, iframe {
 				display: block;
@@ -1208,11 +1277,16 @@ a {
 			position: relative;
 			color: #464d55;
 			font-family: Verdana;
-			font-size: 15px;
+			font-size: 16px;
 			font-weight: 700;
-			line-height: 25px;
+			line-height: 26px;
 			margin-bottom: 25px;
 			padding: 10px 35px 10px 45px;
+
+			@media only screen and (max-width: 600px) {
+				font-size: 14px;
+				line-height: 24px;
+			}
 
 			&:after {
 				content: "";
@@ -1240,11 +1314,20 @@ a {
 			padding: 0 50px;
 			margin-bottom: 25px;
 
+			@media only screen and (max-width: 600px) {
+				padding: 0 25px;
+			}
+
 			li {
 				margin: 10px 0;
 				font-size: 16px;
 				line-height: 26px;
 				list-style: disc;
+
+				@media only screen and (max-width: 600px) {
+					font-size: 14px;
+					line-height: 24px;
+				}
 			}
 		}
 
@@ -1257,7 +1340,7 @@ a {
 			span {
 				font-style: italic;
 				font-family: Verdana;
-				line-height: 20px;
+				line-height: 10px;
 			}
 
 			a {
@@ -1266,13 +1349,18 @@ a {
 		}
 
 		.meta-holder {
-			margin-bottom: 30px;
+			flex-flow: row wrap;
+
+			.share-buttons {
+				margin-bottom: 30px;
+			}
 		}
 
 		.meta {
 			font-size: 14px;
 			line-height: 18px;
 			margin: 0;
+			margin-bottom: 30px;
 		}
 
 		.tags {
@@ -1282,7 +1370,7 @@ a {
 
 			span, a {
 				display: block;
-				padding: 0 10px;
+				padding: 6px 10px;
 				margin-right: 5px;
 				margin-bottom: 5px;
 				border-radius: 3px;
@@ -1290,7 +1378,7 @@ a {
 				font-family: @roboto;
 				font-size: 14px;
 				font-weight: 400;
-				line-height: 26px;
+				line-height: 12px;
 				transition: all .3s ease;
 			}
 
@@ -1311,6 +1399,136 @@ a {
 	}
 }
 
+.share-buttons {
+	flex-flow: row wrap;
+	justify-content: space-around;
+
+	a {
+		width: 45%;
+		height: 58px;
+		justify-content: center;
+		align-items: center;
+		border-radius: 3px;
+		color: #ffffff;
+		font-family: 'Open Sans', sans-serif;
+		font-weight: 400;
+		font-size: 16px;
+		margin: 20px auto;
+		transition: background .3s ease;
+		
+		svg {
+			width: 25px;
+			height: 25px;
+			fill:#ffffff;
+			margin-right: 20px;
+		}
+
+		&.facebook {
+			background-color: #3a579a;
+		}
+
+		&.twitter {
+			background-color: #00abf0;
+		}
+	}
+
+	@media only screen and (max-width: 800px) {
+
+		&.big {
+			flex-flow: column wrap;
+			justify-content: center;
+			width: 100%;
+
+			a {
+				width: 90%;
+				max-width: 300px;
+			}
+		}
+	}
+
+
+
+	&.big a {
+
+		&:hover {
+			text-decoration: none;
+
+			&.facebook {
+				background-color: #344e8a;
+			}
+
+			&.twitter {
+				background-color: #009ad8;
+			}
+		}
+	}
+
+	&.small {
+
+		@media only screen and (max-width: 800px) {
+		}
+
+		a {
+			width: 110px;
+			height: 28px;
+			font-size: 14px;
+			margin: 0;
+
+			div {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 25%;
+				height: 100%;
+				line-height: 28px;
+				transition: width .3s ease;
+			}
+
+			svg {
+				width: 16px;
+				height: 16px;
+				margin-right: 0;
+			}
+
+			span {
+				display: block;
+				height: 100%;
+				width: 75%;
+				line-height: 28px;
+				padding-left: 15px;
+				border-radius: 0 3px 3px 0;
+				transition: width .3s ease;
+			}
+
+			&:hover {
+				text-decoration: none;
+
+				div {
+					width: 30%;
+				}
+
+				span {
+					width: 70%;
+				}
+			}
+
+			&.facebook {
+				margin-right: 5px;
+
+				span {
+					background-color: #344e8a;
+				}
+			}
+
+			&.twitter {
+
+				span {
+					background-color: #009ad8;
+				}
+			}
+		}
+	}
+}
 
 .comments {
 	width: 100%;
@@ -1323,6 +1541,10 @@ a {
 	width: 100%;
 	margin-bottom: 20px;
 	padding: 0 15px;
+
+	@media only screen and (max-width: 600px) {
+		padding: 0;
+	}
 
 	.pn {
 		width: 50%;
@@ -1574,6 +1796,12 @@ input {
 	font-family: @roboto;
 	font-size: 16px;
 	font-weight: 400;
+}
+
+input[type="submit"] {
+	border-radius: 3px;
+	border: none;
+	height: 42px;
 }
 
 

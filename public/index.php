@@ -39,13 +39,13 @@
 
 	<?php $f = 'assets/front/svg/shapes.svg'; if (file_exists($f)) { include($f); } ?>
 
-	<header class="site-header">
+	<header class="header">
 		<div class="wrapper">
 			<section>
 				<a href="" class="logo">
 					<img src="assets/front/svg/postize-logo.svg" alt="">
 				</a>
-				<nav class="nav nav--main">
+				<nav class="nav nav--main resize">
 					<a href="{{ url('/') }}" class="funny active">Funny</a>
 					<a href="{{ url('/') }}" class="animals">Animals</a>
 					<a href="{{ url('/') }}" class="news">News</a>
