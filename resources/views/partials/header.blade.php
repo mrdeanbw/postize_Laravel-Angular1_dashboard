@@ -1,4 +1,4 @@
-<header class="header">
+<header class="header header--main">
     <div class="wrapper">
         <section>
             <a href="" class="logo">
