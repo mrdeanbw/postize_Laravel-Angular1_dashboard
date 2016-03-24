@@ -57,7 +57,7 @@ body {
 	background-color: #f4f7fa; 
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, h6 {
 	font-family: @roboto;
 	color: @fontColor;
 	transition: color .3s ease;
@@ -737,6 +737,16 @@ a {
 		justify-content: space-between;
 		padding-top: 80px;
 
+		.landing {
+			width: 100%;
+			padding-bottom: 50px;
+
+			.content h1 {
+				font-size: 2em;
+				margin-top: 0;
+			}
+		}
+
 		.page {
 			width: 758px;
 
@@ -1223,114 +1233,6 @@ a {
 			}
 		}
 
-		h1 {
-			font-family: @oswald;
-			font-size: 2.5em;
-			font-weight: 700;
-			line-height: 1.5em;
-			margin-bottom: 30px;
-
-			@media only screen and (max-width: 600px) {
-				font-size: 2em;
-			}
-		}
-
-		h2 {
-			font-size: 18px;
-			font-weight: 700;
-			line-height: 26px;
-			margin-bottom: 25px;
-
-			@media only screen and (max-width: 600px) {
-				font-size: 16px;
-				line-height: 24px;
-			}
-		}
-
-		p {
-			font-size: 16px;
-			line-height: 26px;
-			margin-bottom: 25px;
-
-			@media only screen and (max-width: 600px) {
-				font-size: 14px;
-				line-height: 24px;
-			}
-
-			img, iframe {
-				display: block;
-				margin: 0 auto;
-				max-width: 100%;
-			}
-		}
-
-		a {
-			color: #6c7e94;
-			font-weight: 700;
-
-			&:hover {
-				text-decoration: underline;
-			}
-		}
-		
-		blockquote {
-			position: relative;
-			color: #464d55;
-			font-family: Verdana;
-			font-size: 16px;
-			font-weight: 700;
-			line-height: 26px;
-			margin-bottom: 25px;
-			padding: 10px 35px 10px 45px;
-
-			@media only screen and (max-width: 600px) {
-				font-size: 14px;
-				line-height: 24px;
-			}
-
-			&:after {
-				content: "";
-				position: absolute;
-				top: 0;
-				left: 35px;
-				width: 2px;
-				height: 100%;
-				background-color: #6c7e94;
-			}
-
-			&:before {
-				content: "";
-				position: absolute;
-				top: -2px;
-				left: 0px;
-				width: 25px;
-				height: 25px;
-				#Sprite > .Quote(#6c7e94);
-				background-size: 25px 25px;
-			}
-		}
-
-		ul {
-			padding: 0 50px;
-			margin-bottom: 25px;
-
-			@media only screen and (max-width: 600px) {
-				padding: 0 25px;
-			}
-
-			li {
-				margin: 10px 0;
-				font-size: 16px;
-				line-height: 26px;
-				list-style: disc;
-
-				@media only screen and (max-width: 600px) {
-					font-size: 14px;
-					line-height: 24px;
-				}
-			}
-		}
-
 		.source {
 			display: flex;
 			justify-content: flex-end;
@@ -1397,6 +1299,118 @@ a {
 			}
 		}
 	}
+}
+
+.content {
+
+	h1 {
+		font-family: @oswald;
+		font-size: 2.5em;
+		font-weight: 700;
+		line-height: 1.5em;
+		margin-bottom: 30px;
+
+		@media only screen and (max-width: 600px) {
+			font-size: 2em;
+		}
+	}
+
+	h2, h3, h4, h5 {
+		font-size: 18px;
+		font-weight: 700;
+		line-height: 26px;
+		margin-bottom: 25px;
+
+		@media only screen and (max-width: 600px) {
+			font-size: 16px;
+			line-height: 24px;
+		}
+	}
+
+	p {
+		font-size: 16px;
+		line-height: 26px;
+		margin-bottom: 25px;
+
+		@media only screen and (max-width: 600px) {
+			font-size: 14px;
+			line-height: 24px;
+		}
+
+		img, iframe {
+			display: block;
+			margin: 0 auto;
+			max-width: 100%;
+		}
+	}
+
+	a {
+		color: #6c7e94;
+		font-weight: 700;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	blockquote {
+		position: relative;
+		color: #464d55;
+		font-family: Verdana;
+		font-size: 16px;
+		font-weight: 700;
+		line-height: 26px;
+		margin-bottom: 25px;
+		padding: 10px 35px 10px 45px;
+
+		@media only screen and (max-width: 600px) {
+			font-size: 14px;
+			line-height: 24px;
+		}
+
+		&:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 35px;
+			width: 2px;
+			height: 100%;
+			background-color: #6c7e94;
+		}
+
+		&:before {
+			content: "";
+			position: absolute;
+			top: -2px;
+			left: 0px;
+			width: 25px;
+			height: 25px;
+			#Sprite > .Quote(#6c7e94);
+			background-size: 25px 25px;
+		}
+	}
+
+	ul {
+		padding: 0 50px;
+		margin-bottom: 25px;
+
+		@media only screen and (max-width: 600px) {
+			padding: 0 25px;
+		}
+
+		li {
+			margin: 10px 0;
+			font-size: 16px;
+			line-height: 26px;
+			list-style: disc;
+
+			@media only screen and (max-width: 600px) {
+				font-size: 14px;
+				line-height: 24px;
+			}
+		}
+	}
+
 }
 
 .share-buttons {
@@ -1703,7 +1717,7 @@ a {
 	font-weight: 400;
 	line-height: 14px;
 
-	.content {
+	.text {
 		display: flex;
 		justify-content: space-between;
 		flex-flow: row wrap;

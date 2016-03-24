@@ -18,11 +18,15 @@ Route::get('/', function () {
     return view('pages.page');
 });
 
-Route::get('/{any}', function () {
+Route::get('/post', function () {
 	View::share('page', 'post');
     return view('pages.post');
 });
 
+Route::get('/landing', function () {
+	View::share('page', 'landing');
+    return view('pages.landing');
+});
 
 Route::post('/more-posts', function () {
 

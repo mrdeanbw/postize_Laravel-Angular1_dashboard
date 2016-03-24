@@ -1,5 +1,5 @@
 <footer class="site-footer">
-    <div class="wrapper content">
+    <div class="wrapper text">
         <section>
             <a href="" class="logo">
                 <img src="{!! asset('assets/front/svg/postize-logo-footer.svg') !!}" alt="">
@@ -8,10 +8,10 @@
         </section>
         <aside>
             <nav class="nav nav--footer">
-                <a href="{{ url('/') }}" class="active">Terms &amp; Conditions</a>
-                <a href="{{ url('/') }}" >Privacy Policy</a>
-                <a href="{{ url('/') }}" >DMCA Removal</a>
-                <a href="{{ url('/') }}" >Contact us</a>
+                <a href="{{ url('/landing') }}" class="active">Terms &amp; Conditions</a>
+                <a href="{{ url('/landing') }}" >Privacy Policy</a>
+                <a href="{{ url('/landing') }}" >DMCA Removal</a>
+                <a href="{{ url('/landing') }}" >Contact us</a>
             </nav>
             <div class="social">
                 <a href="" class="facebook"><svg><use xlink:href="#svg-facebook"></use></svg></a>

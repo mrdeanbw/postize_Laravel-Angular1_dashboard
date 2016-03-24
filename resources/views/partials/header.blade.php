@@ -21,10 +21,10 @@
                     <a href="{{ url('/') }}" class="nostalgia">Nostalgia</a>
                 </nav>
                 <nav class="nav nav--more landing">
-                    <a href="{{ url('/') }}" class="active">Terms &amp; Conditions</a>
-                    <a href="{{ url('/') }}" >Privacy Policy</a>
-                    <a href="{{ url('/') }}" >DMCA Removal</a>
-                    <a href="{{ url('/') }}" >Contact us</a>
+                    <a href="{{ url('/landing') }}" class="active">Terms &amp; Conditions</a>
+                    <a href="{{ url('/landing') }}" >Privacy Policy</a>
+                    <a href="{{ url('/landing') }}" >DMCA Removal</a>
+                    <a href="{{ url('/landing') }}" >Contact us</a>
                 </nav>
                 <div class="nav-footer">
                     <a href="" class="btn post">Submit post</a>
