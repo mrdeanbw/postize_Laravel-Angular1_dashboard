@@ -1,4 +1,3 @@
-
 <article class="item item--small funny">
 	<a href="" class="image">
 		<figure>

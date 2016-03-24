@@ -20,6 +20,7 @@
         
         {{-- Load related posts of different categories --}}
         <span href="" class="btn load" data-action="you-may-like" data-category="0">Load more</span>
+
     </section>
 
 </div>

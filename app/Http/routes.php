@@ -23,6 +23,7 @@ Route::get('/{any}', function () {
     return view('pages.post');
 });
 
+
 Route::post('/more-posts', function () {
 
 	if(Request::ajax()) {
