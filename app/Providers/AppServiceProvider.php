@@ -15,9 +15,12 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('partials.related', function($view)
         {
-            $view->with('posts', App\Models\Post::author()->take(6)->get());
+            $view->with('posts', \App\Models\Post::with('author')->take(6)->get());
         });
-
+        view()->composer('partials.you-may-like', function($view)
+        {
+            $view->with('posts', \App\Models\Post::with('author')->take(6)->get());
+        });
         view()->share('page', 'page');
 
         view()->composer('pages.post', function($view) {

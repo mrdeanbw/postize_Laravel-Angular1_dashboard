@@ -23,6 +23,8 @@
     <div class="landing">
 
         <section class="content">
+            <form action="{{ url('dashboard/post' . (!empty($post) ? '/' . $post->id : '')) }}" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <h1 class="section-heading">Add/Edit Post</h1>
 
             <p>
@@ -44,8 +46,8 @@
             <p>
                 <span>Category: </span>
 			<span>
-				<select id="category" name="category" class="form-control">
-                    <option value="none">No category selected</option>
+				<select id="category" name="category_id" class="form-control">
+                    <option value="0">No category selected</option>
                     @foreach($categories as $category)
                         <option value="{{$category->code}}" {{ !empty($post->category) && $post->category == $category->code ? ' selected' : '' }}>{{$category->name}}</option>
                     @endforeach
@@ -99,6 +101,9 @@
                 <textarea name="content"
                           rows="40">{{ $post->content or '' }}</textarea>
             </p>
+
+            <input type="submit"/>
+            </form>
         </section>
 
     </div>

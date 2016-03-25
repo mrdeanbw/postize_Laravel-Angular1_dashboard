@@ -71,10 +71,12 @@ class ManagePostController extends Controller
      */
     public function postAddEditPost(Request $request, $postId = null)
     {
+        //\Auth::loginUsingId(1);
         if ($postId == null) {
             if (Post::where('slug', str_slug($request->input('title')))->exists()) {
                 \Log::info('Slug existed:' . $request->input('title'));
-                return;
+
+                return redirect()->back()->withInput()->with('message', 'danger|This post has already been created, as it has the same URL as another post.');
             }
 
             Log::info('Creating new post...');
@@ -111,8 +113,7 @@ class ManagePostController extends Controller
         $post['slug'] = !empty($post['slug']) ? $post['slug'] : str_slug($post['title']);
 
         $post['description'] = $request->input('description');
-        $post['category'] = $request->input('category');
-        //$post['caption'] = $request->input('caption');
+        $post['category_id'] = $request->input('category_id', 1);
         $post->save();
 
         Log::info('Transforming content...');
@@ -158,26 +159,12 @@ class ManagePostController extends Controller
             }
         }
 
-        $post['excerpt'] = substr($post['content'], 0, 50) . '...';
-
         $post->save();
+        $message = 'success|Post saved successfully.';
 
-        $publish = $request->input('publishToExternal') == "1" && $post->status == PostStatus::Enabled;
-        if ($publish) {
-            $successfulPublish = $this->postToPublishBuddy($request, $post);
-
-            if ($successfulPublish) {
-                $message = 'success|Published to the affiliate dashboard successfully.';
-            } else {
-                $message = 'warning|Failed to publish to the affiliate dashboard, but the post was saved successfully here.';
-            }
-        } else {
-            $message = 'success|Post saved successfully.';
-        }
-
-        return view('admin.add-edit-post')
+        return view('pages.admin.add-edit-post')
             ->with('post', $post)
-            ->with('categories', Category::where('status', 'ENA')->get())
+            ->with('categories', Category::get())
             ->with('message', $message);
     }
 

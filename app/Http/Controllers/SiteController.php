@@ -12,7 +12,8 @@ use App\Models\AdSets;
 class SiteController extends Controller
 {
     public function getHome() {
-        return view('home');
+        $posts = Post::with('author')->take(20)->get();
+        return view('pages.page', compact($posts));
     }
 
     public function getLatestPosts() {
