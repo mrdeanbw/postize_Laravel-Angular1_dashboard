@@ -1,22 +1,22 @@
 <header class="header header--post">
 	<div class="wrapper">
 		<section>
-			<a href="" class="logo">
+			<a href="{{url('/')}}" class="logo">
 				<img src="assets/front/svg/postize-logo-letter.svg" alt="">
 			</a>
-			<h2 class="resize-post-header">Lady Gaga Talks About How Her Aunt’s Sexual Assault Tormented Her Before She Died</h2>
+			<h2 class="resize-post-header">{{ $post->title }}</h2>
 		</section>
 
 		<aside>
 			<div class="share">
 				<div class="row share-buttons small">
-					<a href="https://www.facebook.com/sharer/sharer.php?u=postize.com" target="_blank" class="row facebook">
+					<a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}" target="_blank" class="row facebook">
 						<div>
 							<svg><use xlink:href="#svg-facebook"></use></svg>
 						</div>
 						<span>Share</span>
 					</a>
-					<a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url=http://postize.com" class="row twitter">
+					<a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}" class="row twitter">
 						<div>
 							<svg><use xlink:href="#svg-twitter"></use></svg>
 						</div>
@@ -33,11 +33,11 @@
 				</span>
 			</button>
 
-			<div class="search">
-				<form action="">
+			{{--<div class="search">
+				<form action="{{url('search')}}">
 					<input type="text" placeholder="Search Postize">
 				</form>
-			</div>
+			</div>--}}
 		</aside>
 	</div>
 </header>

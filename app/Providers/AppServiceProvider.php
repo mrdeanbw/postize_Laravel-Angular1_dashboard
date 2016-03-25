@@ -13,7 +13,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('partials.related', function($view)
+        {
+            $view->with('posts', App\Models\Post::author()->take(6)->get());
+        });
+
+        view()->share('page', 'page');
+
+        view()->composer('pages.post', function($view) {
+            $view->share('page', 'post');
+        });
     }
 
     /**
