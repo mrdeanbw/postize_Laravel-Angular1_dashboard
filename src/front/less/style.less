@@ -1301,118 +1301,6 @@ a {
 	}
 }
 
-.content {
-
-	h1 {
-		font-family: @oswald;
-		font-size: 2.5em;
-		font-weight: 700;
-		line-height: 1.5em;
-		margin-bottom: 30px;
-
-		@media only screen and (max-width: 600px) {
-			font-size: 2em;
-		}
-	}
-
-	h2, h3, h4, h5 {
-		font-size: 18px;
-		font-weight: 700;
-		line-height: 26px;
-		margin-bottom: 25px;
-
-		@media only screen and (max-width: 600px) {
-			font-size: 16px;
-			line-height: 24px;
-		}
-	}
-
-	p {
-		font-size: 16px;
-		line-height: 26px;
-		margin-bottom: 25px;
-
-		@media only screen and (max-width: 600px) {
-			font-size: 14px;
-			line-height: 24px;
-		}
-
-		img, iframe {
-			display: block;
-			margin: 0 auto;
-			max-width: 100%;
-		}
-	}
-
-	a {
-		color: #6c7e94;
-		font-weight: 700;
-
-		&:hover {
-			text-decoration: underline;
-		}
-	}
-
-	blockquote {
-		position: relative;
-		color: #464d55;
-		font-family: Verdana;
-		font-size: 16px;
-		font-weight: 700;
-		line-height: 26px;
-		margin-bottom: 25px;
-		padding: 10px 35px 10px 45px;
-
-		@media only screen and (max-width: 600px) {
-			font-size: 14px;
-			line-height: 24px;
-		}
-
-		&:after {
-			content: "";
-			position: absolute;
-			top: 0;
-			left: 35px;
-			width: 2px;
-			height: 100%;
-			background-color: #6c7e94;
-		}
-
-		&:before {
-			content: "";
-			position: absolute;
-			top: -2px;
-			left: 0px;
-			width: 25px;
-			height: 25px;
-			#Sprite > .Quote(#6c7e94);
-			background-size: 25px 25px;
-		}
-	}
-
-	ul {
-		padding: 0 50px;
-		margin-bottom: 25px;
-
-		@media only screen and (max-width: 600px) {
-			padding: 0 25px;
-		}
-
-		li {
-			margin: 10px 0;
-			font-size: 16px;
-			line-height: 26px;
-			list-style: disc;
-
-			@media only screen and (max-width: 600px) {
-				font-size: 14px;
-				line-height: 24px;
-			}
-		}
-	}
-
-}
-
 .share-buttons {
 	flex-flow: row wrap;
 	justify-content: space-around;
@@ -1797,10 +1685,15 @@ a {
 	color: #99a0a8;
 }
 
+@inputHeight: 38px;
+
 input {
+	height: @inputHeight;
+}
+
+input, textarea {
 	background-color: #f1f5fa;
 	border-radius: 3px;
-	height: 38px;
 	width: 100%;
 	padding: 0 15px;
 	line-height: normal;
@@ -1818,5 +1711,252 @@ input[type="submit"] {
 	height: 42px;
 }
 
+input[type="file"] {
+	padding-left: 0;
+}
+
+label {
+	line-height: 25px;
+	padding-right: 15px;
+}
+ 
+.field-set {
+	font-family: Verdana;
+	padding-bottom: 30px;
+
+	.field {
+		padding: 10px 0 20px;
+	}
+}
+
+.row {
+	align-items: center;
+}
+
+.sd-wrapper {
+	width: 300px !important;
+	height: @inputHeight !important;
+	box-shadow: 1px 1px 2px rgba(48,48,48,.65);
+	border-radius: 3px;
+
+	select {
+		width: 100% !important;
+		height: 100% !important;
+		display: inline-block;
+	}
+ 
+	ul {
+		padding: 0 !important;
+		box-shadow: 1px 1px 2px rgba(48,48,48,.65);
+		border-radius: 3px;
+		z-index: 1;
+
+		li {
+			margin: 0 !important;
+		}
+	}
+
+	&.open {
+
+		.sd-label {
+			color: @fontColor;
+			z-index: 2;
+
+			&:before {
+				#Sprite > .Arrow(@fontColor);
+				transform: rotate(180deg);
+			}
+		}
+	}
+
+
+	.sd-label {
+		position: relative;
+		width: 100% !important;
+		height: 100% !important;
+		line-height: 37px !important;
+		background-color: #ffffff;
+		padding-left: 10px;
+		cursor: pointer;
+		font-size: 16px;
+		text-align: left;
+		border-radius: 3px;
+		color: @fontColor;
+
+		&:before {
+			position: absolute;
+			content: '';
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			right: 10px;
+			width: 15px;
+			height: 10px;
+			#Sprite > .Arrow(@fontColor);
+			transition: all .3s ease;
+		}
+	}
+
+	.sd-options {
+		width: 100% !important;
+		top: 42px !important;
+		margin: 0;
+		text-align: left;
+		text-transform: capitalize;
+
+		li {
+			line-height: 37px;
+			height: @inputHeight;
+			padding-left: 10px;
+			cursor: pointer;
+			background-color: #fff;
+			transition: border .2s ease;
+			border-left: 2px solid transparent;
+			border-bottom: 1px solid rgba(0,0,0,.14);
+
+			&:first-of-type {
+				border-radius: 3px 3px 0 0;
+			}
+
+			&:last-of-type {
+				border-radius: 0 0 3px 3px;
+			}
+
+			&:hover {
+				border-left: 2px solid rgba(0,0,0,.50);
+			}
+		}
+	}
+}
+
 
 /*=====  End of FORMS  ======*/
+
+ 
+/*==================================
+=            TYPOGRAPHY            =
+==================================*/
+
+
+
+.content {
+
+	h1 {
+		font-family: @oswald;
+		font-size: 2.5em;
+		font-weight: 700;
+		line-height: 1.5em;
+		margin-bottom: 30px;
+
+		@media only screen and (max-width: 600px) {
+			font-size: 2em;
+		}
+	}
+
+	h2, h3, h4, h5 {
+		font-size: 18px;
+		font-weight: 700;
+		line-height: 26px;
+		margin-bottom: 25px;
+
+		@media only screen and (max-width: 600px) {
+			font-size: 16px;
+			line-height: 24px;
+		}
+	}
+
+	p {
+		font-size: 16px;
+		line-height: 26px;
+		margin-bottom: 25px;
+
+		@media only screen and (max-width: 600px) {
+			font-size: 14px;
+			line-height: 24px;
+		}
+
+		img, iframe {
+			display: block;
+			margin: 0 auto;
+			max-width: 100%;
+		}
+	}
+
+	a {
+		color: #6c7e94;
+		font-weight: 700;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	blockquote {
+		position: relative;
+		color: #464d55;
+		font-family: Verdana;
+		font-size: 16px;
+		font-weight: 700;
+		line-height: 26px;
+		margin-bottom: 25px;
+		padding: 10px 35px 10px 45px;
+
+		@media only screen and (max-width: 600px) {
+			font-size: 14px;
+			line-height: 24px;
+		}
+
+		&:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 35px;
+			width: 2px;
+			height: 100%;
+			background-color: #6c7e94;
+		}
+
+		&:before {
+			content: "";
+			position: absolute;
+			top: -2px;
+			left: 0px;
+			width: 25px;
+			height: 25px;
+			#Sprite > .Quote(#6c7e94);
+			background-size: 25px 25px;
+		}
+	}
+
+	ul {
+		padding: 0 50px;
+		margin-bottom: 25px;
+
+		@media only screen and (max-width: 600px) {
+			padding: 0 25px;
+		}
+
+		li {
+			margin: 10px 0;
+			font-size: 16px;
+			line-height: 26px;
+			list-style: disc;
+
+			@media only screen and (max-width: 600px) {
+				font-size: 14px;
+				line-height: 24px;
+			}
+		}
+	}
+
+	.third {
+		width: 33%;
+	}
+
+	.half {
+		width: 50%;
+	}
+}
+
+/*=====  End of TYPOGRAPHY  ======*/
+

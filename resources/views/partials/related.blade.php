@@ -12,7 +12,8 @@
                 <h2>{{ $post->title }}</h2>
             </a>
 
-            <div class="meta">by <a href="" class="author">{{$post->author}}</a> on <span class="date">{{ (new DateTime($post->created_at))->format('m DD, YY'); }}</span>
+            <div class="meta">
+                <div>by <a href="" class="author">{{$post->author}}</a> on <span class="date">{{ (new DateTime($post->created_at))->format('m DD, YY'); }}</span></div>
             </div>
         </div>
     </article>

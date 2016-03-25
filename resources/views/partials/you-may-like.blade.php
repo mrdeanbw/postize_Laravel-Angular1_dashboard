@@ -8,7 +8,7 @@
 		<a href="">
 			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
 		</a>
-		<div class="meta">by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+		<div class="meta"><div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div></div>
 	</div>
 	<a href="" class="category">Funny</a>
 </article>
@@ -22,7 +22,7 @@
 		<a href="">
 			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
 		</a>
-		<div class="meta">by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+		<div class="meta"><div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div></div>
 	</div>
 	<a href="" class="category">Animals</a>
 </article>
@@ -36,7 +36,7 @@
 		<a href="">
 			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
 		</a>
-		<div class="meta">by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+		<div class="meta"><div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div></div>
 	</div>
 	<a href="" class="category">News</a>
 </article>
@@ -50,7 +50,7 @@
 		<a href="">
 			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
 		</a>
-		<div class="meta">by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+		<div class="meta"><div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div></div>
 	</div>
 	<a href="" class="category">Food</a>
 </article>
@@ -64,7 +64,7 @@
 		<a href="">
 			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
 		</a>
-		<div class="meta">by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+		<div class="meta"><div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div></div>
 	</div>
 	<a href="" class="category">Creepy</a>
 </article>
@@ -78,7 +78,7 @@
 		<a href="">
 			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
 		</a>
-		<div class="meta">by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+		<div class="meta"><div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div></div>
 	</div>
 	<a href="" class="category">Feels</a>
 </article>
@@ -92,7 +92,7 @@
 		<a href="">
 			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
 		</a>
-		<div class="meta">by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+		<div class="meta"><div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div></div>
 	</div>
 	<a href="" class="category">Trending</a>
 </article>
@@ -106,7 +106,7 @@
 		<a href="">
 			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
 		</a>
-		<div class="meta">by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+		<div class="meta"><div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div></div>
 	</div>
 	<a href="" class="category">Gaming</a>
 </article>
@@ -120,7 +120,7 @@
 		<a href="">
 			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
 		</a>
-		<div class="meta">by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+		<div class="meta"><div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div></div>
 	</div>
 	<a href="" class="category">Nostalgia</a>
 </article>

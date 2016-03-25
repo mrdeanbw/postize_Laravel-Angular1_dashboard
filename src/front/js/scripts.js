@@ -1,4 +1,4 @@
-/*global console:false, jQuery:false, scotchPanel:false, FastClick:false, owlCarousel: false, stick_in_parent:false*/
+/*global console:false, jQuery:false, scotchPanel:false, FastClick:false, owlCarousel: false, stick_in_parent:false, SelectDecorator:false*/
 
 (function($) {
 	'use strict';
@@ -160,7 +160,9 @@
 				}
 			});
 		});
-	});
 
+		var slc = new SelectDecorator('select');
+	});
+ 
 
 })(jQuery);

@@ -10,8 +10,10 @@ dest:
         js:
             modules:
                 - Fastclick
+                - Browser
                 - OwlCarousel2
                 - Sticky
+                - SelectDecorator
 
             scripts:
                 - scripts
