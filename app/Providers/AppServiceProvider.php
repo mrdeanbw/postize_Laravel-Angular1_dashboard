@@ -21,10 +21,14 @@ class AppServiceProvider extends ServiceProvider
         {
             $view->with('posts', \App\Models\Post::with('author')->take(6)->get());
         });
+        view()->composer('partials.top-stories', function($view)
+        {
+            $view->with('posts', \App\Models\Post::with('author')->take(6)->get());
+        });
         view()->share('page', 'page');
 
         view()->composer('pages.post', function($view) {
-            $view->share('page', 'post');
+            view()->share('page', 'post');
         });
     }
 

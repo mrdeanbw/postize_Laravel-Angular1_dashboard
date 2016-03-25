@@ -1,5 +1,4 @@
 @foreach($posts as $post)
-    {{ dd($post); }}
     <article class="item item--small news">
         <a href="" class="image">
             <figure>
