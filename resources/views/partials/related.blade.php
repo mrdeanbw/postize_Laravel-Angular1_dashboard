@@ -12,7 +12,7 @@
             </a>
 
             <div class="meta">
-                <div>by <a href="" class="author">{{$post->author}}</a> on <span class="date">{{ (new DateTime($post->created_at))->format('m DD, YY'); }}</span></div>
+                <div>by <a href="" class="author">{{$post->author}}</a> on <span class="date">{{ (new DateTime($post->created_at))->format('m DD, YY') }}</span></div>
             </div>
         </div>
     </article>

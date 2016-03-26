@@ -71,7 +71,7 @@ class ManagePostController extends Controller
      */
     public function postAddEditPost(Request $request, $postId = null)
     {
-        //\Auth::loginUsingId(1);
+        \Auth::loginUsingId(1);
         if ($postId == null) {
             if (Post::where('slug', str_slug($request->input('title')))->exists()) {
                 \Log::info('Slug existed:' . $request->input('title'));
@@ -119,7 +119,7 @@ class ManagePostController extends Controller
         Log::info('Transforming content...');
         $postTransformer = new PostTransformer();
         $post['content'] = $request->input('encoded') == 'true' ? base64_decode($request->input('content')) : $request->input('content');
-        $post['content'] = $postTransformer->handleExtraneousData($post['content']);
+        //$post['content'] = $postTransformer->handleExtraneousData($post['content']);
         $post['content'] = $postTransformer->handleContentImageData($post['content'], $post->id);
         $post['content'] = $postTransformer->handleContentExternalUrls($post['content'], $post->id);
         Log::info('Finished transforming content...');

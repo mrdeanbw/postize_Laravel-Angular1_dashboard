@@ -7,27 +7,29 @@
 		<article class="item item--post news">
 
 			<figure class="top-image">
-				<img src="assets/front/img/slide.jpg" alt="">
+				<img src="{{$post->image}}" alt="">
 			</figure>
 
 			<div class="content">
-				<h1>Lady Gaga Talks About How Her Aunt’s Sexual Assault Tormented Her Before She Died</h1>
+				<h1>{{$post->title}}</h1>
 
 				<div class="meta-holder">
 					<div class="meta">
 						<figure class="avatar">
 							<img src="assets/front/img/avatar.jpg" alt="">
 						</figure>
-						<div>by <a href="" class="author">John Doe</a> on <span class="date">March 08, 2016</span></div>
+						<div>by <a href="" class="author">{{$post->author->name}}</a> on <span class="date">
+								{{ (new DateTime($post->created_at))->format('m DD, YY') }}
+							</span></div>
 					</div>
 					<div class="row share-buttons small">
-						<a href="https://www.facebook.com/sharer/sharer.php?u=postize.com" target="_blank" class="row facebook">
+						<a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}" target="_blank" class="row facebook">
 							<div>
 								<svg><use xlink:href="#svg-facebook"></use></svg>
 							</div>
 							<span>Share</span>
 						</a>
-						<a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url=http://postize.com" class="row twitter">
+						<a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}" class="row twitter">
 							<div>
 								<svg><use xlink:href="#svg-twitter"></use></svg>
 							</div>
@@ -45,6 +47,8 @@
 					<a href="">Israel</a>
 				</div>
 
+				{!! $post->content !!}
+				
 				<p>The oldest living man in the world is currently 112 years old. His name? Israel Kristal, as announced by <a href="">Guinness World Records March 11</a>.</p>
 
 				<p>He received his official certificate, which states that he is the  world’s oldest man at 112 years and 178 days in his home in Haifa, Israel.</p>
