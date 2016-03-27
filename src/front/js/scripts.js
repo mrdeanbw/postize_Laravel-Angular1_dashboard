@@ -113,18 +113,20 @@
 
 			if ( $('.header--post').length )
 			{
-				if ( scroll >=300 && $(window).width() > 500 ) {
+				if ( scroll >=300 ) {
 
 					if ( ! $('.header--post').hasClass('animate') )
 					{
 						$('.header--post').addClass('animate');
 						$('.header--main').addClass('animate');
+						$('.header--post').find('.logo').addClass('bounce animated');
 					}
 				}
 
 				else {
 					$('.header--post').removeClass('animate');
 					$('.header--main').removeClass('animate');
+					$('.header--post').find('.logo').removeClass('bounce animated');
 				}
 			}
 		}
