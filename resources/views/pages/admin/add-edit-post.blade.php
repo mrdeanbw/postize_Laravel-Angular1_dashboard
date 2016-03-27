@@ -1,24 +1,5 @@
 @extends('layouts.main')
-
-@section('js-top')
-<script src="{{ asset('assets/admin/plugins/tinymce/tinymce.min.js') }}"></script>
-<script>
-tinymce.init(
-{
-	selector: 'textarea',
-	tools: "inserttable",
-	plugins: "pagebreak hr link lists preview searchreplace table wordcount code contextmenu image media spellchecker visualblocks imagetools paste",
-	contextmenu: "link image inserttable | cell row column deletetable spellchecker",
-	image_advtab: true,
-	menubar1: 'insert',
-	toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-	toolbar2: 'print preview media | forecolor backcolor emoticons pagebreak',
-	paste_data_images: true,
-	pagebreak_separator: '<!--nextpage-->',
-	convert_urls: false
-});</script>
-@endsection
-
+  
 @section('content')
 <div class="landing">
 
@@ -92,10 +73,37 @@ tinymce.init(
 				</div>
 			</div>
 
-			<div class="field-set">
+			<div class="field-set" style="height:130px;">
 				<div class="field">
-				<textarea name="content" rows="40">{{ $post->content or '' }}</textarea>
+					<div style="width:100%;float:left;padding-left:10px;padding-right:10px;">
+						<div style="width:30%;float:left;">
+							<select id="blocktype">
+								<option value="p">p</option>
+								<option value="h2">h2</option>
+								<option value="quoteblock">quoteblock</option>
+								<option value="imageurl">image(url)</option>
+								<option value="imageupload">image(upload)</option>
+								<option value="video">video</option>
+							</select>
+						</div>
+						<div style="width:50%;float:left;padding-left:10px;padding-right:10px;" id="blockcontentdiv">
+							<textarea id="textcontent" style="height:100px"></textarea>
+							<input id="imagecontent" type="file" name="imagecontent" style="display:none">
+						</div>
+						<div style="width:20%;float:left;padding-left:10px;padding-right:10px;">
+							<input type="button" class="btn" value="Add" onclick="addBlock()">
+						</div>
+					</div>
 				</div>
+			</div>
+			
+			<div style="height:60px">
+				<p>Preview</p>
+			</div>
+			
+			<div id="preview" class="field-set" >
+				<ul id="sortable">
+				</ul>
 			</div>
 			
 			<div class="field-set third">
@@ -109,7 +117,48 @@ tinymce.init(
 @endsection
 
 @section('js-bottom')
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<style>
+	#sortable { list-style: none; margin: 0; padding: 0; }
+	#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; width:100%; float:left}
+</style>
 <script>
+var blockindex = 0;
+
+function removeBlock(id) {
+	$('#sortableli' + id).detach();
+}
+
+function addBlock() {
+	var blocktype = $('#blocktype').val();
+	var block = null;
+	if (blocktype == 'p') {
+		block = $('<p>' + $('#textcontent').val() + '</p>');
+	} else if (blocktype == 'h2') {
+		block = $('<h2>' + $('#textcontent').val() + '</h2>');
+	} else if (blocktype == 'quoteblock') {
+		block = $('<blockquote cite="http://www.worldwildlife.org/who/index.html">' + $('#textcontent').val() + '</blockquote>')
+	} else if (blocktype == 'video') {
+		block = $('<p><iframe width="640" height="360" src="' + $('#textcontent').val() + '" frameborder="0" allowfullscreen></iframe></p>');
+	} else if (blocktype == 'imageurl') {
+		block = $('<p><img src="' + $('#textcontent').val() +'" alt=""><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span></p>');
+	}
+	var blockdiv = $('<div style="padding-top:10px;float:left;width:100%"></div>');
+	var contentdiv = $('<div style="width:80%;float:left"></div>');
+	contentdiv.append(block);
+	var closediv = $('<div style="width:20%;float:left"></div>');
+	var closebutton = $('<a onclick="removeBlock(' + blockindex + ')" style="float:right;cursor:pointer">x</a>');
+	closediv.append(closebutton);
+	blockdiv.append(contentdiv);
+	blockdiv.append(closediv);
+	var sortableli = $('<li id="sortableli' + blockindex + '" class="ui-state-default"></li>');
+	blockindex++;
+	sortableli.append(blockdiv);
+	$('#sortable').append(sortableli);
+}
+
 $(document).ready(function () {
 	$('#status').change(function() {
 		$(this).siblings('.sd-select').find('.sd-label').css('background-color', $('option:selected', this).attr('data-bg'));
@@ -120,6 +169,17 @@ $(document).ready(function () {
 	});
 
 	$('#status').siblings('.sd-select').find('.sd-label').css('background-color', $('option:selected', $('#status')).attr('data-bg'));
+	
+	$('#blocktype').change(function() {
+		if ($(this).val() == 'imageupload') {
+			$('#textcontent').hide();
+			$('#imagecontent').show();
+		} else {
+			$('#textcontent').show();
+			$('#imagecontent').hide();
+		}
+	});
+	$( "#sortable" ).sortable();
 });
 </script>
 @endsection

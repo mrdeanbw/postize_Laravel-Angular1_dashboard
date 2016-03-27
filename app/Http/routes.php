@@ -13,7 +13,7 @@
 //});
 
 Route::group(['middleware' => ['web']], function () {
-    Route::get('/', 'SiteController@getHome');
+	Route::get('/', 'SiteController@getHome');
 
     Route::post('search', 'SiteController@postSearch');
 
