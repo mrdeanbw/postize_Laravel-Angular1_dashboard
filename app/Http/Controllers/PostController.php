@@ -18,7 +18,7 @@ class PostController extends Controller
         }
 		
         $relatedPosts = Post::get();
-		$post->blocks = unserialize($post->content);
+		$post->blocks = unserialize(base64_decode($post->content));
 
         return view('pages.post')
             ->with('post', $post)
