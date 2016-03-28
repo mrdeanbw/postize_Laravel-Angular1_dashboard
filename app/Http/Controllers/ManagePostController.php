@@ -57,7 +57,7 @@ class ManagePostController extends Controller
                 ->first();
 
             if (empty($post)) return redirect()->to('dashboard/post')->with('message', 'danger|The requested post does not exist.');
-			$post->blocks = unserialize($post->content);
+			$post->blocks = unserialize(base64_decode($post->content));
         }
         return view('pages.admin.add-edit-post')
             ->with('post', $post)
@@ -131,7 +131,7 @@ class ManagePostController extends Controller
 		
         Log::info('Transforming content...');
         $postTransformer = new PostTransformer();
-		$post['content'] = serialize($request->input('blocks'));
+		$post['content'] = base64_encode(serialize($request->input('blocks')));
 		
         //$post['content'] = $request->input('encoded') == 'true' ? base64_decode($request->input('content')) : $request->input('content');
         //$post['content'] = $postTransformer->handleExtraneousData($post['content']);
@@ -178,7 +178,7 @@ class ManagePostController extends Controller
         }
         $post->save();
         $message = 'success|Post saved successfully.';
-		$post->blocks = unserialize($post->content);
+		$post->blocks = unserialize(base64_decode($post->content));
         return view('pages.admin.add-edit-post')
             ->with('post', $post)
             ->with('categories', Category::get())
