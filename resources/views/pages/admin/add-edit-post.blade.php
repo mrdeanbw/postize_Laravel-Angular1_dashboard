@@ -95,6 +95,9 @@
 							<form id="imageuploadform" action="{{ url('dashboard/post/uploadimage') }}" method="post">
 								<input id="imagecontent" type="file" name="imagecontent" style="display:none">
 							</form>
+							<div id="imagesource" style="display:none">
+								<textarea id="imagesourcecontent" name="imagesourcecontent" style="height:20px;display:none"></textarea>
+							</div>
 						</div>
 						<div style="width:20%;float:left;padding-left:10px;padding-right:10px;">
 							<input type="button" class="btn" value="Add" onclick="addBlock()">
@@ -165,9 +168,17 @@ function addBlock() {
 	} else if (blocktype == 'html') {
 		block = $('<iframe width="640" height="360" src="' + $('#mediacontent').val() + '" frameborder="0" allowfullscreen></iframe>');
 	} else if (blocktype == 'imageurl') {
-		block = $('<img src="' + $('#mediacontent').val() +'" alt="" style="width:100%"><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span>');
+		var imgsrc = $('#imagesourcecontent').val().replace('<p>', '').replace('</p>', '');
+		if (imgsrc.indexOf('</a>') == -1) {
+			imgsrc = '<a href="">' + imgsrc + '</a>';
+		}
+		block = $('<img src="' + $('#mediacontent').val() +'" alt="" style="width:100%"><span class="source"><span>source:</span>' + imgsrc + '</span>');
 	} else if (blocktype == 'imageupload') {
-		block = $('<img id="upimage' + blockindex + '" src="" alt="" style="width:100%""><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span>');
+		var imgsrc = $('#imagesourcecontent').val().replace('<p>', '').replace('</p>', '');
+		if (imgsrc.indexOf('</a>') == -1) {
+			imgsrc = '<a href="">' + imgsrc + '</a>';
+		}
+		block = $('<img id="upimage' + blockindex + '" src="" alt="" style="width:100%""><span class="source"><span>source:</span>' + imgsrc +'</span>');
 		var tmp_blockindex = blockindex;
 		$('#imageuploadform').ajaxForm({
 			dataType: 'json',
@@ -228,14 +239,22 @@ $(document).ready(function () {
 			$('#cke_textcontent').hide();
 			$('#imagecontent').show();
 			$('#mediacontent').hide();
-		} else if ($(this).val() == 'imageurl' || $(this).val() == 'html') {
+			$('#imagesource').show();
+		} else if ($(this).val() == 'imageurl') {
 			$('#cke_textcontent').hide();
 			$('#imagecontent').hide();
 			$('#mediacontent').show();
+			$('#imagesource').show();
+		} else if ($(this).val() == 'html') {
+			$('#cke_textcontent').hide();
+			$('#imagecontent').hide();
+			$('#mediacontent').show();
+			$('#imagesource').hide();
 		} else {
 			$('#cke_textcontent').show();
 			$('#imagecontent').hide();
 			$('#mediacontent').hide();
+			$('#imagesource').hide();
 		}
 	});
 	
@@ -264,6 +283,17 @@ $(document).ready(function () {
 	};
 	
 	$('#textcontent').ckeditor(config);   
+	
+	myToolbar = [
+		['Link']
+	];
+	
+	config = {
+		toolbar_mySimpleToolbar: myToolbar,
+		toolbar: 'mySimpleToolbar'
+	};
+	
+	$('#imagesourcecontent').ckeditor(config); 
 	
 	if (blockindex > 0) {
 		for (i = 0; i < blockindex; i++) {
