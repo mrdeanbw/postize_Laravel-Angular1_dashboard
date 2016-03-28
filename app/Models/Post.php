@@ -20,7 +20,7 @@ class Post extends Model // implements HasPresenter
      *
      * @var array
      */
-    protected $fillable = ['title', 'slug', 'description', 'category', 'content', 'excerpt', 'image', 'status', 'user_id'];
+    protected $fillable = ['title', 'slug', 'description', 'category', 'content', 'excerpt', 'image', 'status', 'user_id', 'category_id'];
 
     protected $dates = ['deleted_at'];
 
@@ -32,5 +32,9 @@ class Post extends Model // implements HasPresenter
     public function author() {
 
         return $this->hasOne('App\User', 'id', 'user_id');
+    }
+
+    public function category() {
+        return $this->hasOne('App\Models\Category', 'id', 'category_id');
     }
 }

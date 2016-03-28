@@ -52,11 +52,11 @@
                 </span>
             </button>
 
-            {{--<div class="search">
+            <div class="search">
                 <form action="{{url('search')}}">
-                    <input type="text" placeholder="Search Postize">
+                    <input type="text" name="s" placeholder="Search Postize">
                 </form>
-            </div>--}}
+            </div>
         </aside>
     </div>
 </header>

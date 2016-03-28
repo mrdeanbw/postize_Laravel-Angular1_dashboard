@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Post;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,16 +16,32 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('partials.related', function($view)
         {
-            $view->with('posts', \App\Models\Post::with('author')->take(6)->get());
+            $view->with('posts', Post::with('author')->with('category')->take(6)->get());
         });
         view()->composer('partials.you-may-like', function($view)
         {
-            $view->with('posts', \App\Models\Post::with('author')->take(6)->get());
+            $view->with('posts', Post::with('author')->with('category')->take(9)->get());
         });
         view()->composer('partials.top-stories', function($view)
         {
-            $view->with('posts', \App\Models\Post::with('author')->take(6)->get());
+            $viewData = $view->getData();
+            $posts = Post::with('author')->with('category');
+
+            if(array_key_exists('category_id', $viewData)) {
+                $posts->where('category_id', $viewData['category_id']);
+            }
+
+            $view->with('posts', $posts->take(6)->get());
         });
+        view()->composer('partials.slider', function($view)
+        {
+            $view->with('posts', Post::with('author')->with('category')->take(3)->get());
+        });
+        view()->composer('partials.sidebar-articles', function($view)
+        {
+            $view->with('posts', Post::with('author')->with('category')->take(3)->get());
+        });
+
         view()->share('page', 'page');
 
         view()->composer('pages.post', function($view) {

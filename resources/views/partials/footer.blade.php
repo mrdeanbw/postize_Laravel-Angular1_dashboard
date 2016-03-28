@@ -8,10 +8,10 @@
         </section>
         <aside>
             <nav class="nav nav--footer">
-                <a href="{{ url('/landing') }}" class="active">Terms &amp; Conditions</a>
-                <a href="{{ url('/landing') }}" >Privacy Policy</a>
-                <a href="{{ url('/landing') }}" >DMCA Removal</a>
-                <a href="{{ url('/landing') }}" >Contact us</a>
+                <a href="{{ url('/terms') }}" class="active">Terms &amp; Conditions</a>
+                <a href="{{ url('/privacy') }}" >Privacy Policy</a>
+                <a href="{{ url('/copyright') }}" >DMCA Removal</a>
+                <a href="{{ url('/contact') }}" >Contact us</a>
             </nav>
             <div class="social">
                 <a href="https://facebook.com/Postize" class="facebook"><svg><use xlink:href="#svg-facebook"></use></svg></a>
@@ -22,6 +22,6 @@
         </aside>
     </div>
     <div class="copyright">
-        <div class="wrapper">&copy; <?php echo date('Y') ?> Methodize Media - All Rights Reserved</div>
+        <div class="wrapper">&copy; <?php echo date('Y') ?> Methodize Media Pty. Ltd. - All Rights Reserved</div>
     </div>
 </footer>

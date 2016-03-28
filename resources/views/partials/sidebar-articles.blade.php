@@ -1,29 +1,13 @@
+@foreach($posts as $post)
 <div class="articles">
-	<article class="item funny">
-		<a href="" class="image">
+	<article class="item {{ strtolower($post->category->name) }}">
+		<a href="{{url($post->slug)}}" class="image">
 			<figure>
-				<img src="{!! asset('assets/front/img/thumb300.jpg') !!}" alt="">
+				<img src="{{ $post->image }}" alt="">
 			</figure>
-			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
+			<h2>{{ $post->title }}</h2>
 		</a>
-		<a href="" class="category">Funny</a>
-	</article>
-	<article class="item animals">
-		<a href="" class="image">
-			<figure>
-				<img src="{!! asset('assets/front/img/thumb300.jpg') !!}" alt="">
-			</figure>
-			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
-		</a>
-		<a href="" class="category">Animals</a>
-	</article>
-	<article class="item food">
-		<a href="" class="image">
-			<figure>
-				<img src="{!! asset('assets/front/img/thumb300.jpg') !!}" alt="">
-			</figure>
-			<h2>Finn Surprises Sick Children With Star Wars Toys!</h2>
-		</a>
-		<a href="" class="category">Food</a>
+        <a href="{{ url('category/' . strtolower($post->category->name)) }}" class="category">{{ $post->category->name }}</a>
 	</article>
 </div>
+@endforeach

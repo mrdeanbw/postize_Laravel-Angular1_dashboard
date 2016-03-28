@@ -18,5 +18,10 @@ class Category extends Model // implements HasPresenter
      *
      * @var array
      */
-    protected $guarded = [];
+    protected $guarded = ['deleted_at'];
+
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
 }

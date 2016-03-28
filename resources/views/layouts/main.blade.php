@@ -35,6 +35,7 @@
 
         return t;
     }(document, "script", "twitter-wjs"));</script>
+    @yield('css')
     @yield('js-top')
 </head>
 

@@ -1,5 +1,5 @@
 @foreach($posts as $post)
-    <article class="item item--small funny">
+    <article class="item item--small {{ strtolower($post->category->name) }}">
         <a href="{{url($post->slug)}}" class="image">
             <figure>
                 <img src="{{ $post->image }}" alt="">
@@ -7,15 +7,15 @@
         </a>
 
         <div class="info">
-            <a href="">
+            <a href="{{url($post->slug)}}">
                 <h2>{{ $post->title }}</h2>
             </a>
 
             <div class="meta">
-            	<div>by <a href="" class="author"> {{$post->author->name}}</a> on
-                <span class="date"> {{ (new DateTime($post->created_at))->format('m F, Y') }}</span></div>
+            	<div>by <a href="{{url($post->slug)}}" class="author"> {{$post->author->name}}</a> on
+                <span class="date"> {{ (new DateTime($post->created_at))->format('m M, Y') }}</span></div>
             </div>
         </div>
-        <a href="" class="category">Funny</a>
+        <a href="{{ url('category/' . strtolower($post->category->name)) }}" class="category">{{ $post->category->name }}</a>
     </article>
 @endforeach

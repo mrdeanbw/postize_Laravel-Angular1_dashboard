@@ -131,15 +131,13 @@ class ManagePostController extends Controller
 		
         Log::info('Transforming content...');
         $postTransformer = new PostTransformer();
-		$blocks = $request->input('blocks');
-		$serialcontent = serialize($blocks);
-		$post['content'] = $serialcontent;
+		$post['content'] = serialize($request->input('blocks'));
 		
         //$post['content'] = $request->input('encoded') == 'true' ? base64_decode($request->input('content')) : $request->input('content');
         //$post['content'] = $postTransformer->handleExtraneousData($post['content']);
         //$post['content'] = $postTransformer->handleContentImageData($post['content'], $post->id);
         //$post['content'] = $postTransformer->handleContentExternalUrls($post['content'], $post->id);
-        Log::info('Finished transforming content...');
+        //Log::info('Finished transforming content...');
         $post->save(); // Saving now to get an ID for naming the images
 
 		
@@ -153,9 +151,12 @@ class ManagePostController extends Controller
             Log::info('Payload included "image" parameter, and the image is valid');
             $filename = Extensions::getChars(6) . '_' . $post->id . '.' . $request->file('image')->getClientOriginalExtension();
 
-            $request->file('image')->move(
-                public_path() . '/thumbs/', $filename
-            );
+            $imageData = Image::make($request->file('image'));
+            $imageData->resize(758, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $imageData->crop(758, 484);
+            $imageData->save(public_path() . '/thumbs/' . $filename);
 
             $post['image'] = UrlHelpers::getThumbnailLink($filename);
             Log::info('Saved the image as ' . $post['image']);

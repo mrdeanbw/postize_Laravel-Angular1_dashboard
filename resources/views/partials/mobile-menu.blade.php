@@ -1,6 +1,6 @@
 <nav class="mobile-menu">
     <form action="">
-        <input type="text" placeholder="Search Postize">
+        <input type="text" name="s" placeholder="Search Postize">
         <span class="magnifier mobile-search"><svg><use xlink:href="#svg-search"></use></svg></span>
     </form>
     <nav class="nav nav--more cats">

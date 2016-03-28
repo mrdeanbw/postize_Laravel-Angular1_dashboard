@@ -16,7 +16,7 @@
 						</div>
 						<span>Share</span>
 					</a>
-					<a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}" class="row twitter">
+					<a href="https://twitter.com/intent/tweet?url={{url($post->slug)}}" class="row twitter">
 						<div>
 							<svg><use xlink:href="#svg-twitter"></use></svg>
 						</div>
@@ -33,11 +33,11 @@
 				</span>
 			</button>
 
-			{{--<div class="search">
+			<div class="search">
 				<form action="{{url('search')}}">
-					<input type="text" placeholder="Search Postize">
+					<input type="text" name="s" placeholder="Search Postize">
 				</form>
-			</div>--}}
+			</div>
 		</aside>
 	</div>
 </header>
