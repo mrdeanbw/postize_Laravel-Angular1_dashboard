@@ -117,19 +117,12 @@
                     <input id="serialpost" type="button" class="btn" value="Save Post"/>
                 </div>
                 <h1>Content Blocks</h1>
-
-                <div id="blockcontentdiv">
-
-                </div>
-                <input id="submitpost" type="submit" class="btn" style="display:none"/>
             </form>
             <div class="field-set" style="width:100%;float:left">
                 <div class="field" style="width:100%;float:left">
-                    <div style="width:100%;float:left;padding-left:10px;padding-right:10px;">
-                        <div style="width:30%;float:left;">
-                            <span>Choose a type of block:</span>
-                            <br />
-                            <select id="blocktype" style="margin-top: 40px">
+                    <div style="width:100%;padding-left:10px;padding-right:10px;">
+                        <div style="width:30%;margin-bottom:20px">
+                            <select id="blocktype" style="margin-top: 10px">
                                 <option value="p">Paragraph / Big Bold Text</option>
                                 <option value="quoteblock">Block Quote</option>
                                 <option value="imageurl">Image (Paste URL)</option>
@@ -137,8 +130,9 @@
                                 <option value="youtube">Youtube Links Only</option>
                                 <option value="html">Embeds (Instagram/Twitter)</option>
                             </select>
+                            <br />
                         </div>
-                        <div style="width:50%;float:left;padding-left:10px;padding-right:10px;" id="blockcontentdiv">
+                        <div style="width:100%;padding-left:10px;padding-right:10px;margin-bottom:20px" id="blockcontentdiv">
                             <textarea id="textcontent" name="textcontent" style="height:100px"></textarea>
                             <input id="mediacontent" type="text" name="mediacontent" style="display:none">
 
@@ -150,8 +144,8 @@
                                           style="height:20px;display:none"></textarea>
                             </div>
                         </div>
-                        <div style="width:20%;float:left;padding-left:10px;padding-right:10px;">
-                            <input type="button" class="btn" value="Add" onclick="addBlock()">
+                        <div style="width: 200px; padding-left:10px;padding-right:10px;text-align:center">
+                            <input type="button" class="btn" value="Add Block" onclick="addBlock()">
                         </div>
                     </div>
                 </div>
