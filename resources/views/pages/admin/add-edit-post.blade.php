@@ -117,12 +117,17 @@
                     <input id="serialpost" type="button" class="btn" value="Save Post"/>
                 </div>
                 <h1>Content Blocks</h1>
+
+                <div id="blockcontentdiv">
+
+                </div>
+                <input id="submitpost" type="submit" class="btn" style="display:none"/>
             </form>
             <div class="field-set" style="width:100%;float:left">
                 <div class="field" style="width:100%;float:left">
                     <div style="width:100%;padding-left:10px;padding-right:10px;">
                         <div style="width:30%;margin-bottom:20px">
-                            <select id="blocktype" style="margin-top: 10px">
+                            <select id="blocktype" style="margin-top: 40px">
                                 <option value="p">Paragraph / Big Bold Text</option>
                                 <option value="quoteblock">Block Quote</option>
                                 <option value="imageurl">Image (Paste URL)</option>
