@@ -1,10 +1,12 @@
 @extends('layouts.main')
 
+@section('title', 'Copyright and DMCA')
+
 @section('content')
     <div class="landing">
 
         <section class="content">
-            <h1 class="section-heading">Copyright and DCMA</h1>
+            <h1 class="section-heading">Copyright and DMCA</h1>
 
             <p>We believe that all images on this website are available in the public domain. If you are a copyright
                 owner

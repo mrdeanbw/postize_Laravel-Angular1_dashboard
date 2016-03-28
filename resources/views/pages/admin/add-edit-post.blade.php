@@ -134,7 +134,8 @@
                                 <option value="quoteblock">Block Quote</option>
                                 <option value="imageurl">Image (Paste URL)</option>
                                 <option value="imageupload">Image (Upload file)</option>
-                                <option value="html">Embeds (Youtube/Instagram)</option>
+                                <option value="youtube">Youtube Links Only</option>
+                                <option value="html">Embeds (Instagram/Twitter)</option>
                             </select>
                         </div>
                         <div style="width:50%;float:left;padding-left:10px;padding-right:10px;" id="blockcontentdiv">
@@ -234,8 +235,12 @@
                 block = $($('#textcontent').val());
             } else if (blocktype == 'quoteblock') {
                 block = $('<blockquote cite="http://www.worldwildlife.org/who/index.html">' + $('#textcontent').val().replace('<p>', '').replace('</p>', '') + '</blockquote>')
+            } else if (blocktype == 'youtube') {
+                var mc = $('#mediacontent').val().replace('watch', 'embed');
+                block = $('<iframe width="640" height="360" src="' + mc + '" frameborder="0" allowfullscreen></iframe>');
             } else if (blocktype == 'html') {
-                block = $('<iframe width="640" height="360" src="' + $('#mediacontent').val() + '" frameborder="0" allowfullscreen></iframe>');
+                alert($('#textcontent').val());
+                    block = $($('#mediacontent').val());
             } else if (blocktype == 'imageurl') {
                 var imgsrc = $('#imagesourcecontent').val().replace('<p>', '').replace('</p>', '');
                 if (imgsrc.indexOf('</a>') == -1) {
@@ -290,6 +295,11 @@
                 });
             }
             blockindex++;
+
+            $('#cke_textcontent').val("");
+            $('#imagecontent').val("");
+            $('#mediacontent').val("");
+            $('#imagesource').val("");
         }
 
         $(document).ready(function () {
@@ -314,7 +324,13 @@
                     $('#imagecontent').hide();
                     $('#mediacontent').show();
                     $('#imagesource').show();
-                } else if ($(this).val() == 'html') {
+                } else if ($(this).val() == 'youtube') {
+                    $('#cke_textcontent').hide();
+                    $('#imagecontent').hide();
+                    $('#mediacontent').show();
+                    $('#imagesource').hide();
+                }
+                else if ($(this).val() == 'html') {
                     $('#cke_textcontent').hide();
                     $('#imagecontent').hide();
                     $('#mediacontent').show();
