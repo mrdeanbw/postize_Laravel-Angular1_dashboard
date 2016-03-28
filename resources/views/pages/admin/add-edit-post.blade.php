@@ -30,7 +30,7 @@
 				<select id="category" name="category_id" class="form-control">
 					<option value="0">No category selected</option>
 					@foreach($categories as $category)
-					<option value="{{$category->code}}" {{ !empty($post->category) && $post->category == $category->code ? ' selected' : '' }}>{{$category->name}}</option>
+						<option value="{{$category->code}}" {{ !empty($post->category) && $post->category == $category->code ? ' selected' : '' }}>{{$category->name}}</option>
 					@endforeach
 				</select>
 			</div>
@@ -72,18 +72,21 @@
 					<input id="image_url" name="image_url" type="text" placeholder="(Optional) Paste an image URL here..." class="form-control" value="{{$post->image or ''}}">
 				</div>
 			</div>
+			<div id="blockcontentdiv">
+				
+			</div>
+			<input id="submitpost" type="submit" class="btn" style="display:none"/>
 		</form>
 			<div class="field-set" style="width:100%;float:left">
 				<div class="field" style="width:100%;float:left">
 					<div style="width:100%;float:left;padding-left:10px;padding-right:10px;">
 						<div style="width:30%;float:left;">
 							<select id="blocktype">
-								<option value="p">p</option>
-								<option value="h2">h2</option>
+								<option value="p">p/h2</option>
 								<option value="quoteblock">quoteblock</option>
 								<option value="imageurl">image(url)</option>
 								<option value="imageupload">image(upload)</option>
-								<option value="video">video</option>
+								<option value="html">html</option>
 							</select>
 						</div>
 						<div style="width:50%;float:left;padding-left:10px;padding-right:10px;" id="blockcontentdiv">
@@ -106,11 +109,26 @@
 			
 			<div id="preview" class="field-set" >
 				<ul id="sortable">
+				@if($post != null)
+					@for($bcount = 0; $bcount < count($post->blocks); $bcount++)
+						<li id="sortableli{{$bcount}}" class="ui-state-default" style="background-color:white;background-image:none">
+							<span style="float: left;margin-top: 10px; padding-right: 20px; cursor: pointer;">+</span>
+							<div style="padding-top:10px;float:left;width:93%">
+								<div id="contentdiv{{$bcount}}" contenteditable="true" name="contentdiv[]" style="width:80%;float:left">
+									{!! $post->blocks[$bcount] !!}
+								</div>
+								<div style="width:20%;float:left">
+									<a onclick="removeBlock({{$bcount}})" style="float:right;cursor:pointer">x</a>
+								</div>
+							</div>
+						</li>
+					@endfor
+				@endif
 				</ul>
 			</div>
 			
-			<div class="field-set third">
-				<input type="submit" class="btn"/>
+			<div class="field-set third" style="margin-top:20px">
+				<input id="serialpost" type="button" class="btn" value="Submit"/>
 			</div>
 		
 	</section>
@@ -131,7 +149,7 @@
 	strong {font-weight: bold}
 </style>
 <script>
-var blockindex = 0;
+var blockindex = {{$bcount or 0}};
 
 function removeBlock(id) {
 	$('#sortableli' + id).detach();
@@ -142,16 +160,14 @@ function addBlock() {
 	var block = null;
 	if (blocktype == 'p') {
 		block = $($('#textcontent').val());
-	} else if (blocktype == 'h2') {
-		block = $('<h2>' + $('#textcontent').val().replace('<p>','').replace('</p>','') + '</h2>');
 	} else if (blocktype == 'quoteblock') {
-		block = $('<blockquote cite="http://www.worldwildlife.org/who/index.html">' + $('#textcontent').val() + '</blockquote>')
-	} else if (blocktype == 'video') {
-		block = $('<p><iframe width="640" height="360" src="' + $('#mediacontent').val() + '" frameborder="0" allowfullscreen></iframe></p>');
+		block = $('<blockquote cite="http://www.worldwildlife.org/who/index.html">' + $('#textcontent').val().replace('<p>','').replace('</p>','') + '</blockquote>')
+	} else if (blocktype == 'html') {
+		block = $('<iframe width="640" height="360" src="' + $('#mediacontent').val() + '" frameborder="0" allowfullscreen></iframe>');
 	} else if (blocktype == 'imageurl') {
-		block = $('<p><img src="' + $('#mediacontent').val() +'" alt=""><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span></p>');
+		block = $('<img src="' + $('#mediacontent').val() +'" alt="" style="width:100%"><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span>');
 	} else if (blocktype == 'imageupload') {
-		block = $('<p><img id="upimage' + blockindex + '" src="" alt=""><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span></p>');
+		block = $('<img id="upimage' + blockindex + '" src="" alt="" style="width:100%""><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span>');
 		var tmp_blockindex = blockindex;
 		$('#imageuploadform').ajaxForm({
 			dataType: 'json',
@@ -172,26 +188,27 @@ function addBlock() {
 		});
 		$('#imageuploadform').submit();
 	}
-	var blockdiv = $('<div style="padding-top:10px;float:left;width:100%"></div>');
-	var contentdiv = $('<div id="contentdiv' + blockindex + '" contenteditable="true" style="width:80%;float:left"></div>');
+	var blockdiv = $('<div style="padding-top:10px;float:left;width:93%"></div>');
+	var contentdiv = $('<div id="contentdiv' + blockindex + '" contenteditable="true" name="contentdiv[]" style="width:80%;float:left"></div>');
 	contentdiv.append(block);
 	var closediv = $('<div style="width:20%;float:left"></div>');
 	var closebutton = $('<a onclick="removeBlock(' + blockindex + ')" style="float:right;cursor:pointer">x</a>');
 	closediv.append(closebutton);
 	blockdiv.append(contentdiv);
 	blockdiv.append(closediv);
-	var sortableli = $('<li id="sortableli' + blockindex + '" class="ui-state-default"></li>');
+	var sortableli = $('<li id="sortableli' + blockindex + '" class="ui-state-default" style="background-color:white;background-image:none"><span style="float: left;margin-top: 10px; padding-right: 20px; cursor: pointer;">+</span></li>');
 	sortableli.append(blockdiv);
 	$('#sortable').append(sortableli);
-	if (blocktype == 'p')
-	CKEDITOR.inline('contentdiv' + blockindex, {
-		toolbar : [
-			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: ['Bold'] },
-			{ name: 'links', items: [ 'Link' ] },
-			{ name: 'styles', items: ['Format'] }
-		],
-		startupFocus: false
-	});
+	if (blocktype == 'p') {
+		CKEDITOR.inline('contentdiv' + blockindex, {
+			toolbar : [
+				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: ['Bold'] },
+				{ name: 'links', items: [ 'Link' ] },
+				{ name: 'styles', items: ['Format'] }
+			],
+			startupFocus: false
+		});
+	}
 	blockindex++;
 }
 
@@ -211,7 +228,7 @@ $(document).ready(function () {
 			$('#cke_textcontent').hide();
 			$('#imagecontent').show();
 			$('#mediacontent').hide();
-		} else if ($(this).val() == 'imageurl' || $(this).val() == 'video') {
+		} else if ($(this).val() == 'imageurl' || $(this).val() == 'html') {
 			$('#cke_textcontent').hide();
 			$('#imagecontent').hide();
 			$('#mediacontent').show();
@@ -221,16 +238,47 @@ $(document).ready(function () {
 			$('#mediacontent').hide();
 		}
 	});
-	$("#sortable").sortable();
+	
+	$('#serialpost').click(function() {
+		$('div[name^="contentdiv"]').each(function() {
+			var blockdata = $(this).html();
+			var pblock = $('<input type="hidden" name="blocks[]" value="">');
+			pblock.val(blockdata);
+			$('#blockcontentdiv').append(pblock);
+		});
+		$('#submitpost').click();
+	});
+	
+	$("#sortable").sortable({
+		connectWith: 'ul',
+		handle: 'span'
+	});
 	
 	var myToolbar = [
 		['Bold', 'Link', 'Format']
 	];
+	
 	var config = {
 		toolbar_mySimpleToolbar: myToolbar,
 		toolbar: 'mySimpleToolbar'
-	};          
+	};
+	
 	$('#textcontent').ckeditor(config);   
+	
+	if (blockindex > 0) {
+		for (i = 0; i < blockindex; i++) {
+			if ($('#contentdiv' + i).find('p').html() != null) {
+				CKEDITOR.inline('contentdiv' + i, {
+					toolbar : [
+						{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: ['Bold'] },
+						{ name: 'links', items: [ 'Link' ] },
+						{ name: 'styles', items: ['Format'] }
+					],
+					startupFocus: false
+				});
+			}
+		}
+	}
 });
 </script>
 @endsection

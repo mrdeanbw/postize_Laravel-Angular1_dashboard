@@ -57,8 +57,8 @@ class ManagePostController extends Controller
                 ->first();
 
             if (empty($post)) return redirect()->to('dashboard/post')->with('message', 'danger|The requested post does not exist.');
+			$post->blocks = unserialize($post->content);
         }
-
         return view('pages.admin.add-edit-post')
             ->with('post', $post)
             ->with('categories', Category::get());
@@ -128,16 +128,21 @@ class ManagePostController extends Controller
         $post['category_id'] = $request->input('category_id', 1);
         $post->save();
 
+		
         Log::info('Transforming content...');
         $postTransformer = new PostTransformer();
-        $post['content'] = $request->input('encoded') == 'true' ? base64_decode($request->input('content')) : $request->input('content');
+		$blocks = $request->input('blocks');
+		$serialcontent = serialize($blocks);
+		$post['content'] = $serialcontent;
+		
+        //$post['content'] = $request->input('encoded') == 'true' ? base64_decode($request->input('content')) : $request->input('content');
         //$post['content'] = $postTransformer->handleExtraneousData($post['content']);
-        $post['content'] = $postTransformer->handleContentImageData($post['content'], $post->id);
-        $post['content'] = $postTransformer->handleContentExternalUrls($post['content'], $post->id);
+        //$post['content'] = $postTransformer->handleContentImageData($post['content'], $post->id);
+        //$post['content'] = $postTransformer->handleContentExternalUrls($post['content'], $post->id);
         Log::info('Finished transforming content...');
-
         $post->save(); // Saving now to get an ID for naming the images
 
+		
         $thumbsPath = public_path() . '/' . config('custom.thumbs-directory');
         $folderDates = UrlHelpers::getCurrentFolderDates();
         if (!File::exists($thumbsPath . $folderDates)) {
@@ -170,10 +175,9 @@ class ManagePostController extends Controller
                     ' , Exception: ' . $e->getMessage());
             }
         }
-
         $post->save();
         $message = 'success|Post saved successfully.';
-
+		$post->blocks = unserialize($post->content);
         return view('pages.admin.add-edit-post')
             ->with('post', $post)
             ->with('categories', Category::get())
