@@ -63,6 +63,18 @@ class ManagePostController extends Controller
             ->with('post', $post)
             ->with('categories', Category::get());
     }
+	
+	public function postUploadImage(Request $request)
+    {
+		if ($request->hasFile('imagecontent') && $request->file('imagecontent')->isValid()) {
+            Log::info('Payload included "image" parameter, and the image is valid');
+            $filename = Extensions::getChars(32) . '.' . $request->file('imagecontent')->getClientOriginalExtension();
+            $request->file('imagecontent')->move(
+                public_path() . '/assets/front/img/', $filename
+            );
+        }
+		return response()->json(['success' => 'true', 'url' => url('assets/front/img/' . $filename)]);
+	}
 
     /**
      * @param Request $request

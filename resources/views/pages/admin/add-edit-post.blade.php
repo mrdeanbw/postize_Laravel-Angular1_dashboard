@@ -72,7 +72,7 @@
 					<input id="image_url" name="image_url" type="text" placeholder="(Optional) Paste an image URL here..." class="form-control" value="{{$post->image or ''}}">
 				</div>
 			</div>
-
+		</form>
 			<div class="field-set" style="width:100%;float:left">
 				<div class="field" style="width:100%;float:left">
 					<div style="width:100%;float:left;padding-left:10px;padding-right:10px;">
@@ -88,8 +88,10 @@
 						</div>
 						<div style="width:50%;float:left;padding-left:10px;padding-right:10px;" id="blockcontentdiv">
 							<textarea id="textcontent" name="textcontent" style="height:100px"></textarea>
-							<input id="imagecontent" type="file" name="imagecontent" style="display:none">
 							<input id="mediacontent" type="text" name="mediacontent" style="display:none">
+							<form id="imageuploadform" action="{{ url('dashboard/post/uploadimage') }}" method="post">
+								<input id="imagecontent" type="file" name="imagecontent" style="display:none">
+							</form>
 						</div>
 						<div style="width:20%;float:left;padding-left:10px;padding-right:10px;">
 							<input type="button" class="btn" value="Add" onclick="addBlock()">
@@ -110,7 +112,7 @@
 			<div class="field-set third">
 				<input type="submit" class="btn"/>
 			</div>
-		</form>
+		
 	</section>
 
 </div>
@@ -122,6 +124,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script src="{{ asset('assets/admin/plugins/ckeditor/ckeditor.js') }}"></script>
 <script src="{{ asset('assets/admin/plugins/ckeditor/adapters/jquery.js') }}"></script>
+<script src="//malsup.github.com/jquery.form.js"></script>
 <style>
 	#sortable { list-style: none; margin: 0; padding: 0; }
 	#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; width:100%; float:left; list-style:none}
@@ -140,13 +143,34 @@ function addBlock() {
 	if (blocktype == 'p') {
 		block = $($('#textcontent').val());
 	} else if (blocktype == 'h2') {
-		block = $('<h2>' + $('#textcontent').val() + '</h2>');
+		block = $('<h2>' + $('#textcontent').val().replace('<p>','').replace('</p>','') + '</h2>');
 	} else if (blocktype == 'quoteblock') {
 		block = $('<blockquote cite="http://www.worldwildlife.org/who/index.html">' + $('#textcontent').val() + '</blockquote>')
 	} else if (blocktype == 'video') {
 		block = $('<p><iframe width="640" height="360" src="' + $('#mediacontent').val() + '" frameborder="0" allowfullscreen></iframe></p>');
 	} else if (blocktype == 'imageurl') {
 		block = $('<p><img src="' + $('#mediacontent').val() +'" alt=""><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span></p>');
+	} else if (blocktype == 'imageupload') {
+		block = $('<p><img id="upimage' + blockindex + '" src="" alt=""><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span></p>');
+		var tmp_blockindex = blockindex;
+		$('#imageuploadform').ajaxForm({
+			dataType: 'json',
+			reference: null,
+			beforeSend: function() {
+			},
+			error: function() {
+				alert("An error occurred while uploading your image");
+			},
+			success: function(data) {
+				if (data.success) {
+					$('#upimage' + tmp_blockindex).attr('src', data.url);
+				} else {
+					alert('An error occurred.');
+					this.error();
+				}
+			}
+		});
+		$('#imageuploadform').submit();
 	}
 	var blockdiv = $('<div style="padding-top:10px;float:left;width:100%"></div>');
 	var contentdiv = $('<div id="contentdiv' + blockindex + '" contenteditable="true" style="width:80%;float:left"></div>');
@@ -159,8 +183,15 @@ function addBlock() {
 	var sortableli = $('<li id="sortableli' + blockindex + '" class="ui-state-default"></li>');
 	sortableli.append(blockdiv);
 	$('#sortable').append(sortableli);
-	CKEDITOR.disableAutoInline = true;
-    CKEDITOR.inline('contentdiv' + blockindex);
+	if (blocktype == 'p')
+	CKEDITOR.inline('contentdiv' + blockindex, {
+		toolbar : [
+			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: ['Bold'] },
+			{ name: 'links', items: [ 'Link' ] },
+			{ name: 'styles', items: ['Format'] }
+		],
+		startupFocus: false
+	});
 	blockindex++;
 }
 
@@ -193,7 +224,7 @@ $(document).ready(function () {
 	$("#sortable").sortable();
 	
 	var myToolbar = [
-		['Bold']
+		['Bold', 'Link', 'Format']
 	];
 	var config = {
 		toolbar_mySimpleToolbar: myToolbar,
