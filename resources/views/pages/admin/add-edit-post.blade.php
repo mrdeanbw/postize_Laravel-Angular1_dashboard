@@ -73,8 +73,8 @@
 				</div>
 			</div>
 
-			<div class="field-set" style="height:130px;">
-				<div class="field">
+			<div class="field-set" style="width:100%;float:left">
+				<div class="field" style="width:100%;float:left">
 					<div style="width:100%;float:left;padding-left:10px;padding-right:10px;">
 						<div style="width:30%;float:left;">
 							<select id="blocktype">
@@ -87,8 +87,9 @@
 							</select>
 						</div>
 						<div style="width:50%;float:left;padding-left:10px;padding-right:10px;" id="blockcontentdiv">
-							<textarea id="textcontent" style="height:100px"></textarea>
+							<textarea id="textcontent" name="textcontent" style="height:100px"></textarea>
 							<input id="imagecontent" type="file" name="imagecontent" style="display:none">
+							<input id="mediacontent" type="text" name="mediacontent" style="display:none">
 						</div>
 						<div style="width:20%;float:left;padding-left:10px;padding-right:10px;">
 							<input type="button" class="btn" value="Add" onclick="addBlock()">
@@ -97,7 +98,7 @@
 				</div>
 			</div>
 			
-			<div style="height:60px">
+			<div style="width:100%">
 				<p>Preview</p>
 			</div>
 			
@@ -118,11 +119,13 @@
 
 @section('js-bottom')
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="{{ asset('assets/admin/plugins/ckeditor/ckeditor.js') }}"></script>
+<script src="{{ asset('assets/admin/plugins/ckeditor/adapters/jquery.js') }}"></script>
 <style>
 	#sortable { list-style: none; margin: 0; padding: 0; }
-	#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; width:100%; float:left}
+	#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; width:100%; float:left; list-style:none}
+	strong {font-weight: bold}
 </style>
 <script>
 var blockindex = 0;
@@ -135,18 +138,18 @@ function addBlock() {
 	var blocktype = $('#blocktype').val();
 	var block = null;
 	if (blocktype == 'p') {
-		block = $('<p>' + $('#textcontent').val() + '</p>');
+		block = $($('#textcontent').val());
 	} else if (blocktype == 'h2') {
 		block = $('<h2>' + $('#textcontent').val() + '</h2>');
 	} else if (blocktype == 'quoteblock') {
 		block = $('<blockquote cite="http://www.worldwildlife.org/who/index.html">' + $('#textcontent').val() + '</blockquote>')
 	} else if (blocktype == 'video') {
-		block = $('<p><iframe width="640" height="360" src="' + $('#textcontent').val() + '" frameborder="0" allowfullscreen></iframe></p>');
+		block = $('<p><iframe width="640" height="360" src="' + $('#mediacontent').val() + '" frameborder="0" allowfullscreen></iframe></p>');
 	} else if (blocktype == 'imageurl') {
-		block = $('<p><img src="' + $('#textcontent').val() +'" alt=""><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span></p>');
+		block = $('<p><img src="' + $('#mediacontent').val() +'" alt=""><span class="source"><span>source:</span><a href="">Hellou.co.uk</a></span></p>');
 	}
 	var blockdiv = $('<div style="padding-top:10px;float:left;width:100%"></div>');
-	var contentdiv = $('<div style="width:80%;float:left"></div>');
+	var contentdiv = $('<div id="contentdiv' + blockindex + '" contenteditable="true" style="width:80%;float:left"></div>');
 	contentdiv.append(block);
 	var closediv = $('<div style="width:20%;float:left"></div>');
 	var closebutton = $('<a onclick="removeBlock(' + blockindex + ')" style="float:right;cursor:pointer">x</a>');
@@ -154,9 +157,11 @@ function addBlock() {
 	blockdiv.append(contentdiv);
 	blockdiv.append(closediv);
 	var sortableli = $('<li id="sortableli' + blockindex + '" class="ui-state-default"></li>');
-	blockindex++;
 	sortableli.append(blockdiv);
 	$('#sortable').append(sortableli);
+	CKEDITOR.disableAutoInline = true;
+    CKEDITOR.inline('contentdiv' + blockindex);
+	blockindex++;
 }
 
 $(document).ready(function () {
@@ -172,14 +177,29 @@ $(document).ready(function () {
 	
 	$('#blocktype').change(function() {
 		if ($(this).val() == 'imageupload') {
-			$('#textcontent').hide();
+			$('#cke_textcontent').hide();
 			$('#imagecontent').show();
-		} else {
-			$('#textcontent').show();
+			$('#mediacontent').hide();
+		} else if ($(this).val() == 'imageurl' || $(this).val() == 'video') {
+			$('#cke_textcontent').hide();
 			$('#imagecontent').hide();
+			$('#mediacontent').show();
+		} else {
+			$('#cke_textcontent').show();
+			$('#imagecontent').hide();
+			$('#mediacontent').hide();
 		}
 	});
-	$( "#sortable" ).sortable();
+	$("#sortable").sortable();
+	
+	var myToolbar = [
+		['Bold']
+	];
+	var config = {
+		toolbar_mySimpleToolbar: myToolbar,
+		toolbar: 'mySimpleToolbar'
+	};          
+	$('#textcontent').ckeditor(config);   
 });
 </script>
 @endsection
