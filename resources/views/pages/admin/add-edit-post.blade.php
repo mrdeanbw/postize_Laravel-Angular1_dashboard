@@ -233,12 +233,11 @@
             if (blocktype == 'p') {
                 block = $($('#textcontent').val());
             } else if (blocktype == 'quoteblock') {
-                block = $('<blockquote cite="http://www.worldwildlife.org/who/index.html">' + $('#textcontent').val().replace('<p>', '').replace('</p>', '') + '</blockquote>')
+                block = $('<blockquote cite="">' + $('#textcontent').val().replace('<p>', '').replace('</p>', '') + '</blockquote>')
             } else if (blocktype == 'youtube') {
                 var mc = $('#mediacontent').val().replace('watch', 'embed');
                 block = $('<iframe width="640" height="360" src="' + mc + '" frameborder="0" allowfullscreen></iframe>');
             } else if (blocktype == 'html') {
-                alert($('#textcontent').val());
                     block = $($('#mediacontent').val());
             } else if (blocktype == 'imageurl') {
                 var imgsrc = $('#imagesourcecontent').val().replace('<p>', '').replace('</p>', '');

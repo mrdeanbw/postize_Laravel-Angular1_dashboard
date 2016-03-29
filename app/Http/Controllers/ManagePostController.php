@@ -160,7 +160,7 @@ class ManagePostController extends Controller
 
             $post['image'] = UrlHelpers::getThumbnailLink($filename);
             Log::info('Saved the image as ' . $post['image']);
-        } else if ($request->has('image_url') && strpos($request->input('image_url'), config('custom.app-domain')) === false) {
+        } else if ($request->has('image_url')) { // && strpos($request->input('image_url'), 'postize.com') === false) {
             Log::info('Payload included "image" parameter, and the image is from an external domain. It needs to be fetched.');
             $post['image'] = $request->input('image_url');
 
