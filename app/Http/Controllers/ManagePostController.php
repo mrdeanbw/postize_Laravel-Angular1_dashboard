@@ -8,17 +8,14 @@ use App\Models\Post;
 use App\Models\PostStatus;
 use App\Models\PostTransformer;
 use App\Models\UrlHelpers;
+use Auth;
 use DB;
 use File;
+use Grids;
+use Html;
 use Image;
 use Log;
 use Mockery\CountValidator\Exception;
-use Symfony\Component\HttpFoundation\Request;
-use Auth;
-
-use Grids;
-use Html;
-use Illuminate\Support\Facades\Config;
 use Nayjest\Grids\Components\Base\RenderableRegistry;
 use Nayjest\Grids\Components\ColumnHeadersRow;
 use Nayjest\Grids\Components\ColumnsHider;
@@ -43,13 +40,12 @@ use Nayjest\Grids\FilterConfig;
 use Nayjest\Grids\Grid;
 use Nayjest\Grids\GridConfig;
 use Nayjest\Grids\SelectFilterConfig;
-use Illuminate\Database\Eloquent\Builder;
+use Symfony\Component\HttpFoundation\Request;
 
 
 class ManagePostController extends Controller
 {
-    public function getAddEditPost($postId = null)
-    {
+    public function getAddEditPost($postId = null) {
         $post = [];
         if (!empty($postId)) {
             $post = Post::where('id', $postId)
@@ -57,32 +53,30 @@ class ManagePostController extends Controller
                 ->first();
 
             if (empty($post)) return redirect()->to('dashboard/post')->with('message', 'danger|The requested post does not exist.');
-			$post->blocks = unserialize(base64_decode($post->content));
+            $post->blocks = unserialize(base64_decode($post->content));
         }
         return view('pages.admin.add-edit-post')
             ->with('post', $post)
             ->with('categories', Category::get());
     }
-	
-	public function postUploadImage(Request $request)
-    {
-		if ($request->hasFile('imagecontent') && $request->file('imagecontent')->isValid()) {
+
+    public function postUploadImage(Request $request) {
+        if ($request->hasFile('imagecontent') && $request->file('imagecontent')->isValid()) {
             Log::info('Payload included "image" parameter, and the image is valid');
             $filename = Extensions::getChars(32) . '.' . $request->file('imagecontent')->getClientOriginalExtension();
             $request->file('imagecontent')->move(
                 public_path() . '/assets/front/img/', $filename
             );
         }
-		return response()->json(['success' => 'true', 'url' => url('assets/front/img/' . $filename)]);
-	}
+        return response()->json(['success' => 'true', 'url' => url('assets/front/img/' . $filename)]);
+    }
 
     /**
      * @param Request $request
      * @param null $postId
      * @return mixed
      */
-    public function postAddEditPost(Request $request, $postId = null)
-    {
+    public function postAddEditPost(Request $request, $postId = null) {
         \Auth::loginUsingId(1);
         if ($postId == null) {
             if (Post::where('slug', str_slug($request->input('title')))->exists()) {
@@ -128,11 +122,11 @@ class ManagePostController extends Controller
         $post['category_id'] = $request->input('category_id', 1);
         $post->save();
 
-		
+
         Log::info('Transforming content...');
         $postTransformer = new PostTransformer();
-		$post['content'] = base64_encode(serialize($request->input('blocks')));
-		
+        $post['content'] = base64_encode(serialize($request->input('blocks')));
+
         //$post['content'] = $request->input('encoded') == 'true' ? base64_decode($request->input('content')) : $request->input('content');
         //$post['content'] = $postTransformer->handleExtraneousData($post['content']);
         //$post['content'] = $postTransformer->handleContentImageData($post['content'], $post->id);
@@ -140,7 +134,7 @@ class ManagePostController extends Controller
         //Log::info('Finished transforming content...');
         $post->save(); // Saving now to get an ID for naming the images
 
-		
+
         $thumbsPath = public_path() . '/' . config('custom.thumbs-directory');
         $folderDates = UrlHelpers::getCurrentFolderDates();
         if (!File::exists($thumbsPath . $folderDates)) {
@@ -167,7 +161,12 @@ class ManagePostController extends Controller
             // TODO: Create original_image_url field and check it, so that we don't have to scrape if its the same
             $filename = UrlHelpers::getCurrentFolderDates() . Extensions::getChars(6) . '_' . $post->id . '.jpg';
             try {
-                Image::make($request->input('image_url'))->save(public_path() . '/' . config('custom.thumbs-directory') . $filename);
+                $imageData = Image::make($request->input('image_url'));
+                $imageData->resize(758, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+                $imageData->crop(758, 484);
+                $imageData->save(public_path() . '/thumbs/' . $filename);
                 $post['image'] = UrlHelpers::getThumbnailLink($filename);
                 Log::info('Saved the image as ' . $post['image']);
 
@@ -178,15 +177,14 @@ class ManagePostController extends Controller
         }
         $post->save();
         $message = 'success|Post saved successfully.';
-		$post->blocks = unserialize(base64_decode($post->content));
+        $post->blocks = unserialize(base64_decode($post->content));
         return view('pages.admin.add-edit-post')
             ->with('post', $post)
             ->with('categories', Category::get())
             ->with('message', $message);
     }
 
-    public function postDeletePost(Request $request)
-    {
+    public function postDeletePost(Request $request) {
         $response = "Success";
         try {
             $postId = $request->input('postId');
@@ -199,8 +197,7 @@ class ManagePostController extends Controller
         return $response;
     }
 
-    public function getPostList()
-    {
+    public function getPostList() {
 
         $query = Post::join('user as u', 'u.id', '=', 'post.user_id')
             ->whereNull('post.deleted_at')
@@ -212,8 +209,7 @@ class ManagePostController extends Controller
             ->with('grid', $grid);
     }
 
-    public function postToPublishBuddy(Request $request, $post)
-    {
+    public function postToPublishBuddy(Request $request, $post) {
         $data = [
             'urls' => url($post->slug),
             'category' => $post->category,
@@ -238,8 +234,7 @@ class ManagePostController extends Controller
         }
     }
 
-    private function getGrid($query)
-    {
+    private function getGrid($query) {
         $grid = new Grid(
             (new GridConfig)
                 ->setDataProvider(
