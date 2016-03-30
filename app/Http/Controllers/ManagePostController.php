@@ -178,7 +178,7 @@ class ManagePostController extends Controller
         $post->save();
         $message = 'success|Post saved successfully.';
         $post->blocks = unserialize(base64_decode($post->content));
-        return view('pages.admin.add-edit-post')
+        return redirect()->to('dashboard/post/' . $post->id)
             ->with('post', $post)
             ->with('categories', Category::get())
             ->with('message', $message);
@@ -198,40 +198,13 @@ class ManagePostController extends Controller
     }
 
     public function getPostList() {
-
-        $query = Post::join('user as u', 'u.id', '=', 'post.user_id')
+        $posts = Post::join('user as u', 'u.id', '=', 'post.user_id')
             ->whereNull('post.deleted_at')
             ->orderBy('id', 'desc')
-            ->select(['post.*', 'u.email']);
+            ->get(['post.*', 'u.name', 'u.email']);
 
-        $grid = $this->getGrid($query);
-        return view('admin.post-list')
-            ->with('grid', $grid);
-    }
-
-    public function postToPublishBuddy(Request $request, $post) {
-        $data = [
-            'urls' => url($post->slug),
-            'category' => $post->category,
-        ];
-
-        try {
-            // \Httpful\Request::post('http://publishers.yotoh.com/g03fm248-9f-c5m--tx-8-2mzr6qh4---248t3c8n5a2-v4-9-8-8-6-y-53c2t54r-4nakx3yz----3x59w--8')
-            $result = \Httpful\Request::post('http://publishers.yotoh.com/g03fm248-9f-c5m--tx-8-2mzr6qh4---248t3c8n5a2-v4-9-8-8-6-y-53c2t54r-4nakx3yz----3x59w--8')
-                ->sendsJson()
-                ->body($data)
-                ->send();
-
-            return $result->body == "true";
-
-        } catch (Exception $e) {
-            Log::error($e);
-
-            ob_end_flush();
-            echo "Processed  " . $post->external_id . ' with error: ' . $e->getMessage() . "<br />";
-            ob_start();
-            return;
-        }
+        return view('pages.admin.post-list')
+            ->with('posts', $posts);
     }
 
     private function getGrid($query) {
@@ -315,7 +288,7 @@ class ManagePostController extends Controller
                         ->setLabel('Delete')
                         ->setCallback(function ($val, DataRow $row) {
                             $postId = $row->getCellValue("id");
-                            return '<button class="delete-post btn btn-danger" data-post-id="' . $postId . '">Delete</button>';
+                            return '<button data-post-id="' . $postId . '">Delete</button>';
 
                         })
 
@@ -338,7 +311,7 @@ class ManagePostController extends Controller
                                         ->setTagName('button')
                                         ->setRenderSection(RenderableRegistry::SECTION_END)
                                         ->setAttributes([
-                                            'class' => 'btn btn-success btn-sm'
+                                            'class' => ''
                                         ])
                                 ]),
                             (new ColumnHeadersRow),
@@ -363,7 +336,5 @@ class ManagePostController extends Controller
         );
         $grid = $grid->render();
         return $grid;
-
     }
-
 }

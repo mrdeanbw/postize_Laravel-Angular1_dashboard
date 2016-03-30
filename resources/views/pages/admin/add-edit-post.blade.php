@@ -30,7 +30,7 @@
                   enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                <h1 class="section-heading">Add/Edit Post</h1>
+                <h1 class="section-heading">Add/Edit Post --- Click <a style="text-decoration: underline" href="{{url('dashboard/post/list')}}">here</a> to go back to the post list.</h1>
 
                 <div class="field-set">
                     <label for="title">Title:</label>
@@ -93,7 +93,7 @@
                         <label>Current Thumbnail:</label>
                         <div class="field">
                             <a target="_blank" href="{{$post->image}}"> <img src="{{$post->image}}"
-                                                                             style="width:150px;height:150px;"/>
+                                                                             style="border-radius:3px; border:1px solid black; width:312px; height:200px;"/>
                             </a>
                         </div>
                     @endif
@@ -242,13 +242,13 @@
             } else if (blocktype == 'imageurl') {
                 var imgsrc = $('#imagesourcecontent').val().replace('<p>', '').replace('</p>', '');
                 if (imgsrc.indexOf('</a>') == -1) {
-                    imgsrc = '<a href="">' + imgsrc + '</a>';
+                    imgsrc = '<a href="' + imgsrc + '">' + imgsrc + '</a>';
                 }
                 block = $('<img src="' + $('#mediacontent').val() + '" alt="" style="width:100%"><span class="source"><span>via:</span>' + imgsrc + '</span>');
             } else if (blocktype == 'imageupload') {
                 var imgsrc = $('#imagesourcecontent').val().replace('<p>', '').replace('</p>', '');
                 if (imgsrc.indexOf('</a>') == -1) {
-                    imgsrc = '<a href="">' + imgsrc + '</a>';
+                    imgsrc = '<a href="' + imgsrc + '">' + imgsrc + '</a>';
                 }
                 block = $('<img id="upimage' + blockindex + '" src="" alt="" style="width:100%""><span class="source"><span>via:</span>' + imgsrc + '</span>');
                 var tmp_blockindex = blockindex;
@@ -295,6 +295,7 @@
             blockindex++;
 
             $('#cke_textcontent').val("");
+            $('#textcontent').val("");
             $('#imagecontent').val("");
             $('#mediacontent').val("");
             $('#imagesource').val("");
