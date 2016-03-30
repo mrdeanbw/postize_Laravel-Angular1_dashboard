@@ -168,6 +168,7 @@
                     <td>Thumbnail</td>
                     <td>Title</td>
                     <td>Description</td>
+                    <td>Category</td>
                     <td>Status</td>
                     <td>Author</td>
                     <td>Actions</td>
@@ -178,8 +179,9 @@
                         <td><img src="{{$post->image}}" style="border-radius:3px; border:1px solid black; width:156px; height:100px;" /></td>
                         <td style="font-size: 20px">{{$post->title}}</td>
                         <td>{{$post->description}}</td>
+                        <td>{{$post->category_name}}</td>
                         <td style="text-align:center;font-weight:bold;background-color: {{$post->status == 1 ? '#D9FFDE' : '#FFFCD9' }}">{{$post->status == 1 ? 'Published' : 'Pending' }}</td>
-                        <td>{{$post->name}}</td>
+                        <td>{{$post->author_name}}</td>
                         <td><a href="{{url('dashboard/post/' . $post->id) }}" class="btn">Edit</a></td>
                     </tr>
                 @endforeach

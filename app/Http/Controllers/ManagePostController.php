@@ -199,9 +199,10 @@ class ManagePostController extends Controller
 
     public function getPostList() {
         $posts = Post::join('user as u', 'u.id', '=', 'post.user_id')
+            ->join('category as c', 'c.id', '=', 'p.category_id')
             ->whereNull('post.deleted_at')
             ->orderBy('id', 'desc')
-            ->get(['post.*', 'u.name', 'u.email']);
+            ->get(['post.*', 'u.name as author_name', 'u.email', 'c.name as category_name']);
 
         return view('pages.admin.post-list')
             ->with('posts', $posts);
