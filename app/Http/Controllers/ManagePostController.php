@@ -199,7 +199,7 @@ class ManagePostController extends Controller
 
     public function getPostList() {
         $posts = Post::join('user as u', 'u.id', '=', 'post.user_id')
-            ->join('category as c', 'c.id', '=', 'p.category_id')
+            ->join('category as c', 'c.id', '=', 'post.category_id')
             ->whereNull('post.deleted_at')
             ->orderBy('id', 'desc')
             ->get(['post.*', 'u.name as author_name', 'u.email', 'c.name as category_name']);
