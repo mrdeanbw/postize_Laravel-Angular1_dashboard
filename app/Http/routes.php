@@ -34,16 +34,40 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::get('fsafsdfasdfasdfasdf', function() {
-    /*$user = new \App\User();
-    $user->name = 'Elliott';
-    $user->email = 'Eliottfinch@gmail.com';
-    $user->password = bcrypt('');
-    $user->image = 'http://54.200.187.146/user_avatars/elliott.jpg';
+    $user = new \App\User();
+    $user->name = 'Luciano Gonzalez';
+    $user->email = 'lucianothewriter@gmail.com';
+    $user->password = bcrypt('Hondurasrocks1');
+    $user->image = 'http://54.200.187.146/user_avatars/gonzalez.jpg';
     $user->type = 0;
     $user->status = 0;
     $user->created_at = \App\Models\DateTimeExtensions::getDate();
     $user->updated_at = \App\Models\DateTimeExtensions::getDate();
-    $user->save();*/
+    $user->save();
+
+    $user = new \App\User();
+    $user->name = 'Harry Tipper';
+    $user->email = 'h8darko@outlook.com';
+    $user->password = bcrypt('clppng2014');
+    $user->image = 'http://54.200.187.146/user_avatars/tipper.jpg';
+    $user->type = 0;
+    $user->status = 0;
+    $user->created_at = \App\Models\DateTimeExtensions::getDate();
+    $user->updated_at = \App\Models\DateTimeExtensions::getDate();
+    $user->save();
+
+    $user = new \App\User();
+    $user->name = 'Ezra Zydan';
+    $user->email = 'Zydanixra@gmail.com';
+    $user->password = bcrypt('Nishinomiya6');
+    $user->image = 'http://54.200.187.146/user_avatars/ezra.jpg';
+    $user->type = 0;
+    $user->status = 0;
+    $user->created_at = \App\Models\DateTimeExtensions::getDate();
+    $user->updated_at = \App\Models\DateTimeExtensions::getDate();
+    $user->save();
+
+    echo 'done';
 });
 
 Route::get('{slug}/{userId?}', 'PostController@getPost');
