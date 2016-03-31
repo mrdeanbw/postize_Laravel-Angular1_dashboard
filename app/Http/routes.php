@@ -33,16 +33,4 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/category/{category}', 'SiteController@getCategoryPage');
 });
 
-Route::get('fsafsdfasdfasdfasdf', function() {
-    $posts = \App\Models\Post::get();
-
-    foreach ($posts as $post) {
-        $content = unserialize(base64_decode($post['content']));
-        $content = str_replace('54.200.187.146', 'postize.com', $content);
-        DB::table('post')->where('id', $post->id)->update(['content' => base64_encode(serialize($content))]);
-    }
-
-    echo 'done3';
-});
-
 Route::get('{slug}/{userId?}', 'PostController@getPost');
