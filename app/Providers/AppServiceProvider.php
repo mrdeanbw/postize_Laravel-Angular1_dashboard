@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\Post;
+use DB;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -38,7 +38,18 @@ Route::get('fsafsdfasdfasdfasdf', function() {
     $user->name = 'Elliott';
     $user->email = 'Eliottfinch@gmail.com';
     $user->password = bcrypt('321598753');
-    $user->image = 'http://54.200.187.146/user_avatars/1.jpg';
+    $user->image = 'http://54.200.187.146/user_avatars/elliott.jpg';
+    $user->type = 0;
+    $user->status = 0;
+    $user->created_at = \App\Models\DateTimeExtensions::getDate();
+    $user->updated_at = \App\Models\DateTimeExtensions::getDate();
+    $user->save();
+
+    $user = new \App\User();
+    $user->name = 'Ayoub Mask';
+    $user->email = 'maskayoub@gmail.com';
+    $user->password = bcrypt('ABmk123');
+    $user->image = 'http://54.200.187.146/user_avatars/ayoub.jpg';
     $user->type = 0;
     $user->status = 0;
     $user->created_at = \App\Models\DateTimeExtensions::getDate();
