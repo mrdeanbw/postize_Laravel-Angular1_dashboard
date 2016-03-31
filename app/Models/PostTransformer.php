@@ -82,7 +82,7 @@ class PostTransformer
         preg_match_all('!src="https?://\S+!', $content, $matches);
 
         $imageUrlsToScrape = collect($matches[0])->filter(function ($imageUrl) {
-            return Extensions::strposOr($imageUrl, ['iframe', 'youtube.com', 'instagram.com'/*, config('custom.app-domain')*/]);
+            return strpos($imageUrl, 'youtube.com') === false && strpos($imageUrl, 'iframe') === false;
         });
 
         /*$youtubeUrlsToConvertToEmbed = collect($matches[0])->filter(function ($imageUrl) {
@@ -102,9 +102,9 @@ class PostTransformer
                 File::makeDirectory($imageBasePath . $imageDatesPath, 0755, true);
             }
 
+
             // TODO: This is broken on inserting files other than JPG
             $filename = $imageDatesPath . Extensions::getChars(6) . '_' . $postId . '.jpg';
-
             try {
                 Image::make($imageUrl)->save($imageBasePath . $filename);
             } catch (\Exception $e) {
@@ -161,37 +161,37 @@ class PostTransformer
         return !$matchedVideoUrls->isEmpty();
     }
 
-    function getOpenGraphThumbnail($html){
+    function getOpenGraphThumbnail($html) {
         $matches = array();
 
         // images
         $pattern = '/<img[^>]*src=\"?(?<src>[^\"]*)\"?[^>]*>/im';
-        preg_match( $pattern, $html, $matches );
+        preg_match($pattern, $html, $matches);
 
 
-        if($matches['src']) {
+        if ($matches['src']) {
             return $matches['src'];
         }
 
         // youtube
         $pattern = "/(http:\/\/www.youtube.com\/watch\?.*v=|http:\/\/www.youtube-nocookie.com\/.*v\/|http:\/\/www.youtube.com\/embed\/|http:\/\/www.youtube.com\/v\/)(?<id>[\w-_]+)/i";
-        preg_match( $pattern, $html, $matches );
-        if( $matches['id'] ) {
+        preg_match($pattern, $html, $matches);
+        if ($matches['id']) {
             return "http://img.youtube.com/vi/{$matches['id']}/0.jpg";
         }
 
         // vimeo
         $pattern = "/(http:\/\/vimeo.com\/|http:\/\/player.vimeo.com\/video\/|http:\/\/vimeo.com\/moogaloop.swf?.*clip_id=)(?<id>[\d]+)/i";
-        preg_match( $pattern, $html, $matches );
-        if( $vimeo_id = $matches['id'] ) {
+        preg_match($pattern, $html, $matches);
+        if ($vimeo_id = $matches['id']) {
             $hash = unserialize(file_get_contents("http://vimeo.com/api/v2/video/{$vimeo_id}.php"));
             return "{$hash[0]['thumbnail_medium']}";
         }
 
         // dailymotion
         $pattern = "/(http:\/\/www.dailymotion.com\/swf\/video\/)(?<id>[\w\d]+)/i";
-        preg_match( $pattern, $html, $matches );
-        if( $matches['id'] ) {
+        preg_match($pattern, $html, $matches);
+        if ($matches['id']) {
             return "http://www.dailymotion.com/thumbnail/150x150/video/{$matches['id']}.jpg";
         }
 

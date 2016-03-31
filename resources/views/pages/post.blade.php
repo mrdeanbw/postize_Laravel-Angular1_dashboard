@@ -76,6 +76,19 @@
                             <span>Share On Twitter</span>
                         </a>
                     </div>
+
+                    <div class="row">
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- Postize Rectangle -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-1766805469808808"
+                             data-ad-slot="2144044179"
+                             data-ad-format="auto"></ins>
+                        <script>
+                            (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
                 </div>
             </article>
 
@@ -130,21 +143,34 @@
     <aside class="sidebar">
 
         <div class="add">
-            <a href="">
-                <img src="{!! asset('assets/front/img/300.jpg') !!}" alt="">
-            </a>
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:300px;height:250px"
+                 data-ad-client="ca-pub-1766805469808808"
+                 data-ad-slot="9667310973"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </div>
 
         @include('partials.sidebar-articles')
 
         <div class="sticky">
             <div class="add">
-                <a href="">
-                    <img src="{!! asset('assets/front/img/300.jpg') !!}" alt="">
-                </a>
+                <div id="rcjsload_3f889c"></div>
+                <script type="text/javascript">
+                    (function() {
+                        var referer="";try{if(referer=document.referrer,"undefined"==typeof referer)throw"undefined"}catch(exception){referer=document.location.href,(""==referer||"undefined"==typeof referer)&&(referer=document.URL)}referer=referer.substr(0,700);
+                        var rcel = document.createElement("script");
+                        rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
+                        rcel.type = 'text/javascript';
+                        rcel.src = "http://trends.revcontent.com/serve.js.php?w=17088&t="+rcel.id+"&c="+(new Date()).getTime()+"&width="+(window.outerWidth || document.documentElement.clientWidth)+"&referer="+referer;
+                        rcel.async = true;
+                        var rcds = document.getElementById("rcjsload_3f889c"); rcds.appendChild(rcel);
+                    })();
+                </script>
             </div>
-
-            @include('partials.subscribe')
+            {{--@include('partials.subscribe')--}}
         </div>
 
     </aside>
