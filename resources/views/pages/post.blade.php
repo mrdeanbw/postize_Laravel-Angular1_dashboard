@@ -67,11 +67,11 @@
                     @endforeach
 
                     <div class="row share-buttons big">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u=postize.com" class="row facebook">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}" class="row facebook">
                             <svg><use xlink:href="#svg-facebook"></use></svg>
                             <span>Share On Facebook</span>
                         </a>
-                        <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url=http://postize.com" class="row twitter">
+                        <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}" class="row twitter">
                             <svg><use xlink:href="#svg-twitter"></use></svg>
                             <span>Share On Twitter</span>
                         </a>
