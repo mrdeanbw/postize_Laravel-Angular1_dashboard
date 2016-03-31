@@ -27,7 +27,7 @@ class SiteController extends Controller
         }
 
         return view('pages.page')
-            ->with('category_id', $category->id);
+            ->with('category', $category);
     }
 
     public function getSearch(Request $request) {

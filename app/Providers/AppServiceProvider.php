@@ -28,8 +28,8 @@ class AppServiceProvider extends ServiceProvider
             $viewData = $view->getData();
             $posts = Post::with('author')->with('category');
 
-            if(array_key_exists('category_id', $viewData)) {
-                $posts->where('category_id', $viewData['category_id']);
+            if(array_key_exists('category', $viewData)) {
+                $posts->where('category_id', $viewData['category']['id']);
             }
 
             $view->with('posts', $posts->orderByRaw(DB::raw('RAND()'))->take(6)->get());
