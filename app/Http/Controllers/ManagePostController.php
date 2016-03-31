@@ -130,7 +130,7 @@ class ManagePostController extends Controller
         //$post['content'] = $request->input('encoded') == 'true' ? base64_decode($request->input('content')) : $request->input('content');
         //$post['content'] = $postTransformer->handleExtraneousData($post['content']);
         //$post['content'] = $postTransformer->handleContentImageData($post['content'], $post->id);
-        //$post['content'] = $postTransformer->handleContentExternalUrls($post['content'], $post->id);
+        $post['content'] = $postTransformer->handleContentExternalUrls($post['content'], $post->id);
         //Log::info('Finished transforming content...');
         $post->save(); // Saving now to get an ID for naming the images
 

@@ -16,11 +16,11 @@ class AppServiceProvider extends ServiceProvider
     {
         view()->composer('partials.related', function($view)
         {
-            $view->with('posts', Post::with('author')->with('category')->take(6)->get());
+            $view->with('posts', Post::with('author')->with('category')->orderByRaw(DB::raw('RAND()'))->take(6)->get());
         });
         view()->composer('partials.you-may-like', function($view)
         {
-            $view->with('posts', Post::with('author')->with('category')->take(9)->get());
+            $view->with('posts', Post::with('author')->with('category')->orderByRaw(DB::raw('RAND()'))->take(9)->get());
         });
         view()->composer('partials.top-stories', function($view)
         {
@@ -31,15 +31,15 @@ class AppServiceProvider extends ServiceProvider
                 $posts->where('category_id', $viewData['category_id']);
             }
 
-            $view->with('posts', $posts->take(6)->get());
+            $view->with('posts', $posts->orderByRaw(DB::raw('RAND()'))->take(6)->get());
         });
         view()->composer('partials.slider', function($view)
         {
-            $view->with('posts', Post::with('author')->with('category')->take(3)->get());
+            $view->with('posts', Post::with('author')->with('category')->orderByRaw(DB::raw('RAND()'))->take(3)->get());
         });
         view()->composer('partials.sidebar-articles', function($view)
         {
-            $view->with('posts', Post::with('author')->with('category')->take(3)->get());
+            $view->with('posts', Post::with('author')->with('category')->orderByRaw(DB::raw('RAND()'))->take(3)->get());
         });
 
         view()->share('page', 'page');

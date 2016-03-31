@@ -82,7 +82,7 @@ class PostTransformer
         preg_match_all('!src="https?://\S+!', $content, $matches);
 
         $imageUrlsToScrape = collect($matches[0])->filter(function ($imageUrl) {
-            return strpos($imageUrl, config('custom.app-domain')) === false && strpos($imageUrl, 'iframe') === false;
+            return Extensions::strposOr($imageUrl, ['iframe', 'youtube.com', 'instagram.com'/*, config('custom.app-domain')*/]);
         });
 
         /*$youtubeUrlsToConvertToEmbed = collect($matches[0])->filter(function ($imageUrl) {
