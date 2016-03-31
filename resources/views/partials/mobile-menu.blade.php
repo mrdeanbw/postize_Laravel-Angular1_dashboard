@@ -10,10 +10,10 @@
         <a href="{{ url('/category/news') }}" class="news">News</a>
         <a href="{{ url('/category/food') }}" class="food">Food</a>
         <a href="{{ url('/category/creepy') }}" class="creepy">Creepy</a>
-        <a href="{{ url('/category/feels') }}" class="feels">Feels</a>
+        <a href="{{ url('/category/nostalgia') }}" class="nostalgia">Interesting</a>
         <a href="{{ url('/trending') }}" class="trending">Trending</a>
+        <a href="{{ url('/category/feels') }}" class="feels">Feels</a>
         <a href="{{ url('/category/gaming') }}" class="gaming">Gaming</a>
-        <a href="{{ url('/category/nostalgia') }}" class="nostalgia">Nostalgia</a>
         {{--<a href="{{ url('/submit') }}" class="btn post">Submit post</a>--}}
     </nav>
     <nav class="nav nav--more">
