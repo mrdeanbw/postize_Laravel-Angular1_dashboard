@@ -161,6 +161,7 @@
 
         <section class="content">
             <h1 class="section-heading">Manage Posts</h1>
+            <a href="{{url('dashboard/post') }}" class="btn">Create Post</a>
 
             <table id="post-table" class="post-table">
                 <tr>
