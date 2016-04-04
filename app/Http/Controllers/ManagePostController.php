@@ -77,7 +77,6 @@ class ManagePostController extends Controller
      * @return mixed
      */
     public function postAddEditPost(Request $request, $postId = null) {
-        \Auth::loginUsingId(1);
         if ($postId == null) {
             if (Post::where('slug', str_slug($request->input('title')))->exists()) {
                 \Log::info('Slug existed:' . $request->input('title'));
