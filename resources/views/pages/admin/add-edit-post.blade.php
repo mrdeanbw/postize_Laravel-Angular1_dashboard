@@ -504,7 +504,6 @@
 
         function addBlock() {
             var blocktype = $('#block-type-message').data('block-type');
-            alert(blocktype);
             var block = null;
             if (blocktype == 'paragraph') {
                 block = $($('#textcontent').val());
