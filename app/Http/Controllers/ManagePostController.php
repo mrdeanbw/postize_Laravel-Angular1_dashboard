@@ -90,7 +90,7 @@ class ManagePostController extends Controller
             $post['user_id'] = Auth::user()->getAuthIdentifier();
         } else {
             $post = Post::find($postId);
-            if ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier()) {
+            if ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() && Auth::user()->type == 0) {
                 return redirect()->to('dashboard/post/list');
             }
             Log::info('Updating Post ID ' . $post->id . ' - current values are ' . Extensions::varDumpToString($post));
@@ -130,13 +130,8 @@ class ManagePostController extends Controller
             $blocks[$i] = $postTransformer->handleContentExternalUrls($blocks[$i], $post->id);
         }
 
-        //$post['content'] = $request->input('encoded') == 'true' ? base64_decode($request->input('content')) : $request->input('content');
-        //$post['content'] = $postTransformer->handleExtraneousData($post['content']);
-        //$post['content'] = $postTransformer->handleContentImageData($post['content'], $post->id);
-        //Log::info('Finished transforming content...');
         $post['content'] = base64_encode(serialize($blocks));
         $post->save(); // Saving now to get an ID for naming the images
-
 
         $thumbsPath = public_path() . '/' . config('custom.thumbs-directory');
         $folderDates = UrlHelpers::getCurrentFolderDates();
