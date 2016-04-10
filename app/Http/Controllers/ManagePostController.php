@@ -188,9 +188,10 @@ class ManagePostController extends Controller
         $posts = Post::join('user as u', 'u.id', '=', 'post.user_id')
             ->join('category as c', 'c.id', '=', 'post.category_id')
             ->orderBy('id', 'desc')
-            ->get(['post.*', 'u.name as author_name', 'u.email', 'c.name as category_name']);
+            ->select(['post.*', 'u.name as author_name', 'u.email', 'u.image as author_image', 'c.name as category_name'])
+            ->paginate(30);
 
         return view('pages.admin.post-list')
-            ->with('posts', $posts);
+            ->with(['posts' => $posts]);
     }
 }

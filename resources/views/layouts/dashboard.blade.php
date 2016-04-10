@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ config('custom.app-name') }} - </title>
+    <title>{{ config('custom.app-name') }} @yield('title')</title>
 
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
@@ -14,6 +14,7 @@
     <link href="{{ asset('assets/dashboard/css/core.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/dashboard/css/components.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/dashboard/css/colors.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/dashboard/css/postize.css') }}" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 
     <!-- Core JS files -->
@@ -51,7 +52,7 @@
 <!-- Main navbar -->
 <div class="navbar navbar-inverse bg-indigo">
     <div class="navbar-header">
-        <a class="navbar-brand" href="index.html"><img src="" alt=""></a>
+        <a class="navbar-brand" href="{{url('')}}"><i class="icon-arrow-left5"></i> Back to Postize</a>
 
         <ul class="nav navbar-nav visible-xs-block">
             <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
@@ -60,7 +61,9 @@
     </div>
 
     <div class="navbar-collapse collapse" id="navbar-mobile">
-
+        <ul class="nav navbar-nav">
+            <li><a class="sidebar-control sidebar-main-toggle hidden-xs"><i class="icon-paragraph-justify3"></i></a></li>
+        </ul>
 
         <div class="navbar-right">
             <p class="navbar-text">Hello, {{ Auth::user()->name }}!</p>
@@ -98,9 +101,9 @@
                         <ul class="navigation navigation-main navigation-accordion">
 
                             <!-- Main -->
-                            <li class="navigation-header"><span>Main Menu</span> <i class="icon-menu" title="Main pages"></i>
+                            <li class="navigation-header"><span>Main Menu</span> <i class="icon-menu" title="{{Auth::user()->name}}"></i>
                             </li>
-                            <li class="active"><a href="index.html"><i class="icon-home4"></i>
+                            <li class="active"><a href="{{url('dashboard')}}"><i class="icon-home4"></i>
                                     <span>Dashboard</span></a></li>
                             <li>
                                 <a href="#"><i class="icon-stack2"></i> <span>Posts</span></a>
@@ -125,9 +128,10 @@
             <div class="page-header page-header-default">
                 <div class="page-header-content">
                     <div class="page-title">
-                        <h4><i class="icon-home position-left"></i> <span class="text-semibold">Dashboard</span> -
+                        <h4><i class="icon-home position-left"></i> <span class="text-semibold">Dashboard</span>
                             @yield('title')
                         </h4>
+                        <div class="clear"></div>
                     </div>
                 </div>
             </div>

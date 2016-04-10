@@ -1,0 +1,11 @@
+.postizePostList h4 {
+    margin-top: 0 !important;
+}
+
+.postizeStatusWrap i {
+    font-size: 24px;
+}
+
+.postizeListThumb {
+    border-radius:3px; border:1px solid black; width:156px; height:100px;
+}

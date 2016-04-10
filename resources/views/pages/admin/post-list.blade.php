@@ -1,39 +1,59 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Manage Posts')
+@section('title', '- Manage Posts')
 
 @section('css')
 @endsection
 
 @section('content')
+    <div class="row">
+        <a href="{{url('dashboard/post')}}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i class="glyphicon glyphicon-plus"></i></b> Create Post</a><br><br>
+    </div>
+
     <div class="panel panel-flat" id="data">
         <div class="panel-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-striped datatable-basic">
-
+                <table class="table tasks-list table-lg postizePostList">
                     <thead>
-                    <th>ID</th>
-                    <th>Thumbnail</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Status</th>
-                    <th>Author</th>
-                    <th>Actions</th>
+                    <tr>
+                        <th>ID</th>
+                        <th>Thumbnail</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Author</th>
+                        <th>Actions</th>
+                    </tr>
                     </thead>
                     <tbody>
                     @foreach($posts as $post)
                         <tr>
                             <td>{{$post->id}}</td>
-                            <td><img src="{{$post->image}}"
-                                     style="border-radius:3px; border:1px solid black; width:156px; height:100px;"/>
+                            <td><img src="{{$post->image}}" class="postizeListThumb"></td>
+                            <td>
+                                <h4>{{$post->title}}</h4>
+                                {{$post->description}}
                             </td>
-                            <td style="font-size: 20px">{{$post->title}}</td>
-                            <td>{{$post->description}}</td>
-                            <td>{{$post->category_name}}</td>
-                            <td style="text-align:center;font-weight:bold;background-color: {{$post->status == 1 ? '#D9FFDE' : '#FFFCD9' }}">{{$post->status == 1 ? 'Published' : 'Pending' }}</td>
-                            <td>{{$post->author_name}}</td>
-                            <td><a href="{{url('dashboard/post/' . $post->id) }}" class="btn">Edit</a></td>
+                            <td>
+                                <span class="label border-left-violet label-striped">{{$post->category_name}}</span>
+                            </td>
+                            <td class="text-center postizeStatusWrap">
+                                @if($post->status == 1 )
+                                    <i class="icon-checkmark-circle text-success" data-popup="tooltip" title="" data-original-title="Published"></i><br>
+                                @else
+                                    <i class="icon-question4 text-info" data-popup="tooltip" title="" data-original-title="Pending"></i><br>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                @if ($post->author_image)
+                                    <img src="{{$post->author_image}}" class="img-circle img-md" alt="" data-popup="tooltip" title="" data-original-title="{{$post->author_name}}">
+                                @else
+                                    <span class="label label-flat border-indigo text-indigo-600">{{$post->author_name}}</span>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{url('dashboard/post/' . $post->id) }}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i class="glyphicon glyphicon-edit"></i></b> Edit</a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -41,27 +61,12 @@
             </div>
         </div>
     </div>
+    <div class="text-center">{!! $posts->links() !!}</div>
 @endsection
 
 @section('js-bottom')
     <script>
         $(document).ready(function () {
-            $('.datatable-basic').DataTable({
-                autoWidth: false,
-                dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
-                language: {
-                    search: '<span>Filter:</span> _INPUT_',
-                    lengthMenu: '<span>Show:</span> _MENU_',
-                    paginate: {'first': 'First', 'last': 'Last', 'next': '→', 'previous': '←'}
-                },
-                drawCallback: function () {
-                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').addClass('dropup');
-                },
-                preDrawCallback: function () {
-                    $(this).find('tbody tr').slice(-3).find('.dropdown, .btn-group').removeClass('dropup');
-                }
-            });
-
             $('.delete-post').click(function (e) {
                 e.preventDefault();
 
@@ -94,7 +99,5 @@
                 });
             });
         });
-
-
     </script>
 @endsection
