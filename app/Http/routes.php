@@ -33,4 +33,34 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/category/{category}', 'SiteController@getCategoryPage');
 });
 
+Route::get('fsafsdfasdfasdfasdf', function() {
+    $user = new \App\User();
+    $user->name = 'Will Murray';
+    $user->email = 'murraycian@hotmail.com';
+    $user->password = bcrypt('fumbally16');
+    $user->image = 'http://postize.com/user_avatars/murray.jpg';
+    $user->type = 0;
+    $user->status = 0;
+    $user->created_at = \App\Models\DateTimeExtensions::getDate();
+    $user->updated_at = \App\Models\DateTimeExtensions::getDate();
+    $user->save();
+
+    $user = new \App\User();
+    $user->name = 'Laoshi';
+    $user->email = 'vogelbekah@gmail.com';
+    $user->password = bcrypt('Nishinomiya6');
+    $user->image = 'http://54.200.187.146/user_avatars/laoshi.jpg';
+    $user->type = 0;
+    $user->status = 0;
+    $user->created_at = \App\Models\DateTimeExtensions::getDate();
+    $user->updated_at = \App\Models\DateTimeExtensions::getDate();
+    $user->save();
+
+    $user = \App\User::where('name', 'Fletch')->first();
+    $user->password = bcrypt('VgbdfsyYESCxrCVTvdsa');
+    $user->save();
+
+    echo 'done';
+});
+
 Route::get('{slug}/{userId?}', 'PostController@getPost');

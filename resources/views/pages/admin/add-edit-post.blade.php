@@ -1,26 +1,7 @@
-@extends('layouts.main')
+@extends('layouts.dashboard')
 
 @section('css')
     <style type="text/css">
-        .landing {
-            background-color: white;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        .landing input {
-            border: 1px solid black;
-        }
-
-        .landing select {
-            border: 1px solid black;
-        }
-
-        .content h2 {
-            font-size: 30px;
-            margin-top: 35px;
-        }
-
         .btn-image-url {
             display: inline-block;
             text-align: center;
@@ -37,6 +18,7 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-image-url:hover,
         .btn-image-url:focus {
             border: 0px solid #941685;
@@ -47,14 +29,16 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-image-url:active {
             background: #7e1371;
             background: -webkit-gradient(linear, left top, left bottom, from(#7e1371), to(#7e1371));
             background: -moz-linear-gradient(top, #7e1371, #7e1371);
             background: linear-gradient(to bottom, #7e1371, #7e1371);
         }
-        .btn-image-url:before{
-            content:  "\0000a0";
+
+        .btn-image-url:before {
+            content: "\0000a0";
             display: inline-block;
             height: 24px;
             width: 24px;
@@ -83,6 +67,7 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-paragraph:hover,
         .btn-paragraph:focus {
             border: 0px solid #16943e;
@@ -93,14 +78,16 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-paragraph:active {
             background: #127632;
             background: -webkit-gradient(linear, left top, left bottom, from(#127632), to(#127632));
             background: -moz-linear-gradient(top, #127632, #127632);
             background: linear-gradient(to bottom, #127632, #127632);
         }
-        .btn-paragraph:before{
-            content:  "\0000a0";
+
+        .btn-paragraph:before {
+            content: "\0000a0";
             display: inline-block;
             height: 24px;
             width: 24px;
@@ -129,6 +116,7 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-image-upload:hover,
         .btn-image-upload:focus {
             border: 0px solid #d16faf;
@@ -139,14 +127,16 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-image-upload:active {
             background: #a7598c;
             background: -webkit-gradient(linear, left top, left bottom, from(#a7598c), to(#a7598c));
             background: -moz-linear-gradient(top, #a7598c, #a7598c);
             background: linear-gradient(to bottom, #a7598c, #a7598c);
         }
-        .btn-image-upload:before{
-            content:  "\0000a0";
+
+        .btn-image-upload:before {
+            content: "\0000a0";
             display: inline-block;
             height: 24px;
             width: 24px;
@@ -158,7 +148,6 @@
             background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAA1UlEQVRIid3UQYrCMBTG8R/iapZewIXeafaCc4LiJQZv4CG8lQOuXNhBRceFLcbSaZvSCvpBKCTve//3kjQ006BhXCsl+O4LkuCMvz4giyxxOJZdQZIs4cm9g5OOOsm35Ywv7HDADL+xkLKgHxwxxyqYX+MTKTa4xFT9EQyYBgXkHYwKa0VPZfIt9tk3NJQB6jwPGgSG2kr+Ka7SVzyDsdse1ynNYmtVBDRJHhXb6xvzHoBhg5hU5E8VA7hgEoA6B7ROnOv1D/npt6jNexQF2PYN6LyDK4XyMwOGil8jAAAAAElFTkSuQmCC") no-repeat left center transparent;
             background-size: 100% 100%;
         }
-
 
         .btn-embed-youtube {
             display: inline-block;
@@ -176,6 +165,7 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-embed-youtube:hover,
         .btn-embed-youtube:focus {
             border: 0px solid #ff0000;
@@ -186,14 +176,16 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-embed-youtube:active {
             background: #d90000;
             background: -webkit-gradient(linear, left top, left bottom, from(#d90000), to(#d90000));
             background: -moz-linear-gradient(top, #d90000, #d90000);
             background: linear-gradient(to bottom, #d90000, #d90000);
         }
-        .btn-embed-youtube:before{
-            content:  "\0000a0";
+
+        .btn-embed-youtube:before {
+            content: "\0000a0";
             display: inline-block;
             height: 24px;
             width: 24px;
@@ -222,6 +214,7 @@
             color: #111111;
             text-decoration: none;
         }
+
         .btn-embed-html:hover,
         .btn-embed-html:focus {
             border: 0px solid #ffff12;
@@ -232,14 +225,16 @@
             color: #111111;
             text-decoration: none;
         }
+
         .btn-embed-html:active {
             background: #b3b30d;
             background: -webkit-gradient(linear, left top, left bottom, from(#b3b30d), to(#b3b30d));
             background: -moz-linear-gradient(top, #b3b30d, #b3b30d);
             background: linear-gradient(to bottom, #b3b30d, #b3b30d);
         }
-        .btn-embed-html:before{
-            content:  "\0000a0";
+
+        .btn-embed-html:before {
+            content: "\0000a0";
             display: inline-block;
             height: 24px;
             width: 24px;
@@ -268,6 +263,7 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-blockquote:hover,
         .btn-blockquote:focus {
             border: 0px solid #12c0ff;
@@ -278,14 +274,16 @@
             color: #ffffff !important;
             text-decoration: none;
         }
+
         .btn-blockquote:active {
             background: #0e9acc;
             background: -webkit-gradient(linear, left top, left bottom, from(#0e9acc), to(#0e9acc));
             background: -moz-linear-gradient(top, #0e9acc, #0e9acc);
             background: linear-gradient(to bottom, #0e9acc, #0e9acc);
         }
-        .btn-blockquote:before{
-            content:  "\0000a0";
+
+        .btn-blockquote:before {
+            content: "\0000a0";
             display: inline-block;
             height: 24px;
             width: 24px;
@@ -300,173 +298,115 @@
     </style>
 @endsection
 @section('content')
-    <div class="landing">
-
-        <section class="content">
-            <form action="{{ url('dashboard/post' . (!empty($post) ? '/' . $post->id : '')) }}" method="post"
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Basic layout-->
+            <form class="form-horizontal" action="{{ url('dashboard/post' . (!empty($post) ? '/' . $post->id : '')) }}"
+                  method="post"
                   enctype="multipart/form-data">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                <h1 class="section-heading">Add/Edit Post --- Click <a style="text-decoration: underline" href="{{url('dashboard/post/list')}}">here</a> to go back to the post list.</h1>
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">Post Details</h5>
 
-                <div class="field-set">
-                    <label for="title">Title:</label>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Post Title:</label>
 
-                    <div class="field">
-                        <input id="title" name="title" type="text" placeholder="Create your title here..."
-                               value="{{$post->title or ''}}" required/>
-                    </div>
-                </div>
-                <div class="field-set">
-                    <label>Permalink:</label>
+                                <div class="col-lg-9">
+                                    <input name="title" type="text" class="form-control"
+                                           value="{{ $post->title or '' }}"
+                                           placeholder="Enter a title for this post..." required>
+                                </div>
+                            </div>
 
-                    <div class="field">
-                        <a href="{{!empty($post->slug) ? url($post->slug) : 'None yet'}}">
-                            {{!empty($post->slug) ? url($post->slug) : 'None yet'}}
-                        </a>
-                    </div>
-                </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Link:</label>
 
-                <div class="field-set">
-                    <label for="description">Description (Facebook caption):</label>
+                                <a class=" col-lg-9 control-label"
+                                   href="{{!empty($post->slug) ? url($post->slug) : 'None yet'}}">
+                                    {{!empty($post->slug) ? url($post->slug) : 'None yet'}}
+                                </a>
+                            </div>
 
-                    <div class="field">
-                        <input id="description" name="description" type="text" value="{{$post->description or ''}}"
-                               placeholder="Enter description here..." class="form-control input-md" required=""/>
-                    </div>
-                </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Description (tagline):</label>
 
+                                <div class="col-lg-9">
+                                    <input name="description" type="text" class="form-control"
+                                           value="{{ $post->description or '' }}"
+                                           placeholder="Enter a description for this post..." required>
+                                </div>
+                            </div>
 
-                <div class="field-set">
-                    <label for="category">Category:</label>
-                    <select id="category" name="category_id" class="form-control" required>
-                        @foreach($categories as $category)
-                            <option value="{{$category->id}}" {{ !empty($post->category_id) && $post->category_id == $category->id ? ' selected' : '' }}>{{$category->name}}</option>
-                        @endforeach
-                    </select>
-                </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Category:</label>
 
-                <div class="field-set row">
-                    <label>Status: </label>
-                    <select id="status" name="status" class="form-control select">
-                        <option value="1" data-bg="#A2FACB"
-                                style="background-color: #A2FACB" {{ !empty($post) && $post->status == 1 ? 'selected' : '' }}>
-                            Enabled
-                        </option>
-                        <option value="0" data-bg="#f7e1b5"
-                                style="background-color: #f7e1b5" {{ !empty($post) && $post->status == 0 ? 'selected' : '' }}>
-                            Pending
-                        </option>
-                        <option value="2" data-bg="#F799B1"
-                                style="background-color: #F799B1" {{ !empty($post) && $post->status == 2 ? 'selected' : '' }}>
-                            Deleted
-                        </option>
-                    </select>
-                </div>
+                                <div class="col-lg-9">
+                                    <select id="category" name="category_id" class="form-control" required>
+                                        @foreach($categories as $category)
+                                            <option value="{{$category->id}}" {{ !empty($post->category_id) && $post->category_id == $category->id ? ' selected' : '' }}>{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
-                <div class="field-set">
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Status:</label>
 
-                    @if(!empty($post->image))
-                        <label>Current Thumbnail:</label>
-                        <div class="field">
-                            <a target="_blank" href="{{$post->image}}"> <img src="{{$post->image}}"
-                                                                             style="border-radius:3px; border:1px solid black; width:312px; height:200px;"/>
-                            </a>
-                        </div>
-                    @endif
-
-                    <label for="image">No thumbnail yet, upload one below.</label>
-
-
-                    <div class="field">
-                        <input id="image" name="image" class="form-control" type="file">
-                    </div>
-
-                    <label for="image_url">Or enter the URL of an image to use as the thumbnail:</label>
-
-                    <div class="field">
-                        <input id="image_url" name="image_url" type="text"
-                               placeholder="(Optional) Paste an image URL here..." class="form-control"
-                               value="{{$post->image or ''}}">
-                    </div>
-                </div>
-                <div class="field-set third" style="margin-top:5px">
-                    <input id="serialpost" type="button" class="btn" value="Save Post"/>
-                </div>
-
-
-                <div id="blockcontentdiv">
-
-                </div>
-                <input id="submitpost" type="submit" class="btn" style="display:none"/>
-            </form>
-            <div class="field-set" style="width:100%;float:left">
-                <h1 style="text-decoration: underline; padding-bottom:0">Content Blocks</h1>
-                <button class="block-type btn-paragraph" data-block-type="paragraph">Paragraph or Big Text</button>
-                <button class="block-type btn-blockquote" data-block-type="blockquote">Block Quote</button>
-                <button class="block-type btn-image-url" data-block-type="image-url">Image (Paste URL)</button>
-                <button class="block-type btn-image-upload" data-block-type="image-upload">Image (Upload)</button>
-                <br />
-                <br />
-                <button class="block-type btn-embed-youtube" data-block-type="youtube">YouTube Link</button>
-                <button class="block-type btn-embed-html" data-block-type="html">Embeds (IG/Twitter)</button>
-                <br />
-                <p style="padding: 10px 10px 0px 10px; margin: 0" id="block-type-message" data-block-type=""></p>
-                <br />
-                <div class="field" style="width:100%;float:left">
-
-                    <div style="width:100%;padding-left:10px;padding-right:10px;">
-                        <div style="width:100%;padding-left:10px;padding-right:10px;margin-bottom:20px" id="blockcontentdiv">
-                            <textarea id="textcontent" name="textcontent" style="height:100px"></textarea>
-                            <input id="mediacontent" type="text" name="mediacontent" style="display:none">
-
-                            <form id="imageuploadform" action="{{ url('dashboard/post/uploadimage') }}" method="post">
-                                <input id="imagecontent" type="file" name="imagecontent" style="display:none">
-                            </form>
-                            <div id="imagesource" style="display:none">
-                                <textarea id="imagesourcecontent" name="imagesourcecontent"
-                                          style="height:20px;display:none"></textarea>
+                                <div class="col-lg-9">
+                                    <select id="status" name="status" class="form-control select">
+                                        <option value="1" data-bg="#A2FACB"
+                                                style="background-color: #A2FACB" {{ !empty($post) && $post->status == 1 ? 'selected' : '' }}>
+                                            Enabled
+                                        </option>
+                                        <option value="0" data-bg="#f7e1b5"
+                                                style="background-color: #f7e1b5" {{ !empty($post) && $post->status == 0 ? 'selected' : '' }}>
+                                            Pending
+                                        </option>
+                                        <option value="2" data-bg="#F799B1"
+                                                style="background-color: #F799B1" {{ !empty($post) && $post->status == 2 ? 'selected' : '' }}>
+                                            Deleted
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary legitRipple">Save Post<i
+                                            class="icon-arrow-right14 position-right"></i></button>
                             </div>
                         </div>
-                        <div style="width: 200px; padding-left:10px;padding-right:10px;text-align:center">
-                            <input type="button" class="btn" value="Add Block" onclick="addBlock()">
+                    </div>
+                </div>
+            </form>
+            <!-- /basic layout -->
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Thumbnail</h5>
+
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="col-lg-9">
+                                <div class="media no-margin-top">
+                                    <div class="media-left">
+                                        <a href="#"><img src="{{ asset('assets/dashboard/images/placeholder.jpg') }}" style="width: 58px; height: 58px;" class="img-rounded" alt=""></a>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <div class="uploader"><input type="file" class="file-styled"><span class="filename" style="-webkit-user-select: none;">No file selected</span><span class="action btn bg-pink-400 legitRipple" style="-webkit-user-select: none;">Choose File</span></div>
+                                        <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2Mb</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div id="preview" class="field-set">
-                <ul id="sortable">
-                    @if($post != null)
-                        @for($bcount = 0; $bcount < count($post->blocks); $bcount++)
-                            <li id="sortableli{{$bcount}}" class="ui-state-default"
-                                style="background-color:white;background-image:none">
-                                <span style="float: left;margin-top: 10px; padding-right: 20px; cursor: pointer;">+</span>
-
-                                <div style="padding-top:10px;float:left;width:93%">
-                                    <div id="contentdiv{{$bcount}}" contenteditable="true" name="contentdiv[]"
-                                         style="width:80%;float:left">
-                                        {!! $post->blocks[$bcount] !!}
-                                    </div>
-                                    <div style="width:20%;float:left">
-                                        <a onclick="removeBlock({{$bcount}})" style="float:right;cursor:pointer">x</a>
-                                    </div>
-                                </div>
-                            </li>
-                        @endfor
-                    @endif
-                </ul>
-            </div>
-
-            <br /><br />
-            <div class="field-set third" style="margin-top:20px">
-                <input id="serialpost" type="button" class="btn" value="Save Post"/>
-            </div>
-
-        </section>
-
+        </div>
     </div>
-
 @endsection
 
 @section('js-bottom')
@@ -513,7 +453,7 @@
                 var mc = $('#mediacontent').val().replace('watch', 'embed');
                 block = $('<iframe width="640" height="360" src="' + mc + '" frameborder="0" allowfullscreen></iframe>');
             } else if (blocktype == 'html') {
-                    block = $($('#mediacontent').val());
+                block = $($('#mediacontent').val());
             } else if (blocktype == 'image-url') {
                 var imgsrc = $('#imagesourcecontent').val().replace('<p>', '').replace('</p>', '');
                 if (imgsrc.indexOf('</a>') == -1) {
@@ -668,7 +608,11 @@
                     if ($('#contentdiv' + i).find('p').html() != null) {
                         CKEDITOR.inline('contentdiv' + i, {
                             toolbar: [
-                                {name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold']},
+                                {
+                                    name: 'basicstyles',
+                                    groups: ['basicstyles', 'cleanup'],
+                                    items: ['Bold']
+                                },
                                 {name: 'links', items: ['Link']},
                                 {name: 'styles', items: ['Format']}
                             ],

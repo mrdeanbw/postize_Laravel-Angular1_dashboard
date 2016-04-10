@@ -17,6 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 class DashboardController extends Controller
 {
     public function getDashboard() {
-        return view('admin.dashboard');
+        return view('pages.admin.dashboard');
     }
 }

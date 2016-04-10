@@ -55,6 +55,7 @@ class ManagePostController extends Controller
             if (empty($post)) return redirect()->to('dashboard/post')->with('message', 'danger|The requested post does not exist.');
             $post->blocks = unserialize(base64_decode($post->content));
         }
+
         return view('pages.admin.add-edit-post')
             ->with('post', $post)
             ->with('categories', Category::get());
@@ -121,12 +122,13 @@ class ManagePostController extends Controller
         $post['category_id'] = $request->input('category_id', 1);
         $post->save();
 
-
         Log::info('Transforming content...');
         $postTransformer = new PostTransformer();
         $blocks = $request->input('blocks');
 
         for($i = 0; $i < count($blocks); $i++) {
+            // The below method extracts all image URLs from the content that are not on our domain
+            // So that we can download them to our own server rather than hotlinking
             $blocks[$i] = $postTransformer->handleContentExternalUrls($blocks[$i], $post->id);
         }
 
@@ -182,158 +184,13 @@ class ManagePostController extends Controller
             ->with('message', $message);
     }
 
-    public function postDeletePost(Request $request) {
-        $response = "Success";
-        try {
-            $postId = $request->input('postId');
-            Post::where('id', $postId)->delete();
-            Log::info("ManagePostController::postDeletePost:" . $postId . ": Deleted by user:" . Auth::user()->email);
-        } catch (Exception $ex) {
-            Log::Error("ManagePostController::postDeletePost:" . $postId . ": Error in Deleting :" . $ex . "by user:" . Auth::user()->email);
-            $response = $ex;
-        }
-        return $response;
-    }
-
     public function getPostList() {
         $posts = Post::join('user as u', 'u.id', '=', 'post.user_id')
             ->join('category as c', 'c.id', '=', 'post.category_id')
-            ->whereNull('post.deleted_at')
             ->orderBy('id', 'desc')
             ->get(['post.*', 'u.name as author_name', 'u.email', 'c.name as category_name']);
 
         return view('pages.admin.post-list')
             ->with('posts', $posts);
-    }
-
-    private function getGrid($query) {
-        $grid = new Grid(
-            (new GridConfig)
-                ->setDataProvider(
-                    new EloquentDataProvider($query)
-                )
-                ->setName('post_list')
-                ->setPageSize(50)
-                ->setColumns([
-
-                    (new FieldConfig)
-                        ->setName('id')
-                        ->setLabel('Id')
-                        ->setSortable(true)
-                        ->setSorting(Grid::SORT_DESC)
-                        ->addFilter(
-                            (new FilterConfig)
-                                ->setOperator(FilterConfig::OPERATOR_LIKE))
-                    ,
-                    (new FieldConfig)
-                        ->setName('image')
-                        ->setLabel('Image')
-                        ->setSortable(true)
-                        ->addFilter(
-                            (new FilterConfig)
-                                ->setOperator(FilterConfig::OPERATOR_LIKE))
-                        ->setCallback(function ($val) {
-                            return '<div class ="div-image-container">  <img class = "img-post" src="' . $val . '"> </div>';
-                        })
-
-                    ,
-                    (new FieldConfig)
-                        ->setName('title')
-                        ->setLabel('Title')
-                        ->setSortable(true)
-                        ->addFilter(
-                            (new FilterConfig)
-                                ->setOperator(FilterConfig::OPERATOR_LIKE))
-                    ,
-
-                    (new FieldConfig)
-                        ->setName('description')
-                        ->setLabel('Description')
-                        ->setSortable(true)
-                        ->addFilter(
-                            (new FilterConfig)
-                                ->setOperator(FilterConfig::OPERATOR_LIKE))
-                    ,
-
-                    (new FieldConfig)
-                        ->setName('email')
-                        ->setLabel('Created By')
-                        ->setSortable(true)
-                        ->addFilter(
-                            (new FilterConfig)
-                                ->setOperator(FilterConfig::OPERATOR_LIKE))
-                    ,
-
-                    (new FieldConfig)
-                        ->setName('created_at')
-                        ->setLabel('Created At')
-                        ->setSortable(true)
-                        ->addFilter(
-                            (new FilterConfig)
-                                ->setOperator(FilterConfig::OPERATOR_LIKE))
-                    ,
-
-                    (new FieldConfig)
-                        ->setName('edit-post')
-                        ->setLabel('Edit')
-                        ->setCallback(function ($val, DataRow $row) {
-                            $postId = $row->getCellValue("id");
-                            return '<a href="' . $postId . '" target="_blank" class = "btn btn-primary">Edit<a/>';
-                        })
-
-                    ,
-                    (new FieldConfig)
-                        ->setName('delete-post')
-                        ->setLabel('Delete')
-                        ->setCallback(function ($val, DataRow $row) {
-                            $postId = $row->getCellValue("id");
-                            return '<button data-post-id="' . $postId . '">Delete</button>';
-
-                        })
-
-                ])
-                ->setComponents([
-                    (new THead)
-                        ->setComponents([
-
-                            (new OneCellRow)
-                                ->setRenderSection(RenderableRegistry::SECTION_END)
-                                ->setComponents([
-                                    new RecordsPerPage,
-                                    new ColumnsHider,
-                                    (new CsvExport)
-                                        ->setFileName('my_report' . date('Y-m-d'))
-                                    ,
-                                    new ExcelExport(),
-                                    (new HtmlTag)
-                                        ->setContent('<span class="glyphicon glyphicon-refresh"></span> Filter')
-                                        ->setTagName('button')
-                                        ->setRenderSection(RenderableRegistry::SECTION_END)
-                                        ->setAttributes([
-                                            'class' => ''
-                                        ])
-                                ]),
-                            (new ColumnHeadersRow),
-                            (new FiltersRow),
-
-                        ])
-                    ,
-                    (new TFoot)
-                        ->setComponents([
-
-                            (new OneCellRow)
-                                ->setComponents([
-                                    new Pager,
-                                    (new HtmlTag)
-                                        ->setAttributes(['class' => 'pull-right'])
-                                        ->addComponent(new ShowingRecords)
-                                    ,
-                                ])
-                        ])
-                    ,
-                ])
-        );
-        $grid = $grid->render();
-        return $grid;
     }
 }
