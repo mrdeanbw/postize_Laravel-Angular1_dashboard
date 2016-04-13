@@ -22,3 +22,7 @@
     border: 1px solid #ddd !important;
     border-radius: 3px !important;
 }
+
+#thumbnailGenerator {
+    border: 1px solid #ddd;
+}
