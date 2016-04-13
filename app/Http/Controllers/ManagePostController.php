@@ -68,8 +68,10 @@ class ManagePostController extends Controller
             $request->file('imagecontent')->move(
                 public_path() . '/assets/front/img/', $filename
             );
+            return response()->json(['success' => 'true', 'url' => url('assets/front/img/' . $filename)]);
+        } else {
+            return response()->json(['message' => 'Error'], 400);
         }
-        return response()->json(['success' => 'true', 'url' => url('assets/front/img/' . $filename)]);
     }
 
     /**

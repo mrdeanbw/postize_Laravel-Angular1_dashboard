@@ -3,9 +3,12 @@
 @section('title', !empty($post) ? ' - Edit: ' . $post->title : ' - New Post')
 
 @section('css')
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='{{ asset('assets/plugins/editors/textangular/textAngular.css') }}'>
 @endsection
 
 @section('content')
+    <div ng-app="PostizeEditor" ng-controller="PostizeController as PCTRL" ng-init="PCTRL.init()">
     <div class="row">
         <a href="{{url('dashboard/post/list')}}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i class="glyphicon glyphicon-chevron-left"></i></b> All Posts</a><br><br>
     </div>
@@ -36,7 +39,7 @@
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Link:</label>
 
-                                <a class=" col-lg-9 control-label" href="{{url($post->slug)}}">url($post->slug)}}</a>
+                                <a class="col-lg-9 control-label" href="{{url($post->slug)}}" target="_blank">{{url($post->slug)}}</a>
                             </div>
                             @endif
                             <div class="form-group">
@@ -113,220 +116,135 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Content Editor</h5>
+                </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button ng-click="PCTRL.editor.active = 'text'" type="button" class="btn btn-labeled btn-xlg" ng-class="PCTRL.editor.active == 'text' ? 'btn-success' : 'btn-primary'"><b><i class="icon-typography"></i></b> Text</button>
+                                <button ng-click="PCTRL.editor.active = 'image'" type="button" class="btn btn-labeled btn-xlg" ng-class="PCTRL.editor.active == 'image' ? 'btn-success' : 'btn-primary'"><b><i class="icon-image2"></i></b> Image</button>
+                                <button ng-click="PCTRL.editor.active = 'embed'" type="button" class="btn btn-labeled btn-xlg" ng-class="PCTRL.editor.active == 'embed' ? 'btn-success' : 'btn-primary'"><b><i class="icon-embed2"></i></b> Embed</button>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-right" ng-show="PCTRL.editor.active == 'text'">
+                                    <i class="icon-typography"></i> Text:  Write a paragraph, heading or a quote
+                                </p>
+                                <p class="text-right" ng-show="PCTRL.editor.active == 'image'">
+                                    <i class="icon-image2"></i> Image:  Enter URL to an image or upload one
+                                </p>
+                                <p class="text-right" ng-show="PCTRL.editor.active == 'embed'">
+                                    <i class="icon-embed2"></i> Embed: Embed Youtube video, Ad code, etc.
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+
+                            <div class="col-md-12" ng-show="PCTRL.editor.active == 'text'">
+                                <text-angular ta-toolbar="[['p'], ['h1','h2','h3'], ['bold','italics'], ['insertLink', 'quote']]"  ng-model="PCTRL.editor.text.content"></text-angular>
+                                <div class="panel-group panel-group-control panel-group-control-right content-group-lg" id="accordion-control-right">
+                                    <div class="panel panel-white">
+                                        <div class="panel-heading">
+                                            <h6 class="panel-title">
+                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion-control-right" href="#accordion-control-right-group1">HTML Code Preview</a>
+                                            </h6>
+                                        </div>
+                                        <div id="accordion-control-right-group1" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                @{{ PCTRL.editor.text.content ? PCTRL.editor.text.content : '//start typing in the editor above' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12" ng-show="PCTRL.editor.active == 'image'">
+                                <div class="tabbable nav-tabs-vertical nav-tabs-left">
+                                    <ul class="nav nav-tabs nav-tabs-highlight">
+                                        <li class="active"><a href="#left-tab1" data-toggle="tab"><i class="icon-upload4 position-left"></i> Upload Images</a></li>
+                                        <li><a href="#left-tab2" data-toggle="tab"><i class="icon-link2 position-left"></i> Link Images</a></li>
+                                    </ul>
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane active has-padding" id="left-tab1">
+                                            <input id="editorFileInput" type="file" class="file-input" multiple="multiple" data-show-caption="false">
+                                            <br><br>
+                                            <div ng-repeat="t in PCTRL.editor.imageUpload.files" class="row">
+                                                <div class="col-md-2">@{{t.name}}</div>
+                                                <div class="col-md-5"><input class="form-control" placeholder="Source" ng-model="t.url"></div>
+                                                <div class="col-md-5"><input class="form-control" placeholder="Link to source" ng-model="t.sourceurl"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane has-padding" id="left-tab2">
+                                            <div ng-repeat="(i, t) in PCTRL.editor.imageLink.links" class="row">
+                                                <div class="col-md-4"><input class="form-control" placeholder="Link to image" ng-model="t.url"></div>
+                                                <div class="col-md-4"><input class="form-control" placeholder="Source" ng-model="t.source"></div>
+                                                <div class="col-md-3"><input class="form-control" placeholder="Link to source" ng-model="t.sourceurl"></div>
+                                                <div class="col-md-1"><button class="btn btn-danger" ng-click="PCTRL.editor.imageLink.links.splice(i, 1)"><i class="icon-cancel-circle2"></i></button> </div>
+                                            </div>
+                                            <br>
+                                            <button class="btn btn-primary" ng-click="PCTRL.addLinkImage()">Add New</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12" ng-show="PCTRL.editor.active == 'embed'">
+                                <textarea class="form-control embedTextarea" ng-model="PCTRL.editor.embed.content"></textarea>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row"><div class="col-md-12"><button class="btn bg-teal-400 btn-labeled insertContentButton" ng-click="PCTRL.insertBlock()"><b><i class="icon-pencil4"></i></b> <span>Insert Content Block</span></button></div></div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+        <div class="row" ng-repeat="(i, block) in PCTRL.blocks">
+            <div class="col-md-12">
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">
+                            <span ng-show="block.type == 'text'">
+                                <i class="icon-typography"></i> Text Block
+                            </span>
+                            <span class="text-right" ng-show="block.type == 'image'">
+                                <i class="icon-image2"></i> Image Block
+                            </span>
+                            <span class="text-right" ng-show="block.type == 'embed'">
+                                <i class="icon-embed2"></i> Embed Block
+                            </span>
+                        </h5>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5></h5>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Preview</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js-bottom')
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="{{ asset('assets/admin/plugins/ckeditor/ckeditor.js') }}"></script>
-    <script src="{{ asset('assets/admin/plugins/ckeditor/adapters/jquery.js') }}"></script>
-    <script src="//malsup.github.com/jquery.form.js"></script>
-    <style>
-        #sortable {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
+    <script src="{{ asset('assets/dashboard/js/plugins/uploaders/fileinput.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/plugins/notifications/pnotify.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/plugins/notifications/noty.min.js') }}"></script>
+    <script src="{{ asset('assets/dashboard/js/plugins/notifications/jgrowl.min.js') }}"></script>
 
-        #sortable li {
-            margin: 0 3px 3px 3px;
-            padding: 0.4em;
-            padding-left: 1.5em;
-            width: 100%;
-            float: left;
-            list-style: none
-        }
-
-        strong {
-            font-weight: bold
-        }
-    </style>
-    <script>
-        var blockindex = {{$bcount or 0}};
-
-        function removeBlock(id) {
-            $('#sortableli' + id).detach();
-        }
-
-        function addBlock() {
-            var blocktype = $('#block-type-message').data('block-type');
-            var block = null;
-            if (blocktype == 'paragraph') {
-                block = $($('#textcontent').val());
-            } else if (blocktype == 'blockquote') {
-                block = $('<blockquote cite="">' + $('#textcontent').val().replace('<p>', '').replace('</p>', '') + '</blockquote>')
-            } else if (blocktype == 'youtube') {
-                var mc = $('#mediacontent').val().replace('watch', 'embed');
-                block = $('<iframe width="640" height="360" src="' + mc + '" frameborder="0" allowfullscreen></iframe>');
-            } else if (blocktype == 'html') {
-                block = $($('#mediacontent').val());
-            } else if (blocktype == 'image-url') {
-                var imgsrc = $('#imagesourcecontent').val().replace('<p>', '').replace('</p>', '');
-                if (imgsrc.indexOf('</a>') == -1) {
-                    imgsrc = '<a href="' + imgsrc + '">' + imgsrc + '</a>';
-                }
-                block = $('<img src="' + $('#mediacontent').val() + '" alt="" style="width:100%"><span class="source"><span>via:</span>' + imgsrc + '</span>');
-            } else if (blocktype == 'image-upload') {
-                var imgsrc = $('#imagesourcecontent').val().replace('<p>', '').replace('</p>', '');
-                if (imgsrc.indexOf('</a>') == -1) {
-                    imgsrc = '<a href="' + imgsrc + '">' + imgsrc + '</a>';
-                }
-                block = $('<img id="upimage' + blockindex + '" src="" alt="" style="width:100%""><span class="source"><span>via:</span>' + imgsrc + '</span>');
-                var tmp_blockindex = blockindex;
-                $('#imageuploadform').ajaxForm({
-                    dataType: 'json',
-                    reference: null,
-                    beforeSend: function () {
-                    },
-                    error: function () {
-                        alert("An error occurred while uploading your image");
-                    },
-                    success: function (data) {
-                        if (data.success) {
-                            $('#upimage' + tmp_blockindex).attr('src', data.url);
-                        } else {
-                            alert('An error occurred.');
-                            this.error();
-                        }
-                    }
-                });
-                $('#imageuploadform').submit();
-            }
-            var blockdiv = $('<div style="padding-top:10px;float:left;width:93%"></div>');
-            var contentdiv = $('<div id="contentdiv' + blockindex + '" contenteditable="true" name="contentdiv[]" style="width:80%;float:left"></div>');
-            contentdiv.append(block);
-            var closediv = $('<div style="width:20%;float:left"></div>');
-            var closebutton = $('<a onclick="removeBlock(' + blockindex + ')" style="float:right;cursor:pointer">x</a>');
-            closediv.append(closebutton);
-            blockdiv.append(contentdiv);
-            blockdiv.append(closediv);
-            var sortableli = $('<li id="sortableli' + blockindex + '" class="ui-state-default" style="background-color:white;background-image:none"><span style="float: left;margin-top: 10px; padding-right: 20px; cursor: pointer;">+</span></li>');
-            sortableli.append(blockdiv);
-            $('#sortable').append(sortableli);
-            if (blocktype == 'paragraph') {
-                CKEDITOR.inline('contentdiv' + blockindex, {
-                    toolbar: [
-                        {name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold']},
-                        {name: 'links', items: ['Link']},
-                        {name: 'styles', items: ['Format']}
-                    ],
-                    startupFocus: false
-                });
-            }
-            blockindex++;
-
-            $('#cke_textcontent').val("");
-            $('#textcontent').val("");
-            $('#imagecontent').val("");
-            $('#mediacontent').val("");
-            $('#imagesource').val("");
-        }
-
-        $(document).ready(function () {
-            $('#status').change(function () {
-                $(this).siblings('.sd-select').find('.sd-label').css('background-color', $('option:selected', this).attr('data-bg'));
-            });
-
-            $("#status > option").each(function (i) {
-                $('#status').siblings('.sd-select').find('.sd-options > li').eq(i).css('background-color', $(this).attr('data-bg'));
-            });
-
-            $('#status').siblings('.sd-select').find('.sd-label').css('background-color', $('option:selected', $('#status')).attr('data-bg'));
-
-            $('.block-type').click(function (e) {
-                e.preventDefault();
-                $('#block-type-message').text('You are currently creating a block for: "' + $(this).text() + '"');
-                $('#block-type-message').data('block-type', $(this).data('block-type'));
-
-                $('#cke_textcontent').hide();
-                $('#imagecontent').hide();
-                $('#mediacontent').hide();
-                $('#imagesource').hide();
-
-                if ($(this).data('block-type') == 'image-upload') {
-                    $('#cke_textcontent').hide();
-                    $('#imagecontent').show();
-                    $('#mediacontent').hide();
-                    $('#imagesource').show();
-                } else if ($(this).data('block-type') == 'image-url') {
-                    $('#cke_textcontent').hide();
-                    $('#imagecontent').hide();
-                    $('#mediacontent').show();
-                    $('#imagesource').show();
-                } else if ($(this).data('block-type') == 'youtube') {
-                    $('#cke_textcontent').hide();
-                    $('#imagecontent').hide();
-                    $('#mediacontent').show();
-                    $('#imagesource').hide();
-                }
-                else if ($(this).data('block-type') == 'html') {
-                    $('#cke_textcontent').hide();
-                    $('#imagecontent').hide();
-                    $('#mediacontent').show();
-                    $('#imagesource').hide();
-                } else {
-                    $('#cke_textcontent').show();
-                    $('#imagecontent').hide();
-                    $('#mediacontent').hide();
-                    $('#imagesource').hide();
-                }
-            });
-
-            $('#serialpost').click(function () {
-                $('div[name^="contentdiv"]').each(function () {
-                    var blockdata = $(this).html();
-                    var pblock = $('<input type="hidden" name="blocks[]" value="">');
-                    pblock.val(blockdata);
-                    $('#blockcontentdiv').append(pblock);
-                });
-                $('#submitpost').click();
-            });
-
-            $("#sortable").sortable({
-                connectWith: 'ul',
-                handle: 'span'
-            });
-
-            var myToolbar = [
-                ['Bold', 'Italic', 'Link', 'Format']
-            ];
-
-            var config = {
-                toolbar_mySimpleToolbar: myToolbar,
-                toolbar: 'mySimpleToolbar'
-            };
-
-            $('#textcontent').ckeditor(config);
-
-            myToolbar = [
-                ['Link']
-            ];
-
-            config = {
-                toolbar_mySimpleToolbar: myToolbar,
-                toolbar: 'mySimpleToolbar'
-            };
-
-            $('#imagesourcecontent').ckeditor(config);
-
-            if (blockindex > 0) {
-                for (i = 0; i < blockindex; i++) {
-                    if ($('#contentdiv' + i).find('p').html() != null) {
-                        CKEDITOR.inline('contentdiv' + i, {
-                            toolbar: [
-                                {
-                                    name: 'basicstyles',
-                                    groups: ['basicstyles', 'cleanup'],
-                                    items: ['Bold']
-                                },
-                                {name: 'links', items: ['Link']},
-                                {name: 'styles', items: ['Format']}
-                            ],
-                            startupFocus: false
-                        });
-                    }
-                }
-            }
-        });
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="{{ asset('assets/plugins/editors/textangular/textAngular-rangy.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/editors/textangular/textAngular-sanitize.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/editors/textangular/textAngular.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/postize-editor.js') }}"></script>
 @endsection

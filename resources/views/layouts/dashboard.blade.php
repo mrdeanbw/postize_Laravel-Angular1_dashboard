@@ -17,6 +17,8 @@
     <link href="{{ asset('assets/dashboard/css/postize.css') }}" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 
+    @yield('css')
+
     <!-- Core JS files -->
     <script type="text/javascript" src="{{ asset('assets/dashboard/js/plugins/loaders/pace.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/dashboard/js/core/libraries/jquery.min.js') }}"></script>
@@ -103,13 +105,13 @@
                             <!-- Main -->
                             <li class="navigation-header"><span>Main Menu</span> <i class="icon-menu" title="{{Auth::user()->name}}"></i>
                             </li>
-                            <li class="active"><a href="{{url('dashboard')}}"><i class="icon-home4"></i>
+                            <li class="{{Request::is('dashboard') ? 'active' : ''}}"><a href="{{url('dashboard')}}"><i class="icon-home4"></i>
                                     <span>Dashboard</span></a></li>
                             <li>
                                 <a href="#"><i class="icon-stack2"></i> <span>Posts</span></a>
                                 <ul>
-                                    <li><a href="{{url('dashboard/post/list')}}">See All Posts</a></li>
-                                    <li><a href="{{url('dashboard/post')}}">Add New Post</a></li>
+                                    <li class="{{Request::is('dashboard/post/list') ? 'active' : ''}}" ><a href="{{url('dashboard/post/list')}}">See All Posts</a></li>
+                                    <li class="{{Request::is('dashboard/post') ? 'active' : ''}}"><a href="{{url('dashboard/post')}}">Add New Post</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -158,6 +160,7 @@
 
 </div>
 <!-- /page container -->
-
+<!--js bottom-->
+@yield('js-bottom')
 </body>
 </html>

@@ -8,5 +8,6 @@
 @section('content')
 @endsection
 
+<!--js bottom-->
 @section('js-bottom')
 @endsection
