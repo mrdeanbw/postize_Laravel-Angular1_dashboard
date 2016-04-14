@@ -107,7 +107,7 @@
                             <input type="file" class="file-styled" id="canvasImageUpload">
                             <span class="action btn bg-pink-400 legitRipple" style="-webkit-user-select: none;">Choose File</span>
                         </div>
-                        <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2Mb. Result thumbnail dimensions will be 1200x630px</span>
+                        <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2Mb. Accepts between 1 to 4 images. Result thumbnail dimensions will be 1200x630px</span>
 
 
                         <canvas id="thumbnailGenerator" style="margin: 0 auto;"></canvas>

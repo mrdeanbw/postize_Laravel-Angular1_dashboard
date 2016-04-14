@@ -434,11 +434,11 @@ var ThumbnailGenerator = new function () {
             for (var i = 0; i < self.images.length; i++) {
                 if (selected == self.images[i]) {
                     selected.remove();
-                    self.drawLines();
                     self.images.splice(i, 1);
                     break;
                 }
             }
+            self.drawLines();
         }
     };
 
@@ -501,12 +501,11 @@ var ThumbnailGenerator = new function () {
         self.cropEl.visible = false;
         self.cropThumbnail = false;
 
-        var ratio = self.canvasDimensions.width / self.canvasDimensions.height;
         if (self.images.length == 1) {
             self.images[0].left = 0;
             self.images[0].top = 0;
             self.images[0].setAngle(0);
-            if (self.images[0].width / self.images[0].height < ratio)
+            if (self.images[0].width / self.images[0].height < self.canvasDimensions.width / self.canvasDimensions.height)
                 self.images[0].scaleToWidth(self.canvasDimensions.width);
             else
                 self.images[0].scaleToHeight(self.canvasDimensions.height);
@@ -515,7 +514,7 @@ var ThumbnailGenerator = new function () {
             self.images[0].left = 0;
             self.images[0].top = 0;
             self.images[0].setAngle(0);
-            if (self.images[0].width / self.images[0].height < ratio)
+            if (self.images[0].width / self.images[0].height < (self.canvasDimensions.width/2) / self.canvasDimensions.height)
                 self.images[0].scaleToWidth(self.canvasDimensions.width / 2);
             else
                 self.images[0].scaleToHeight(self.canvasDimensions.height);
@@ -523,7 +522,7 @@ var ThumbnailGenerator = new function () {
             self.images[1].left = self.canvasDimensions.width/2;
             self.images[1].top = 0;
             self.images[1].setAngle(0);
-            if (self.images[1].width / self.images[1].height < ratio)
+            if (self.images[1].width / self.images[1].height < (self.canvasDimensions.width/2) / self.canvasDimensions.height)
                 self.images[1].scaleToWidth(self.canvasDimensions.width / 2);
             else
                 self.images[1].scaleToHeight(self.canvasDimensions.height);
@@ -532,7 +531,7 @@ var ThumbnailGenerator = new function () {
             self.images[0].left = 0;
             self.images[0].top = 0;
             self.images[0].setAngle(0);
-            if (self.images[0].width / self.images[0].height < ratio)
+            if (self.images[0].width / self.images[0].height < (self.canvasDimensions.width * 0.6) / self.canvasDimensions.height)
                 self.images[0].scaleToWidth(self.canvasDimensions.width * 0.6);
             else
                 self.images[0].scaleToHeight(self.canvasDimensions.height);
@@ -540,7 +539,7 @@ var ThumbnailGenerator = new function () {
             self.images[1].left = self.canvasDimensions.width * 0.6;
             self.images[1].top = 0;
             self.images[1].setAngle(0);
-            if (self.images[1].width / self.images[1].height < ratio)
+            if (self.images[1].width / self.images[1].height < (self.canvasDimensions.width * 0.4) / (self.canvasDimensions.height * 0.5))
                 self.images[1].scaleToWidth(self.canvasDimensions.width * 0.4);
             else
                 self.images[1].scaleToHeight(self.canvasDimensions.height * 0.5);
@@ -550,7 +549,7 @@ var ThumbnailGenerator = new function () {
             self.images[2].left = self.canvasDimensions.width * 0.6;
             self.images[2].top = self.canvasDimensions.height/2;
             self.images[2].setAngle(0);
-            if (self.images[2].width / self.images[2].height < ratio)
+            if (self.images[2].width / self.images[2].height < (self.canvasDimensions.width * 0.4) / (self.canvasDimensions.height * 0.5))
                 self.images[2].scaleToWidth(self.canvasDimensions.width * 0.4);
             else
                 self.images[2].scaleToHeight(self.canvasDimensions.height * 0.5);
@@ -559,7 +558,7 @@ var ThumbnailGenerator = new function () {
             self.images[0].left = 0;
             self.images[0].top = 0;
             self.images[0].setAngle(0);
-            if (self.images[0].width / self.images[0].height < ratio)
+            if (self.images[0].width / self.images[0].height < (self.canvasDimensions.width * 0.5) / (self.canvasDimensions.height * 0.5))
                 self.images[0].scaleToWidth(self.canvasDimensions.width * 0.5);
             else
                 self.images[0].scaleToHeight(self.canvasDimensions.height * 0.5);
@@ -567,7 +566,7 @@ var ThumbnailGenerator = new function () {
             self.images[1].left = self.canvasDimensions.width * 0.5;
             self.images[1].top = 0;
             self.images[1].setAngle(0);
-            if (self.images[1].width / self.images[1].height < ratio)
+            if (self.images[1].width / self.images[1].height < (self.canvasDimensions.width * 0.5) / (self.canvasDimensions.height * 0.5))
                 self.images[1].scaleToWidth(self.canvasDimensions.width * 0.5);
             else
                 self.images[1].scaleToHeight(self.canvasDimensions.height * 0.5);
@@ -576,16 +575,16 @@ var ThumbnailGenerator = new function () {
             self.images[2].left = 0;
             self.images[2].top =  self.canvasDimensions.height * 0.5;
             self.images[2].setAngle(0);
-            if (self.images[2].width / self.images[2].height < ratio)
+            if (self.images[2].width / self.images[2].height < (self.canvasDimensions.width * 0.5) / (self.canvasDimensions.height * 0.5))
                 self.images[2].scaleToWidth(self.canvasDimensions.width * 0.5);
             else
                 self.images[2].scaleToHeight(self.canvasDimensions.height * 0.5);
             self.images[2].bringToFront();
-            
+
             self.images[3].left = self.canvasDimensions.width * 0.5;
             self.images[3].top =  self.canvasDimensions.height * 0.5;
             self.images[3].setAngle(0);
-            if (self.images[3].width / self.images[3].height < ratio)
+            if (self.images[3].width / self.images[3].height < (self.canvasDimensions.width * 0.5) / (self.canvasDimensions.height * 0.5))
                 self.images[3].scaleToWidth(self.canvasDimensions.width * 0.5);
             else
                 self.images[3].scaleToHeight(self.canvasDimensions.height * 0.5);
@@ -593,6 +592,10 @@ var ThumbnailGenerator = new function () {
         }
         for (var i = 0; i < self.lines.length; i++) {
             self.lines[i].bringToFront();
+        }
+
+        for (var i = 0; i < self.images.length; i++) {
+            self.images[i].selectable = true;
         }
         self.canvas.renderAll();
         self.undoredo = false;
