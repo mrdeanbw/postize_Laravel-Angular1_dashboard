@@ -26,3 +26,7 @@
 #thumbnailGenerator {
     border: 1px solid #ddd;
 }
+
+.canvas-container {
+    margin: 0 auto 20px;
+}

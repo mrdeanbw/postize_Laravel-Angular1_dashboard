@@ -46,14 +46,33 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
     };
 
     vm.initCanvas = function () {
+        vm.cropThumbnail = false;
         ThumbnailGenerator.init();
     };
 
-    vm.undoCanvas = ThumbnailGenerator.undo;
-    vm.redoCanvas = ThumbnailGenerator.redo;
+    vm.undoCanvas = function() {
+        vm.cropThumbnail = false;
+        ThumbnailGenerator.undo();
+    }
+    vm.redoCanvas = function() {
+        vm.cropThumbnail = false;
+        ThumbnailGenerator.redo();
+    }
     vm.deleteFromCanvas = ThumbnailGenerator.delete;
     vm.toFrontCanvas = ThumbnailGenerator.toFront;
     vm.toBackCanvas = ThumbnailGenerator.toBack;
+    vm.cropSelected = function() {
+        ThumbnailGenerator.cropSelected();
+        vm.cropThumbnail = false;
+    };
+    vm.cropMode = function() {
+        vm.cropThumbnail = ThumbnailGenerator.cropMode(!vm.cropThumbnail);
+    };
+
+    vm.arrangeCanvas = function() {
+        vm.cropThumbnail = false;
+        ThumbnailGenerator.automagic();
+    };
 
     vm.insertBlock = function () {
         if (vm.editor.active == 'text') {
@@ -69,7 +88,9 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
                 type: "text",
                 content: $sce.trustAsHtml(vm.editor.text.content)
             });
-
+            //attach order, for manual order changing
+            var len = vm.blocks.length;
+            vm.blocks[len - 1].position = len;
             vm.editor.text.content = "";
         } else if (vm.editor.active == 'image') {
             //image block creating
@@ -92,36 +113,59 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
                      return;
                      }*/
 
-                    if (vm.editor.imageUpload.files[i].sourceurl.substr(0, 4) != 'http')
+                    if (vm.editor.imageUpload.files[i].sourceurl && vm.editor.imageUpload.files[i].sourceurl.substr(0, 4) != 'http')
                         vm.editor.imageUpload.files[i].sourceurl = "http://" + vm.editor.imageUpload.files[i].sourceurl;
                 }
 
                 jQuery('.insertContentButton').attr('disabled', true);
                 jQuery('.insertContentButton span').html('Uploading Images...');
+                var all_files = [];
+                var xhrCount = 0;
                 for (var i = 0; i < vm.editor.imageUpload.files.length; i++) {
                     var file = vm.editor.imageUpload.files[i];
+                    all_files.push(file);
                     var xhr = new XMLHttpRequest();
-                    xhr.open("POST", document.location.origin + "/dashboard/post/uploadimage", false);
-                    xhr.setRequestHeader("X_FILENAME", file.name);
+                    xhr.open("POST", document.location.origin + "/dashboard/post/uploadimage", true);
+                    xhr.uniqueid = i;
+                    xhr.setRequestHeader("X_FILENAME", all_files[i].name);
                     var formData = new FormData();
-                    formData.append("imagecontent", file);
+                    formData.append("imagecontent", all_files[i]);
                     xhr.send(formData);
+                    xhr.onreadystatechange = function() {
+                        if (this.readyState == 4) {
+                            var status = String(this.status);
+                            var response = JSON.parse(this.responseText);
+                            var uid = this.uniqueid;
+                            if (status[0] == '2') {
+                                $scope.$apply(function() {
 
-                    var status = String(xhr.status);
-                    var response = JSON.parse(xhr.responseText);
-                    if (status[0] == '2') {
-                        vm.blocks.push({
-                            type: "image",
-                            url: response.url,
-                            source: file.source,
-                            sourceurl: file.sourceurl
-                        })
+                                    vm.blocks.push({
+                                        type: "image",
+                                        url: response.url,
+                                        source: all_files[uid].source,
+                                        sourceurl: all_files[uid].sourceurl
+                                    })
+                                    //attach order, for manual order changing
+                                    var len = vm.blocks.length;
+                                    vm.blocks[len - 1].position = len;
+                                });
+                            }
+                            xhrCount++;
+
+                            //check if last xHR
+                            if (xhrCount == all_files.length) {
+                                $scope.$apply(function() {
+                                    jQuery('.insertContentButton').attr('disabled', false);
+                                    jQuery('.insertContentButton span').html('Insert Content');
+                                    jQuery('#editorFileInput').fileinput('reset');
+                                    vm.editor.imageUpload.files = [];
+                                });
+                            }
+                        }
                     }
+
+
                 }
-                jQuery('.insertContentButton').attr('disabled', false);
-                jQuery('.insertContentButton span').html('Insert Content');
-                jQuery('#editorFileInput').fileinput('reset');
-                vm.editor.imageUpload.files = [];
             } else {
                 //link images
                 if (vm.editor.imageLink.links.length == 0) {
@@ -141,7 +185,7 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
                         return;
                     }
 
-                    if (vm.editor.imageLink.links[i].sourceurl.substr(0, 4) != 'http')
+                    if (vm.editor.imageLink.links[i].sourceurl && vm.editor.imageLink.links[i].sourceurl.substr(0, 4) != 'http')
                         vm.editor.imageLink.links[i].sourceurl = "http://" + vm.editor.imageLink.links[i].sourceurl;
 
                     if (vm.editor.imageLink.links[i].url.substr(0, 4) != 'http')
@@ -158,6 +202,9 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
                 }
 
                 vm.editor.imageLink.links = [{url: "", source: "", sourceurl: ""}];
+                //attach order, for manual order changing
+                var len = vm.blocks.length;
+                vm.blocks[len - 1].position = len;
             }
         } else if (vm.editor.active == 'embed') {
             if (!vm.editor.embed.content) {
@@ -177,11 +224,12 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
             });
 
             vm.editor.embed.content = "";
+            //attach order, for manual order changing
+            var len = vm.blocks.length;
+            vm.blocks[len - 1].position = len;
         }
 
-        //attach order, for manual order changing
-        var len = vm.blocks.length;
-        vm.blocks[len - 1].position = len;
+
     };
 
     vm.addLinkImage = function () {
@@ -263,19 +311,27 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
 var ThumbnailGenerator = new function () {
     var self = this;
     self.canvas = null;
+    self.canvasDimensions = {width: 1200, height: 630};
     self.state = [];
     self.mods = 0;
+    self.images = [];
     self.lines = 0;
-    self.imageCount = 0;
+    //self.imageCount = 0;
+    self.cropThumbnail = null;
+    self.cropEl = null;
+    self.undoredo = false;
 
     self.init = function () {
+        jQuery("#thumbnailGenerator").attr("width", self.canvasDimensions.width + "px");
+        jQuery("#thumbnailGenerator").attr("height", self.canvasDimensions.height + "px");
         self.canvas = new fabric.Canvas("thumbnailGenerator", {
             selection: true,
         });
+        self.canvas.selection = false;
 
         //image upload
         document.getElementById('canvasImageUpload').onchange = function (e) {
-            if (self.imageCount == 4) {
+            if (self.images.length == 4) {
                 jQuery.jGrowl('You can have up to 4 images.', {
                     header: 'Error',
                     theme: 'bg-danger'
@@ -289,95 +345,112 @@ var ThumbnailGenerator = new function () {
                 var imgObj = new Image();
                 imgObj.src = event.target.result;
                 imgObj.onload = function () {
+                    //self.updateModifications(true);
                     var image = new fabric.Image(imgObj);
+                    self.images.push(image);
                     self.canvas.add(image);
-                    self.updateModifications(true);
-                    self.imageCount++;
                     self.drawLines();
                 };
             };
         };
-/*
-        self.canvas.add(new fabric.Rect({
-            left: 10,
-            top: 10,
-            width: 50,
-            height: 50,
-            fill: "red"
-        }));
+        self.canvas.on('object:modified', function (ev) {
+            if (ev.target != self.cropEl && self.undoredo != true) {
+                self.updateModifications(true);
+                self.mods = 0;
+                console.log("modified");
+            }
+        });
+        self.canvas.on('object:added', function (ev) {
+            if (ev.target != self.cropEl && self.undoredo != true) {
+                self.updateModifications(true);
+                self.mods = 0;
+                console.log("added");
+            }
+        });
+        self.canvas.on('object:deleted', function (ev) {
+            if (ev.target != self.cropEl && self.undoredo != true) {
+                self.updateModifications(true);
+                self.mods = 0;
+                console.log("deleted");
+            }
+        });
 
-        self.canvas.add(new fabric.Rect({
-            left: 100,
-            top: 10,
-            width: 50,
-            height: 50,
-            fill: "blue"
-        }));
-*/
-        self.canvas.on(
-            'object:modified', function () {
-                self.updateModifications(true);
-                //console.log("modified");
-            },
-            'object:added', function () {
-                self.updateModifications(true);
-                //console.log("added");
-            },
-            'object:deleted', function () {
-                self.updateModifications(true);
-            });
+        //crop stuff
+        /*self.canvas.on("mouse:down", function (event) {
+            if (self.cropDisabled) return;
 
+            self.cropEl.left = event.e.pageX - self.pos[0];
+            self.cropEl.top = event.e.pageY - self.pos[1];
+            //el.selectable = false;
+            self.cropEl.visible = true;
+            self.mousex = event.e.pageX;
+            self.mousey = event.e.pageY;
+            self.cropInProgress = true;
+            self.canvas.bringToFront(self.cropEl);
+        });
+
+        self.canvas.on("mouse:move", function (event) {
+            if (self.cropInProgress && !self.cropDisabled) {
+                console.log(self.cropEl.left);
+                if (event.e.pageX - self.mousex > 0) {
+                    self.cropEl.width = event.e.pageX - self.mousex;
+                }
+
+                if (event.e.pageY - self.mousey > 0) {
+                    self.cropEl.height = event.e.pageY - self.mousey;
+                }
+            }
+        });
+
+        self.canvas.on("mouse:up", function (event) {
+            self.cropInProgress = false;
+        });
+        var r = document.getElementById('thumbnailGenerator').getBoundingClientRect();
+        self.pos[0] = r.left;
+        self.pos[1] = r.top;
+         */
+        self.cropEl = new fabric.Rect({
+            //left: 100,
+            //top: 100,
+            fill: "#ccc",
+            originX: 'left',
+            originY: 'top',
+            stroke: '#000',
+            strokeDashArray: [5, 5],
+            opacity: 0.7,
+            width: 150,
+            height: 150,
+        });
+
+        self.cropEl.visible = false;
+        self.cropEl.hasRotatingPoint = false;
+        self.canvas.add(self.cropEl);
     };
 
     self.delete = function() {
-        if (self.canvas.getActiveObject()) {
-            self.canvas.getActiveObject().remove();
-            self.imageCount--;
-            self.drawLines();
+        self.updateModifications(true);
+        var selected = self.canvas.getActiveObject();
+        if (selected) {
+            for (var i = 0; i < self.images.length; i++) {
+                if (selected == self.images[i]) {
+                    selected.remove();
+                    self.drawLines();
+                    self.images.splice(i, 1);
+                    break;
+                }
+            }
         }
     };
 
     self.toFront = function() {
-        self.canvas.getActiveObject().bringToFront();
+        self.canvas.getActiveObject() ? self.canvas.getActiveObject().bringToFront() : angular.noop();
         for (var i = 0; i < self.lines.length; i++) {
             self.lines[i].bringToFront();
         }
     };
 
     self.toBack = function() {
-        self.canvas.getActiveObject().sendToBack();
-    };
-
-    /**
-     * undo/redo - not working yet, not sure if possible like this
-     * @param savehistory
-     */
-    self.updateModifications = function (savehistory) {
-        return;
-        if (savehistory === true) {
-            var json = JSON.stringify(self.canvas);
-            if (self.state.length > 15)
-                self.state.splice(0, 1);
-            self.state.push(json);
-        }
-    };
-
-    self.undo = function() {
-        if (self.mods < self.state.length) {
-            self.canvas.clear().renderAll();
-            self.canvas.loadFromJSON(self.state[self.state.length - 1 - self.mods - 1]);
-            self.canvas.renderAll();
-            self.mods += 1;
-        }
-    };
-
-    self.redo = function() {
-        if (self.mods > 0) {
-            self.canvas.clear().renderAll();
-            self.canvas.loadFromJSON(self.state[self.state.length - 1 - self.mods + 1]);
-            self.canvas.renderAll();
-            self.mods -= 1;
-        }
+        self.canvas.getActiveObject() ? self.canvas.getActiveObject().sendToBack() : angular.noop();
     };
 
     self.drawLines = function() {
@@ -385,14 +458,14 @@ var ThumbnailGenerator = new function () {
             self.lines[i].remove();
         }
         self.lines = [];
-        if (self.imageCount == 1) {
+        if (self.images.length == 1) {
 
-        } else if (self.imageCount == 2) {
+        } else if (self.images.length == 2) {
             var rect = new fabric.Rect();
             rect.set({ width: 10, height: 630, fill: '#fff', opacity: 1.0, left: 595, top: 0 });
             rect.selectable = false;
             self.lines.push(rect);
-        } else if (self.imageCount == 3) {
+        } else if (self.images.length == 3) {
             var rect = new fabric.Rect();
             rect.set({ width: 10, height: 630, fill: '#fff', opacity: 1.0, left: 715, top: 0 });
             rect.selectable = false;
@@ -402,7 +475,7 @@ var ThumbnailGenerator = new function () {
             rect.set({ width: 600, height: 10, fill: '#fff', opacity: 1.0, left: 715, top: 310 });
             rect.selectable = false;
             self.lines.push(rect);
-        } else if (self.imageCount == 4) {
+        } else if (self.images.length == 4) {
             var rect = new fabric.Rect();
             rect.set({ width: 10, height: 630, fill: '#fff', opacity: 1.0, left: 595, top: 0 });
             rect.selectable = false;
@@ -421,14 +494,236 @@ var ThumbnailGenerator = new function () {
     }
 
     self.automagic = function() {
-        if (self.imageCount == 1) {
+        if (self.images.length == 0)
+            return;
+        self.updateModifications(true);
+        self.undoredo = true;
+        self.cropEl.visible = false;
+        self.cropThumbnail = false;
 
-        } else if (self.imageCount == 2) {
+        var ratio = self.canvasDimensions.width / self.canvasDimensions.height;
+        if (self.images.length == 1) {
+            self.images[0].left = 0;
+            self.images[0].top = 0;
+            self.images[0].setAngle(0);
+            if (self.images[0].width / self.images[0].height < ratio)
+                self.images[0].scaleToWidth(self.canvasDimensions.width);
+            else
+                self.images[0].scaleToHeight(self.canvasDimensions.height);
 
-        } else if (self.imageCount == 3) {
+        } else if (self.images.length == 2) {
+            self.images[0].left = 0;
+            self.images[0].top = 0;
+            self.images[0].setAngle(0);
+            if (self.images[0].width / self.images[0].height < ratio)
+                self.images[0].scaleToWidth(self.canvasDimensions.width / 2);
+            else
+                self.images[0].scaleToHeight(self.canvasDimensions.height);
 
-        } else if (self.imageCount == 4) {
+            self.images[1].left = self.canvasDimensions.width/2;
+            self.images[1].top = 0;
+            self.images[1].setAngle(0);
+            if (self.images[1].width / self.images[1].height < ratio)
+                self.images[1].scaleToWidth(self.canvasDimensions.width / 2);
+            else
+                self.images[1].scaleToHeight(self.canvasDimensions.height);
+            self.images[1].bringToFront();
+        } else if (self.images.length == 3) {
+            self.images[0].left = 0;
+            self.images[0].top = 0;
+            self.images[0].setAngle(0);
+            if (self.images[0].width / self.images[0].height < ratio)
+                self.images[0].scaleToWidth(self.canvasDimensions.width * 0.6);
+            else
+                self.images[0].scaleToHeight(self.canvasDimensions.height);
 
+            self.images[1].left = self.canvasDimensions.width * 0.6;
+            self.images[1].top = 0;
+            self.images[1].setAngle(0);
+            if (self.images[1].width / self.images[1].height < ratio)
+                self.images[1].scaleToWidth(self.canvasDimensions.width * 0.4);
+            else
+                self.images[1].scaleToHeight(self.canvasDimensions.height * 0.5);
+
+            self.images[1].bringToFront();
+
+            self.images[2].left = self.canvasDimensions.width * 0.6;
+            self.images[2].top = self.canvasDimensions.height/2;
+            self.images[2].setAngle(0);
+            if (self.images[2].width / self.images[2].height < ratio)
+                self.images[2].scaleToWidth(self.canvasDimensions.width * 0.4);
+            else
+                self.images[2].scaleToHeight(self.canvasDimensions.height * 0.5);
+            self.images[2].bringToFront();
+        } else if (self.images.length == 4) {
+            self.images[0].left = 0;
+            self.images[0].top = 0;
+            self.images[0].setAngle(0);
+            if (self.images[0].width / self.images[0].height < ratio)
+                self.images[0].scaleToWidth(self.canvasDimensions.width * 0.5);
+            else
+                self.images[0].scaleToHeight(self.canvasDimensions.height * 0.5);
+
+            self.images[1].left = self.canvasDimensions.width * 0.5;
+            self.images[1].top = 0;
+            self.images[1].setAngle(0);
+            if (self.images[1].width / self.images[1].height < ratio)
+                self.images[1].scaleToWidth(self.canvasDimensions.width * 0.5);
+            else
+                self.images[1].scaleToHeight(self.canvasDimensions.height * 0.5);
+            self.images[1].bringToFront();
+
+            self.images[2].left = 0;
+            self.images[2].top =  self.canvasDimensions.height * 0.5;
+            self.images[2].setAngle(0);
+            if (self.images[2].width / self.images[2].height < ratio)
+                self.images[2].scaleToWidth(self.canvasDimensions.width * 0.5);
+            else
+                self.images[2].scaleToHeight(self.canvasDimensions.height * 0.5);
+            self.images[2].bringToFront();
+            
+            self.images[3].left = self.canvasDimensions.width * 0.5;
+            self.images[3].top =  self.canvasDimensions.height * 0.5;
+            self.images[3].setAngle(0);
+            if (self.images[3].width / self.images[3].height < ratio)
+                self.images[3].scaleToWidth(self.canvasDimensions.width * 0.5);
+            else
+                self.images[3].scaleToHeight(self.canvasDimensions.height * 0.5);
+            self.images[3].bringToFront();
         }
+        for (var i = 0; i < self.lines.length; i++) {
+            self.lines[i].bringToFront();
+        }
+        self.canvas.renderAll();
+        self.undoredo = false;
+    };
+
+    self.cropMode = function(toCrop) {
+        self.cropEl.visible = false;
+        self.canvas.renderAll();
+        if (toCrop) {
+            self.cropThumbnail = self.canvas.getActiveObject();
+            if (!self.cropThumbnail) {
+                jQuery.jGrowl('Please select image that you want to crop first.', {
+                    header: 'Error',
+                    theme: 'bg-danger'
+                });
+                return false;
+            }
+            for (var i = 0; i < self.images.length; i++) {
+                self.images[i].selectable = false;
+            }
+            jQuery.jGrowl('Now position the square over the area that you want to crop', {
+                header: 'Tips',
+                theme: 'bg-success'
+            });
+            self.cropEl.visible = true;
+            self.cropEl.bringToFront();
+            return true;
+
+        } else {
+            for (var i = 0; i < self.images.length; i++) {
+                self.images[i].selectable = true;
+            }
+            self.cropThumbnail = null;
+            return false;
+        }
+    };
+
+    self.cropSelected = function() {
+        if (!self.cropThumbnail)
+            return;
+
+        self.updateModifications(true);
+        var left = self.cropEl.getLeft() - (self.cropThumbnail.getWidth()/2) - self.cropThumbnail.getLeft();
+        var top = self.cropEl.getTop() - (self.cropThumbnail.getHeight()/2) - self.cropThumbnail.getTop();
+
+        var width = self.cropEl.getWidth();
+        var height = self.cropEl.getHeight();
+        self.cropThumbnail.clipTo = function (ctx) {
+            ctx.rect(left, top, width, height);
+        };
+        self.cropThumbnail = false;
+        self.cropEl.visible = false;
+        for (var i = 0; i < self.images.length; i++) {
+            self.images[i].selectable = true;
+        }
+        self.canvas.deactivateAll().renderAll();
+    };
+
+    /**
+     * undo/redo - not working yet, not sure if possible like this
+     * @param savehistory
+     */
+    self.updateModifications = function (savehistory) {
+        if (savehistory === true) {
+            var newstate = {
+                images: [],
+                lines: []
+            };
+            for (var i = 0; i < self.images.length; i++) {
+                self.images[i].clone(function(cl) {
+                    newstate.images.push(cl);
+                })
+            }
+            for (var i = 0; i < self.lines.length; i++) {
+                self.lines[i].clone(function(cl) {
+                    newstate.lines.push(cl);
+                });
+            }
+            if (self.state.length > 15)
+                self.state.splice(0, 1);
+            self.state.push(newstate);
+        }
+    };
+
+    self.undo = function() {
+        if (self.mods < self.state.length) {
+            self.undoredo = true;
+            self.cropEl.visible = false;
+            self.cropThumbnail = false;
+            self.canvas.clear().renderAll();
+            var toReturn = self.state[self.state.length - 1 - self.mods - 1];
+            if (!toReturn) {
+                self.undoredo = false;
+                return;
+            }
+
+            self.images = toReturn.images;
+            self.lines = toReturn.lines;
+
+            self.redraw();
+            self.mods++;
+        }
+    };
+
+    self.redo = function() {
+        if (self.mods > 0) {
+            self.undoredo = true;
+            self.cropEl.visible = false;
+            self.cropThumbnail = false;
+            self.canvas.clear().renderAll();
+            var toReturn = self.state[self.state.length - 1 - self.mods + 1];
+            if (!toReturn) {
+                self.undoredo = false;
+                return;
+            }
+            self.images = toReturn.images;
+            self.lines = toReturn.lines;
+
+            self.redraw();
+            self.mods--;
+        }
+    };
+
+    self.redraw = function() {
+        self.drawLines();
+        for (var i = 0; i < self.images.length; i++) {
+            self.canvas.add(self.images[i]);
+            self.images[i].selectable = true;
+        }
+        self.canvas.add(self.cropEl);
+        self.canvas.renderAll();
+        self.undoredo = false;
     }
 };

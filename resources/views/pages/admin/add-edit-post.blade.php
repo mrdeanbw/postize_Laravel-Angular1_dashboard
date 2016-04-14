@@ -108,13 +108,26 @@
                             <span class="action btn bg-pink-400 legitRipple" style="-webkit-user-select: none;">Choose File</span>
                         </div>
                         <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2Mb. Result thumbnail dimensions will be 1200x630px</span>
-                        <br><br>
-                        <canvas id="thumbnailGenerator" width="1200" height="630"></canvas>
-                        <!--<button type="button" class="btn btn-default" ng-click="PCTRL.undoCanvas()"><i class="icon-undo"></i> Undo</button>
-                        <button type="button" class="btn btn-default" ng-click="PCTRL.redoCanvas()"><i class="icon-redo"></i> Redo</button>-->
-                        <button type="button" class="btn btn-default" ng-click="PCTRL.deleteFromCanvas()"><i class="icon-cancel-circle2"></i> Remove selected image</button>
-                        <button type="button" class="btn btn-default" ng-click="PCTRL.toFrontCanvas()"><i class="icon-stack-up"></i> Move selected image to front</button>
-                        <button type="button" class="btn btn-default" ng-click="PCTRL.toBackCanvas()"><i class="icon-stack-down"></i> Move selected image to back</button>
+
+
+                        <canvas id="thumbnailGenerator" style="margin: 0 auto;"></canvas>
+
+                        <div class="text-center">
+                            <button type="button" class="btn btn-default" ng-click="PCTRL.deleteFromCanvas()" ng-show="!PCTRL.cropThumbnail"><i class="icon-cancel-circle2"></i> Remove selected image</button>
+                            <button type="button" class="btn btn-default" ng-click="PCTRL.toFrontCanvas()" ng-show="!PCTRL.cropThumbnail"><i class="icon-stack-up"></i> Move selected image to front</button>
+                            <button type="button" class="btn btn-default" ng-click="PCTRL.toBackCanvas()" ng-show="!PCTRL.cropThumbnail"><i class="icon-stack-down"></i> Move selected image to back</button>
+                            <button type="button" class="btn @{{PCTRL.cropThumbnail ? 'btn-primary' : 'btn-default'}}" ng-click="PCTRL.cropMode()"><i class="icon-crop2"></i> Crop Mode: @{{PCTRL.cropThumbnail ? 'ON' : 'off'}}</button>
+                            <button type="button" class="btn btn-default" ng-click="PCTRL.cropSelected()" ng-show="PCTRL.cropThumbnail"><i class="icon-crop2"></i> Crop Selected Area</button>
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-default" ng-click="PCTRL.undoCanvas()"><i class="icon-undo"></i> Undo</button>
+                            <button type="button" class="btn btn-default" ng-click="PCTRL.redoCanvas()"><i class="icon-redo"></i> Redo</button>
+                        </div>
+                        <br>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-default" ng-click="PCTRL.arrangeCanvas()"><i class="icon-magic-wand"></i> Arrange Automagically</button>
+                        </div>
                     </div>
                 </div>
             </div>
