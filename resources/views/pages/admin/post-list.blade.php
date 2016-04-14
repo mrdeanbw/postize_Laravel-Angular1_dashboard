@@ -52,7 +52,9 @@
                                 @endif
                             </td>
                             <td>
+                                @if(Auth::user()->type == 1 || $post->user_id == Auth::user()->id)
                                 <a href="{{url('dashboard/post/' . $post->id) }}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i class="glyphicon glyphicon-edit"></i></b> Edit</a>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

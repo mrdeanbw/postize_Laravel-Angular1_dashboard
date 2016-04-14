@@ -12,14 +12,13 @@ class PostController extends Controller
         $post = Post::where('slug', $slug)
             ->where('status', PostStatus::Enabled)
             ->first();
-		
+
         if (empty($post)) {
             return view('errors.404');
         }
 		
         $relatedPosts = Post::get();
 		$post->blocks = unserialize(base64_decode($post->content));
-
         return view('pages.post')
             ->with('post', $post)
             ->with('relatedPosts', $relatedPosts);

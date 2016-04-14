@@ -15,6 +15,7 @@ use Grids;
 use Html;
 use Image;
 use Log;
+use JavaScript;
 use Mockery\CountValidator\Exception;
 use Nayjest\Grids\Components\Base\RenderableRegistry;
 use Nayjest\Grids\Components\ColumnHeadersRow;
@@ -53,7 +54,17 @@ class ManagePostController extends Controller
                 ->first();
 
             if (empty($post)) return redirect()->to('dashboard/post')->with('message', 'danger|The requested post does not exist.');
-            $post->blocks = unserialize(base64_decode($post->content));
+            $post->blocks = $post->blockcontent ? unserialize(base64_decode($post->blockcontent)) : [];
+
+            JavaScript::put([
+                "post" => $post,
+                "blocks" => $post->blocks
+            ]);
+        } else {
+            JavaScript::put([
+                "post" => null,
+                "blocks" => []
+            ]);
         }
 
         return view('pages.admin.add-edit-post')
@@ -84,19 +95,22 @@ class ManagePostController extends Controller
             if (Post::where('slug', str_slug($request->input('title')))->exists()) {
                 \Log::info('Slug existed:' . $request->input('title'));
 
-                return redirect()->back()->withInput()->with('message', 'danger|This post has already been created, as it has the same URL as another post.');
+                return redirect()->back()->withInput()->with('error', 'danger|This post has already been created, as it has the same URL as another post.');
             }
 
             Log::info('Creating new post...');
             $post = new Post();
-            $post['status'] = PostStatus::Pending;
+            if (Auth::user()->type == 1)
+                $post['status'] = $request->get('status');
+            else
+                $post['status'] = PostStatus::Pending;
             $post['user_id'] = Auth::user()->getAuthIdentifier();
         } else {
             $post = Post::find($postId);
             if ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() && Auth::user()->type == 0) {
                 return redirect()->to('dashboard/post/list');
             }
-            Log::info('Updating Post ID ' . $post->id . ' - current values are ' . Extensions::varDumpToString($post));
+            //Log::info('Updating Post ID ' . $post->id . ' - current values are ' . Extensions::varDumpToString($post));
 
             if ($request->input('status') == PostStatus::Deleted && $post['status'] != PostStatus::Deleted) {
                 $post['deleted_at'] = Extensions::getDate();
@@ -126,60 +140,57 @@ class ManagePostController extends Controller
 
         Log::info('Transforming content...');
         $postTransformer = new PostTransformer();
-        $blocks = $request->input('blocks');
+        $blocks = json_decode($request->input('blocks'));
+        $content = [];
 
         for($i = 0; $i < count($blocks); $i++) {
-            // The below method extracts all image URLs from the content that are not on our domain
-            // So that we can download them to our own server rather than hotlinking
-            $blocks[$i] = $postTransformer->handleContentExternalUrls($blocks[$i], $post->id);
+
+            if ($blocks[$i]->type == "text" || $blocks[$i]->type == "embed") {
+                $newcontent = $blocks[$i]->content;
+            }
+            elseif ($blocks[$i]->type == "image") {
+                $nc = '<img src="'.$blocks[$i]->url.'" >';
+                $transformed = $postTransformer->handleContentExternalUrls($nc, $post->id);
+                if ($transformed) {
+                    $newcontent = $transformed[0];
+                    $blocks[$i]->url = $transformed[1];
+                } else {
+                    $newcontent = $nc;
+                }
+
+                if ($blocks[$i]->source && $blocks[$i]->sourceurl)
+                    $newcontent .= "<span class='source'><span>via:</span> <a href='".$blocks[$i]->sourceurl."' target='_blank'>".$blocks[$i]->source."</a></span>";
+                elseif ($blocks[$i]->source && !$blocks[$i]->sourceurl)
+                    $newcontent .= "<span class='source'><span>via:</span> ".$blocks[$i]->source . "</span>";
+                elseif (!$blocks[$i]->source && $blocks[$i]->sourceurl)
+                    $newcontent .= "<span class='source'><span>via:</span> <a href='".$blocks[$i]->sourceurl."' target='_blank'>Source</a></span>";
+
+                // The below method extracts all image URLs from the content that are not on our domain
+                // So that we can download them to our own server rather than hotlinking
+            }
+
+            array_push($content, $newcontent);
         }
 
-        $post['content'] = base64_encode(serialize($blocks));
+        $post['content'] = base64_encode(serialize($content));
+        $post['blockcontent'] = base64_encode(serialize($blocks));
+
         $post->save(); // Saving now to get an ID for naming the images
 
-        $thumbsPath = public_path() . '/' . config('custom.thumbs-directory');
-        $folderDates = UrlHelpers::getCurrentFolderDates();
-        if (!File::exists($thumbsPath . $folderDates)) {
-            File::makeDirectory($thumbsPath . $folderDates, 0755, true);
-        }
-
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            Log::info('Payload included "image" parameter, and the image is valid');
-            $filename = Extensions::getChars(6) . '_' . $post->id . '.' . $request->file('image')->getClientOriginalExtension();
-
-            $imageData = Image::make($request->file('image'));
-            $imageData->resize(758, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-            $imageData->crop(758, 484);
-            $imageData->save(public_path() . '/thumbs/' . $filename);
+        /*
+         * thumbnail processing
+         */
+        if ($request->get("thumbnail_output")) {
+            $thumb = Image::make($request->get("thumbnail_output"));
+            $filename = Extensions::getChars(6) . '_' . $post->id . '.jpg';
+            $thumb->save(public_path() . '/' . config('custom.thumbs-directory') . $filename);
 
             $post['image'] = UrlHelpers::getThumbnailLink($filename);
-            Log::info('Saved the image as ' . $post['image']);
-        } else if ($request->has('image_url')) { // && strpos($request->input('image_url'), 'postize.com') === false) {
-            Log::info('Payload included "image" parameter, and the image is from an external domain. It needs to be fetched.');
-            $post['image'] = $request->input('image_url');
-
-            // TODO: Create original_image_url field and check it, so that we don't have to scrape if its the same
-            $filename = UrlHelpers::getCurrentFolderDates() . Extensions::getChars(6) . '_' . $post->id . '.jpg';
-            try {
-                $imageData = Image::make($request->input('image_url'));
-                $imageData->resize(758, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                });
-                $imageData->crop(758, 484);
-                $imageData->save(public_path() . '/thumbs/' . $filename);
-                $post['image'] = UrlHelpers::getThumbnailLink($filename);
-                Log::info('Saved the image as ' . $post['image']);
-
-            } catch (\Exception $e) {
-                \Log::info("ManagePostController::postAddEditPost: Unable to scrape image_url: " . $request->input('image_url') .
-                    ' , Exception: ' . $e->getMessage());
-            }
         }
+
         $post->save();
         $message = 'success|Post saved successfully.';
-        $post->blocks = unserialize(base64_decode($post->content));
+        //$post->blocks = unserialize(base64_decode($post->content));
         return redirect()->to('dashboard/post/' . $post->id)
             ->with('post', $post)
             ->with('categories', Category::get())

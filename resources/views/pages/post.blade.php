@@ -6,6 +6,10 @@
             font-size: 30px;
             margin-top: 35px;
         }
+
+        .content img {
+            width: 100%;
+        }
     </style>
 @endsection
 

@@ -141,6 +141,9 @@
 
             <!-- Content area -->
             <div class="content">
+                @if($errors->any())
+                    <h4>{{$errors->first()}}</h4>
+                    @endif
                 @yield('content')
 
                 <!-- Footer -->
@@ -161,6 +164,7 @@
 </div>
 <!-- /page container -->
 <!--js bottom-->
+@include('partials.outputsjs')
 @yield('js-bottom')
 </body>
 </html>

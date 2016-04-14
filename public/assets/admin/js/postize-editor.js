@@ -4,7 +4,9 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
     var vm = this;
 
     vm.init = function () {
-        vm.blocks = [];
+        //passed from laravel, ManagePostController@postAddEditPost
+        vm.post = Postize.post;
+        vm.blocks = Postize.blocks;
         vm.editor = {
             active: 'text',
             text: {
@@ -42,6 +44,41 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
             $scope.$apply(function () {
                 vm.editor.imageUpload.files = document.getElementById('editorFileInput').files;
             });
+        });
+
+        jQuery("#addEditForm").submit(function(e) {
+            e.preventDefault();
+            if (!vm.post.title || !vm.post.description) {
+                jQuery.jGrowl('Please enter post title and description', {
+                    header: 'Error',
+                    theme: 'bg-danger'
+                });
+                return false;
+            }
+
+            var thumbnail = ThumbnailGenerator.getCanvasData();
+            if (!vm.post.id && !thumbnail) {
+                jQuery.jGrowl('Please generate a thumbnail image', {
+                    header: 'Error',
+                    theme: 'bg-danger'
+                });
+                return false;
+            }
+
+            if (vm.blocks.length == 0) {
+                jQuery.jGrowl('Please add at least one content block', {
+                    header: 'Error',
+                    theme: 'bg-danger'
+                });
+                return false;
+            }
+
+            //fill in the vals
+            jQuery("#blocks").val(angular.toJson(vm.blocks));
+            if (vm.showThmbEditor || !vm.post.id)
+            jQuery("#thumbnail_output").val(thumbnail);
+            this.submit();
+            return true;
         });
     };
 
@@ -84,9 +121,10 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
                 });
                 return;
             }
+            var txt = angular.copy(vm.editor.text.content);
             vm.blocks.push({
                 type: "text",
-                content: $sce.trustAsHtml(vm.editor.text.content)
+                content: txt
             });
             //attach order, for manual order changing
             var len = vm.blocks.length;
@@ -144,7 +182,7 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
                                         url: response.url,
                                         source: all_files[uid].source,
                                         sourceurl: all_files[uid].sourceurl
-                                    })
+                                    });
                                     //attach order, for manual order changing
                                     var len = vm.blocks.length;
                                     vm.blocks[len - 1].position = len;
@@ -218,9 +256,10 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
             if (YTEmbed) {
                 vm.editor.embed.content = '<iframe width="560" height="315" src="//www.youtube.com/embed/' + YTEmbed + '" frameborder="0" allowfullscreen></iframe>';
             }
+            var txt = angular.copy(vm.editor.embed.content);
             vm.blocks.push({
                 type: "embed",
-                content: $sce.trustAsHtml(vm.editor.embed.content)
+                content: txt
             });
 
             vm.editor.embed.content = "";
@@ -303,6 +342,16 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
         for (var j = 0; j < vm.blocks.length; j++)
             vm.blocks[j].position = j + 1;
     };
+
+    vm.removeBlock = function(i) {
+        vm.blocks.splice(i, 1);
+        for (var j = 0; j < vm.blocks.length; j++)
+            vm.blocks[j].position = j + 1;
+    }
+
+    vm.trustedHTML = function(html) {
+        return $sce.trustAsHtml(html);
+    }
 });
 
 /**
@@ -728,5 +777,12 @@ var ThumbnailGenerator = new function () {
         self.canvas.add(self.cropEl);
         self.canvas.renderAll();
         self.undoredo = false;
+    }
+
+    self.getCanvasData = function() {
+        if (self.images.length == 0)
+            return null;
+
+        return self.canvas.toDataURL();
     }
 };

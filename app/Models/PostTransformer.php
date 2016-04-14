@@ -4,6 +4,7 @@ namespace App\Models;
 
 use File;
 use Image;
+use Log;
 
 class PostTransformer
 {
@@ -95,6 +96,9 @@ class PostTransformer
 
         foreach ($imageUrlsToScrape as $imageUrl) {
             $imageUrl = trim(substr($imageUrl, 5), '"'); // 5 = the length of src="
+            if (strpos($imageUrl, 'postize') !== false) {
+                return false;
+            }
 
             $imageDatesPath = UrlHelpers::getCurrentFolderDates();
             $imageBasePath = public_path() . '/' . config('custom.content-directory');
@@ -103,10 +107,27 @@ class PostTransformer
             }
 
 
-            // TODO: This is broken on inserting files other than JPG
-            $filename = $imageDatesPath . Extensions::getChars(6) . '_' . $postId . '.jpg';
+            $filename = $imageDatesPath . Extensions::getChars(6) . '_' . $postId . '.' . (new \SplFileInfo($imageUrl))->getExtension();
             try {
-                Image::make($imageUrl)->save($imageBasePath . $filename);
+                //Image::make($imageUrl)->save($imageBasePath . $filename);
+                $file = fopen($imageBasePath . $filename, 'w+');
+
+                $curl = curl_init($imageUrl);
+
+                // Update as of PHP 5.4 array() can be written []
+                curl_setopt_array($curl, [
+                    CURLOPT_URL            => $imageUrl,
+                    CURLOPT_BINARYTRANSFER => 1,
+                    CURLOPT_RETURNTRANSFER => 1,
+                    CURLOPT_FILE           => $file,
+                    CURLOPT_TIMEOUT        => 50,
+                    CURLOPT_USERAGENT      => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'
+                ]);
+
+                $response = curl_exec($curl);
+                if($response === false) {
+                    throw new \Exception('Curl error: ' . curl_error($curl));
+                }
             } catch (\Exception $e) {
                 \Log::info('ManagePostController::handleContentExternalUrls: Unable to scrape image: ' . $imageUrl . ' - Exception: ' . $e->getMessage());
                 return $content;
@@ -114,7 +135,7 @@ class PostTransformer
             $content = str_replace('src="' . $imageUrl, 'src="' . UrlHelpers::getContentLink($filename), $content);
         }
 
-        return $content;
+        return [$content, UrlHelpers::getContentLink($filename)];
     }
 
     function stripAttributes($s, $allowedattr = array()) {

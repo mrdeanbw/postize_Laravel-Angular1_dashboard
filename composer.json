@@ -11,7 +11,8 @@
         "intervention/imagecache": "^2.3",
         "nesbot/carbon": "^1.21",
         "nayjest/grids": "^1.1",
-        "laravelcollective/html": "^5.2"
+        "laravelcollective/html": "^5.2",
+        "laracasts/utilities": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

@@ -19,6 +19,7 @@ class CreatePostTable extends Migration
             $table->string('slug')->unique();
             $table->string('description');
             $table->mediumText('content');
+            $table->mediumText('blockcontent');
             $table->string('image');
             $table->tinyInteger('status')->default(0);
             $table->timestamps();

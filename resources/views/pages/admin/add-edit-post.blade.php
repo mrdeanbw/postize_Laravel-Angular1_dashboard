@@ -8,7 +8,20 @@
 @endsection
 
 @section('content')
-    <div ng-app="PostizeEditor" ng-controller="PostizeController as PCTRL" ng-init="PCTRL.init()">
+    <form class="form-horizontal"
+          action="{{ url('dashboard/post' . (!empty($post) ? '/' . $post->id : '')) }}"
+          method="post"
+          enctype="multipart/form-data"
+          id="addEditForm">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+        <div ng-app="PostizeEditor" ng-controller="PostizeController as PCTRL" ng-init="PCTRL.init()">
+            <div class="ng-cloak alert alert-warning alert-styled-left" ng-if="::PCTRL.post.id && PCTRL.blocks.length == 0">
+                <span class="text-semibold">Warning! </span>
+                This post has been created with an older version of Postize editor so it's content blocks can't be edited.
+                <br>If you want to edit this post, you'll have to recreate the blocks using the new editor.
+                <br>However, this post will still be displayed normally on the frontend so immediate action isn't required.
+            </div>
         <div class="row">
             <a href="{{url('dashboard/post/list')}}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i
                             class="glyphicon glyphicon-chevron-left"></i></b> All Posts</a><br><br>
@@ -17,11 +30,6 @@
         <div class="row">
             <div class="col-md-12">
                 <!-- Basic layout-->
-                <form class="form-horizontal"
-                      action="{{ url('dashboard/post' . (!empty($post) ? '/' . $post->id : '')) }}"
-                      method="post"
-                      enctype="multipart/form-data">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <div class="panel panel-flat">
                         <div class="panel-heading">
@@ -33,8 +41,8 @@
 
                                 <div class="col-lg-9">
                                     <input name="title" type="text" class="form-control"
-                                           value="{{ $post->title or '' }}"
-                                           placeholder="Enter a title for this post..." required>
+                                           placeholder="Enter a title for this post..."
+                                            ng-model="PCTRL.post.title">
                                 </div>
                             </div>
 
@@ -51,8 +59,8 @@
 
                                 <div class="col-lg-9">
                                     <input name="description" type="text" class="form-control"
-                                           value="{{ $post->description or '' }}"
-                                           placeholder="Enter a description for this post..." required>
+                                           placeholder="Enter a description for this post..."
+                                           ng-model="PCTRL.post.description">
                                 </div>
                             </div>
 
@@ -68,14 +76,17 @@
                                 </div>
                             </div>
 
+                            @if (Auth::user()->type == 1 || (isset($post->user_id) && $post->user_id == Auth::user()->id))
                             <div class="form-group">
                                 <label class="col-lg-3 control-label">Status:</label>
 
                                 <div class="col-lg-9">
                                     <select id="status" name="status" class="form-control select">
+                                        @if (Auth::user()->type == 1 || (isset($post) && $post->status == 1))
                                         <option value="1" {{ !empty($post) && $post->status == 1 ? 'selected' : '' }}>
                                             Enabled
                                         </option>
+                                        @endif
                                         <option value="0" {{ !empty($post) && $post->status == 0 ? 'selected' : '' }}>
                                             Pending
                                         </option>
@@ -85,6 +96,7 @@
                                     </select>
                                 </div>
                             </div>
+                            @endif
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary legitRipple">Save Post<i
                                             class="icon-arrow-right14 position-right"></i></button>
@@ -92,7 +104,7 @@
                         </div>
 
                     </div>
-                </form>
+
                 <!-- /basic layout -->
             </div>
         </div>
@@ -103,31 +115,38 @@
                         <h5 class="panel-title">Thumbnail Generator</h5>
                     </div>
                     <div class="panel-body">
-                        <div class="uploader">
-                            <input type="file" class="file-styled" id="canvasImageUpload">
-                            <span class="action btn bg-pink-400 legitRipple" style="-webkit-user-select: none;">Choose File</span>
-                        </div>
-                        <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2Mb. Accepts between 1 to 4 images. Result thumbnail dimensions will be 1200x630px</span>
 
+                        <div ng-show="PCTRL.post.id">
+                            <span ng-show="!PCTRL.showThmbEditor"> Image Thumbnail:<br></span>
+                            <img ng-show="!PCTRL.showThmbEditor" ng-src="@{{ PCTRL.post.image }}"><br><br>
+                            <button type="button" class="btn btn-primary" ng-click="PCTRL.showThmbEditor = !PCTRL.showThmbEditor">@{{ PCTRL.showThmbEditor ? 'Cancel creating new thumbnail' : 'Create new thumbnail' }}</button><br><br>
+                        </div>
+                        <div ng-show="!PCTRL.post.id || PCTRL.showThmbEditor">
+                            <div class="uploader">
+                                <input type="file" class="file-styled" id="canvasImageUpload">
+                                <span class="action btn bg-pink-400 legitRipple" style="-webkit-user-select: none;">Choose File</span>
+                            </div>
+                            <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2Mb. Accepts between 1 to 4 images. Result thumbnail dimensions will be 1200x630px</span>
+                            <canvas id="thumbnailGenerator" style="margin: 0 auto;"></canvas>
 
-                        <canvas id="thumbnailGenerator" style="margin: 0 auto;"></canvas>
-
-                        <div class="text-center">
-                            <button type="button" class="btn btn-default" ng-click="PCTRL.deleteFromCanvas()" ng-show="!PCTRL.cropThumbnail"><i class="icon-cancel-circle2"></i> Remove selected image</button>
-                            <button type="button" class="btn btn-default" ng-click="PCTRL.toFrontCanvas()" ng-show="!PCTRL.cropThumbnail"><i class="icon-stack-up"></i> Move selected image to front</button>
-                            <button type="button" class="btn btn-default" ng-click="PCTRL.toBackCanvas()" ng-show="!PCTRL.cropThumbnail"><i class="icon-stack-down"></i> Move selected image to back</button>
-                            <button type="button" class="btn @{{PCTRL.cropThumbnail ? 'btn-primary' : 'btn-default'}}" ng-click="PCTRL.cropMode()"><i class="icon-crop2"></i> Crop Mode: @{{PCTRL.cropThumbnail ? 'ON' : 'off'}}</button>
-                            <button type="button" class="btn btn-default" ng-click="PCTRL.cropSelected()" ng-show="PCTRL.cropThumbnail"><i class="icon-crop2"></i> Crop Selected Area</button>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-default" ng-click="PCTRL.deleteFromCanvas()" ng-show="!PCTRL.cropThumbnail"><i class="icon-cancel-circle2"></i> Remove selected image</button>
+                                <button type="button" class="btn btn-default" ng-click="PCTRL.toFrontCanvas()" ng-show="!PCTRL.cropThumbnail"><i class="icon-stack-up"></i> Move selected image to front</button>
+                                <button type="button" class="btn btn-default" ng-click="PCTRL.toBackCanvas()" ng-show="!PCTRL.cropThumbnail"><i class="icon-stack-down"></i> Move selected image to back</button>
+                                <button type="button" class="btn @{{PCTRL.cropThumbnail ? 'btn-primary' : 'btn-default'}}" ng-click="PCTRL.cropMode()"><i class="icon-crop2"></i> Crop Mode: @{{PCTRL.cropThumbnail ? 'ON' : 'off'}}</button>
+                                <button type="button" class="btn btn-default" ng-click="PCTRL.cropSelected()" ng-show="PCTRL.cropThumbnail"><i class="icon-crop2"></i> Crop Selected Area</button>
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-default" ng-click="PCTRL.undoCanvas()"><i class="icon-undo"></i> Undo</button>
+                                <button type="button" class="btn btn-default" ng-click="PCTRL.redoCanvas()"><i class="icon-redo"></i> Redo</button>
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <button type="button" class="btn btn-default" ng-click="PCTRL.arrangeCanvas()"><i class="icon-magic-wand"></i> Arrange Automagically</button>
+                            </div>
                         </div>
-                        <br>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-default" ng-click="PCTRL.undoCanvas()"><i class="icon-undo"></i> Undo</button>
-                            <button type="button" class="btn btn-default" ng-click="PCTRL.redoCanvas()"><i class="icon-redo"></i> Redo</button>
-                        </div>
-                        <br>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-default" ng-click="PCTRL.arrangeCanvas()"><i class="icon-magic-wand"></i> Arrange Automagically</button>
-                        </div>
+                        <input type="hidden" id="thumbnail_output" name="thumbnail_output" value="">
                     </div>
                 </div>
             </div>
@@ -231,6 +250,7 @@
                                                                              ng-model="t.sourceurl"></div>
                                                 <div class="col-md-1">
                                                     <button class="btn btn-danger"
+                                                            type="button"
                                                             ng-click="PCTRL.editor.imageLink.links.splice(i, 1)"><i
                                                                 class="icon-cancel-circle2"></i></button>
                                                 </div>
@@ -250,7 +270,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn bg-teal-400 btn-labeled insertContentButton"
+                                <button type="button" class="btn bg-teal-400 btn-labeled insertContentButton"
                                         ng-click="PCTRL.insertBlock()"><b><i class="icon-pencil4"></i></b> <span>Insert Content Block</span>
                                 </button>
                             </div>
@@ -308,7 +328,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-2">
-                                <button type="button" class="btn btn-danger btn-labeled" ng-click=""><b><i
+                                <button type="button" class="btn btn-danger btn-labeled" ng-click="PCTRL.removeBlock(i)"><b><i
                                                 class="icon-cancel-circle2"></i></b> Remove Block
                                 </button>
                             </div>
@@ -326,7 +346,7 @@
                             <div class="col-md-6">
                                 <h4>Preview</h4>
                                 <hr>
-                                <div ng-bind-html="block.content"></div>
+                                <div ng-bind-html="PCTRL.trustedHTML(block.content)"></div>
                             </div>
                         </div>
                         <div class="row" ng-if="block.type == 'image'">
@@ -369,7 +389,7 @@
                             <div class="col-md-6">
                                 <h4>Preview</h4>
                                 <hr>
-                                <div ng-bind-html="block.content"></div>
+                                <div ng-bind-html="PCTRL.trustedHTML(block.content)"></div>
                             </div>
                         </div>
                     </div>
@@ -377,6 +397,10 @@
             </div>
         </div>
     </div>
+        <input type="hidden" name="blocks" id="blocks" value="">
+        <button type="submit" class="btn btn-primary legitRipple">Save Post<i
+                    class="icon-arrow-right14 position-right"></i></button>
+    </form>
 @endsection
 
 @section('js-bottom')

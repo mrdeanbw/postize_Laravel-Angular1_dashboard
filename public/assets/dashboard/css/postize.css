@@ -30,3 +30,7 @@
 .canvas-container {
     margin: 0 auto 20px;
 }
+
+.ng-cloak {
+    display: none;
+}
