@@ -27,7 +27,7 @@
     <meta name="_token" content="{!! csrf_token() !!}"/>
 
 
-    <link href="{{ asset('assets/front/css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/front/css/style.css?v1.0.1') }}" rel="stylesheet" type="text/css">
     <script>window.twttr = (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0],
                     t = window.twttr || {};
