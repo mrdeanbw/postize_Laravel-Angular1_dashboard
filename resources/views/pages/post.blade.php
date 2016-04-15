@@ -74,6 +74,7 @@
                         @endif
 
                         @if($imagesShown == 2 && !$adShown)
+                            <?php $adShown = true; ?>
                             <div class="row">
                                 <div class="ad-content">
                                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
