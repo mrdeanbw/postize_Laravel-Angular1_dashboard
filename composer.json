@@ -12,7 +12,8 @@
         "nesbot/carbon": "^1.21",
         "nayjest/grids": "^1.1",
         "laravelcollective/html": "^5.2",
-        "laracasts/utilities": "^2.1"
+        "laracasts/utilities": "^2.1",
+        "jenssegers/agent": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

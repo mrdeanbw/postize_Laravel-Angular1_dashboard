@@ -66,31 +66,66 @@
                         <a href="">Israel</a>
                     </div>--}}
 
-                    @foreach($post->blocks as $block)
-                        {!! $block !!}
-                    @endforeach
+                    @for($i = 0; $i < count($post->blocks); $i++)
+                        @if($i == 3)
+                            <div class="row">
+                                <div class="ad-content">
+                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                    <ins class="adsbygoogle"
+                                         style="display:inline-block;width:300px;height:250px"
+                                         data-ad-client="ca-pub-1766805469808808"
+                                         data-ad-slot="9667310973"></ins>
+                                    <script>
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+                                    <span class="ad-disclaimer">ADVERTISEMENT</span>
+                                </div>
+                            </div>
+                        @endif
+
+                        {!! $post->blocks[$i] !!}
+                    @endfor
 
                     <div class="row share-buttons big">
-                        <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}" class="row facebook">
-                            <svg><use xlink:href="#svg-facebook"></use></svg>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}"
+                           class="row facebook">
+                            <svg>
+                                <use xlink:href="#svg-facebook"></use>
+                            </svg>
                             <span>Share On Facebook</span>
                         </a>
-                        <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}" class="row twitter">
-                            <svg><use xlink:href="#svg-twitter"></use></svg>
+                        <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}"
+                           class="row twitter">
+                            <svg>
+                                <use xlink:href="#svg-twitter"></use>
+                            </svg>
                             <span>Share On Twitter</span>
                         </a>
                     </div>
 
                     <div class="row">
-                        <div class="add">
-                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                            <ins class="adsbygoogle"
-                                 style="display:inline-block;width:300px;height:250px"
-                                 data-ad-client="ca-pub-1766805469808808"
-                                 data-ad-slot="9667310973"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
+                        <div class="ad-content">
+                            @if($mobile)
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:300px;height:250px"
+                                     data-ad-client="ca-pub-1766805469808808"
+                                     data-ad-slot="9667310973"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+
+                            @else
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:728px;height:90px"
+                                     data-ad-client="ca-pub-1766805469808808"
+                                     data-ad-slot="2177946578"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            @endif
+                            <span class="ad-disclaimer">ADVERTISEMENT</span>
                         </div>
                     </div>
                 </div>
@@ -124,7 +159,27 @@
             </div>--}}
 
         </section>
-
+        <section>
+            <div id="rcjsload_c437be"></div>
+            <script type="text/javascript">
+                (function () {
+                    var referer = "";
+                    try {
+                        if (referer = document.referrer, "undefined" == typeof referer)throw"undefined"
+                    } catch (exception) {
+                        referer = document.location.href, ("" == referer || "undefined" == typeof referer) && (referer = document.URL)
+                    }
+                    referer = referer.substr(0, 700);
+                    var rcel = document.createElement("script");
+                    rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
+                    rcel.type = 'text/javascript';
+                    rcel.src = "http://trends.revcontent.com/serve.js.php?w=17087&t=" + rcel.id + "&c=" + (new Date()).getTime() + "&width=" + (window.outerWidth || document.documentElement.clientWidth) + "&referer=" + referer;
+                    rcel.async = true;
+                    var rcds = document.getElementById("rcjsload_c437be");
+                    rcds.appendChild(rcel);
+                })();
+            </script>
+        </section>
         <section>
             <h1 class="section-heading">Related stories:</h1>
 
@@ -146,7 +201,7 @@
 
     <aside class="sidebar">
 
-        <div class="add">
+        {{--<div class="add">
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <ins class="adsbygoogle"
                  style="display:inline-block;width:300px;height:250px"
@@ -155,22 +210,29 @@
             <script>
                 (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
-        </div>
+        </div>--}}
 
         @include('partials.sidebar-articles')
 
         <div class="sticky">
             <div class="add">
-                <div id="rcjsload_3f889c"></div>
+                <div id="rcjsload_3bbf6e"></div>
                 <script type="text/javascript">
-                    (function() {
-                        var referer="";try{if(referer=document.referrer,"undefined"==typeof referer)throw"undefined"}catch(exception){referer=document.location.href,(""==referer||"undefined"==typeof referer)&&(referer=document.URL)}referer=referer.substr(0,700);
+                    (function () {
+                        var referer = "";
+                        try {
+                            if (referer = document.referrer, "undefined" == typeof referer)throw"undefined"
+                        } catch (exception) {
+                            referer = document.location.href, ("" == referer || "undefined" == typeof referer) && (referer = document.URL)
+                        }
+                        referer = referer.substr(0, 700);
                         var rcel = document.createElement("script");
                         rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
                         rcel.type = 'text/javascript';
-                        rcel.src = "http://trends.revcontent.com/serve.js.php?w=17088&t="+rcel.id+"&c="+(new Date()).getTime()+"&width="+(window.outerWidth || document.documentElement.clientWidth)+"&referer="+referer;
+                        rcel.src = "http://trends.revcontent.com/serve.js.php?w=17088&t=" + rcel.id + "&c=" + (new Date()).getTime() + "&width=" + (window.outerWidth || document.documentElement.clientWidth) + "&referer=" + referer;
                         rcel.async = true;
-                        var rcds = document.getElementById("rcjsload_3f889c"); rcds.appendChild(rcel);
+                        var rcds = document.getElementById("rcjsload_3bbf6e");
+                        rcds.appendChild(rcel);
                     })();
                 </script>
             </div>
