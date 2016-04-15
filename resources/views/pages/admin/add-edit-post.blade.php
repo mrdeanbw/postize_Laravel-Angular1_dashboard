@@ -229,11 +229,11 @@
                                                    multiple="multiple" data-show-caption="false">
                                             <br><br>
                                             <div ng-repeat="t in PCTRL.editor.imageUpload.files" class="row">
-                                                <div class="col-md-2">@{{t.name}}</div>
-                                                <div class="col-md-5"><input class="form-control" placeholder="Source"
+                                                <div class="col-md-3">@{{t.name}}</div>
+                                                <div class="col-md-4"><input class="form-control" placeholder="Source Name (e.g. Diply, Buzzfeed, Tumblr, Reddit/FunkyDog)"
                                                                              ng-model="t.source"></div>
                                                 <div class="col-md-5"><input class="form-control"
-                                                                             placeholder="Link to source"
+                                                                             placeholder="Link to source (e.g. http://website.com/cats-are-funny)"
                                                                              ng-model="t.sourceurl"></div>
                                             </div>
                                         </div>
@@ -256,7 +256,7 @@
                                                 </div>
                                             </div>
                                             <br>
-                                            <button class="btn btn-primary" ng-click="PCTRL.addLinkImage()">Add New
+                                            <button type="button" class="btn btn-primary" ng-click="PCTRL.addLinkImage()">Add New
                                             </button>
                                         </div>
                                     </div>
