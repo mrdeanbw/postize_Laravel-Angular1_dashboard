@@ -65,7 +65,7 @@
                         <a href="">Holocaust survivor</a>
                         <a href="">Israel</a>
                     </div>--}}
-                    <?php $imagesShown = 0; ?>
+                    <?php $imagesShown = 0; $adShown = false; ?>
                     @for($i = 0; $i < count($post->blocks); $i++)
                         {!! $post->blocks[$i] !!}
 
@@ -73,7 +73,7 @@
                             <?php $imagesShown++; ?>
                         @endif
 
-                        @if($imagesShown == 2)
+                        @if($imagesShown == 2 && !$adShown)
                             <div class="row">
                                 <div class="ad-content">
                                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
