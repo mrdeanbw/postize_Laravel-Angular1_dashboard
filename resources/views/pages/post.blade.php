@@ -65,9 +65,15 @@
                         <a href="">Holocaust survivor</a>
                         <a href="">Israel</a>
                     </div>--}}
-
+                    <?php $imagesShown = 0; ?>
                     @for($i = 0; $i < count($post->blocks); $i++)
-                        @if($i == 3)
+                        {!! $post->blocks[$i] !!}
+
+                        @if(strpos($post->blocks[$i], '<img ') !== false && strpos($post->blocks[$i], 'src="http://postize.com') !== false)
+                            <?php $imagesShown++; ?>
+                        @endif
+
+                        @if($imagesShown == 2)
                             <div class="row">
                                 <div class="ad-content">
                                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -82,8 +88,6 @@
                                 </div>
                             </div>
                         @endif
-
-                        {!! $post->blocks[$i] !!}
                     @endfor
 
                     <div class="row share-buttons big">
