@@ -89,8 +89,10 @@
                 <div class="sidebar-user-material">
                     <div class="category-content">
                         <div class="sidebar-user-material-content">
+                            @if (Auth::user()->image)
                             <a href="#"><img src="{{ Auth::user()->image }}" class="img-circle img-responsive"
                                              alt=""></a>
+                            @endif
                             <h6>{{ Auth::user()->name }}</h6>
                         </div>
                     </div>

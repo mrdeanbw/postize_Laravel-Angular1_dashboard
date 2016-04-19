@@ -1,11 +1,28 @@
 angular.module('PostizeEditor', ['textAngular']);
 
-angular.module('PostizeEditor').controller('PostizeController', function ($scope, $sce) {
+angular.module('PostizeEditor').controller('PostizeController', function ($scope, $sce, $interval) {
     var vm = this;
+    var autosaveIntervalHolder = null;
+    var confirmOnPageExit = function (e)
+    {
+        // If we haven't been passed the event get the window.event
+        e = e || window.event;
+
+        var message = 'You will lose your changes';
+
+        // For IE6-8 and Firefox prior to version 4
+        if (e)
+        {
+            e.returnValue = message;
+        }
+
+        // For Chrome, Safari, IE8+ and Opera 12+
+        return message;
+    };
 
     vm.init = function () {
         //passed from laravel, ManagePostController@postAddEditPost
-        vm.post = Postize.post;
+        vm.post = Postize.post ? Postize.post : {title: "", description: ""};
         vm.blocks = Postize.blocks;
         vm.editor = {
             active: 'text',
@@ -77,9 +94,16 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
             jQuery("#blocks").val(angular.toJson(vm.blocks));
             if (vm.showThmbEditor || !vm.post.id)
             jQuery("#thumbnail_output").val(thumbnail);
+            window.onbeforeunload = null;
             this.submit();
             return true;
         });
+
+        jQuery('.dropdown-toggle').on('click', function (event) {
+            jQuery(this).parent().toggleClass('open');
+        });
+
+        vm.initAutosave();
     };
 
     vm.initCanvas = function () {
@@ -90,11 +114,13 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
     vm.undoCanvas = function() {
         vm.cropThumbnail = false;
         ThumbnailGenerator.undo();
-    }
+    };
+
     vm.redoCanvas = function() {
         vm.cropThumbnail = false;
         ThumbnailGenerator.redo();
-    }
+    };
+
     vm.deleteFromCanvas = ThumbnailGenerator.delete;
     vm.toFrontCanvas = ThumbnailGenerator.toFront;
     vm.toBackCanvas = ThumbnailGenerator.toBack;
@@ -268,6 +294,10 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
             vm.blocks[len - 1].position = len;
         }
 
+        if (!vm.post && vm.blocks.length > 0)
+            window.onbeforeunload = confirmOnPageExit;
+        else
+            window.onbeforeunload = null;
 
     };
 
@@ -347,11 +377,131 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
         vm.blocks.splice(i, 1);
         for (var j = 0; j < vm.blocks.length; j++)
             vm.blocks[j].position = j + 1;
-    }
+
+
+        if (!vm.post && vm.blocks.length > 0)
+            window.onbeforeunload = confirmOnPageExit;
+        else
+            window.onbeforeunload = null;
+    };
 
     vm.trustedHTML = function(html) {
         return $sce.trustAsHtml(html);
-    }
+    };
+
+    vm.initAutosave = function() {
+        if (localStorage.getItem("autosavestate") === null)
+            localStorage.setItem("autosavestate", true);
+
+
+        if (vm.post && vm.post.id) {
+            vm.autosaves = localStorage.getItem("post-" + vm.post.id)
+        } else {
+            vm.autosaves = localStorage.getItem("newpost")
+        }
+
+        vm.autosaves = vm.autosaves && vm.autosaves != 'null' ? JSON.parse(vm.autosaves) : [];
+        vm.autosavestate = localStorage.getItem("autosavestate") == 'true' ? true : false;
+
+        if (vm.autosavestate)
+            autosaveIntervalHolder = $interval(vm.autosaveInterval, 60000);
+
+    };
+
+    vm.autosaveInterval = function() {
+        if (vm.blocks.length == 0 && ThumbnailGenerator.images.length == 0)
+            return;
+
+        vm.autosave();
+    };
+
+    vm.clickAutosave = function() {
+        $interval.cancel(autosaveIntervalHolder);
+        vm.autosave(true);
+        autosaveIntervalHolder = $interval(vm.autosaveInterval, 60000)
+    };
+
+    vm.toggleAutosaveState = function() {
+        vm.autosavestate = !vm.autosavestate;
+        localStorage.setItem("autosavestate", vm.autosavestate );
+        if (vm.autosavestate) {
+            $interval.cancel(autosaveIntervalHolder);
+            autosaveIntervalHolder = $interval(vm.autosaveInterval, 60000);
+        } else {
+            $interval.cancel(autosaveIntervalHolder);
+        }
+    };
+
+    vm.autosave = function(clicked) {
+        ThumbnailGenerator.getData().then(function(TGImages) {
+            jQuery.jGrowl(clicked ? 'Saving...' : 'Autosaving...', {
+                header: '',
+                theme: 'bg-success'
+            });
+            console.log("Autosaving...");
+            var nowtime = new Date();
+            var hh = nowtime.getHours() < 10 ? "0" + nowtime.getHours() : nowtime.getHours();
+            var mm = nowtime.getMinutes() < 10 ? "0" + nowtime.getMinutes() : nowtime.getMinutes();
+            var toSave = {
+                name: hh + ":" + mm,
+                editor: angular.copy(vm.editor),
+                blocks: angular.copy(vm.blocks),
+                title: vm.post ? angular.copy(vm.post.title) : "",
+                desc: vm.post ? angular.copy(vm.post.description) : "",
+                canvas: TGImages
+            };
+
+
+            if (vm.autosaves.length >= 5)
+                vm.autosaves.splice(0, 1);
+
+            $scope.$apply(function() {
+                vm.autosaves.push(toSave);
+            });
+
+            var str = angular.toJson(vm.autosaves);
+
+            if (vm.post && vm.post.id) {
+                localStorage.setItem("post-" + vm.post.id, str);
+            } else {
+                localStorage.setItem("newpost", str);
+            }
+        });
+    };
+
+    vm.loadAutosaveModal = function(i) {
+        vm.asModalTitle = "Version " + (i+1) + " (" + vm.autosaves[i].name + ")";
+        vm.asModalBlocks = vm.autosaves[i].blocks;
+        vm.verToRevert = i;
+        jQuery("#modalRevertSave").modal();
+    };
+
+    vm.loadAutosave = function() {
+        jQuery("#modalRevertSave").modal('toggle');
+        var toReturn = angular.copy(vm.autosaves[vm.verToRevert]);
+
+        vm.editor = toReturn.editor;
+        vm.blocks = toReturn.blocks;
+        vm.post.title = toReturn.title;
+        vm.post.description = toReturn.desc;
+        vm.cropThumbnail = false;
+        ThumbnailGenerator.setData(toReturn.canvas);
+        jQuery.jGrowl('Reverted to saved version', {
+            header: '',
+            theme: 'bg-success'
+        });
+    };
+
+    vm.clearSavedVersions = function() {
+        vm.autosaves = [];
+
+        if (vm.post && vm.post.id) {
+            localStorage.setItem("post-" + vm.post.id, null);
+        } else {
+            localStorage.setItem("newpost", null);
+        }
+    };
+
 });
 
 /**
@@ -540,7 +690,7 @@ var ThumbnailGenerator = new function () {
             self.canvas.add(self.lines[i]);
             self.lines[i].bringToFront();
         }
-    }
+    };
 
     self.automagic = function() {
         if (self.images.length == 0)
@@ -708,7 +858,8 @@ var ThumbnailGenerator = new function () {
      * @param savehistory
      */
     self.updateModifications = function (savehistory) {
-        if (savehistory === true) {
+
+        if (savehistory === true && !self.undoredo) {
             var newstate = {
                 images: [],
                 lines: []
@@ -768,21 +919,65 @@ var ThumbnailGenerator = new function () {
         }
     };
 
-    self.redraw = function() {
-        self.drawLines();
-        for (var i = 0; i < self.images.length; i++) {
-            self.canvas.add(self.images[i]);
-            self.images[i].selectable = true;
+    self.redraw = function(enliven) {
+        if (enliven) {
+            var toEnliven = self.images;
+            self.images = [];
+            fabric.util.enlivenObjects(toEnliven, function(objects) {
+                objects.forEach(function(o) {
+                    o.selectable.true;
+                    self.canvas.add(o);
+                    self.images.push(o);
+                });
+
+                self.drawLines();
+            });
+        } else {
+            for (var i = 0; i < self.images.length; i++) {
+                self.canvas.add(self.images[i]);
+                self.images[i].selectable = true;
+            }
+
+            self.drawLines();
         }
+
         self.canvas.add(self.cropEl);
         self.canvas.renderAll();
         self.undoredo = false;
-    }
+    };
 
     self.getCanvasData = function() {
         if (self.images.length == 0)
             return null;
 
         return self.canvas.toDataURL();
-    }
+    };
+
+    self.getData = function() {
+        var climages = [];
+        var promise = new Promise(function(resolve, reject) {
+            for (var i = 0; i < self.images.length; i++) {
+                self.images[i].clone(function(cl) {
+                    climages.push(cl);
+
+                    if (climages.length == self.images.length)
+                        resolve(climages)
+                })
+            }
+
+        });
+
+        return promise;
+    };
+
+    self.setData = function(images) {
+        self.undoredo = true;
+        self.cropEl.visible = false;
+        self.cropThumbnail = false;
+        self.mods = 0;
+        self.state = [];
+        self.canvas.clear().renderAll();
+        self.images = images;
+        self.redraw(true);
+    };
 };

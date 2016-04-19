@@ -10,6 +10,10 @@
         .content img {
             width: 100%;
         }
+
+        .page .item.news:after {
+            background-color: transparent !important;
+        }
     </style>
 @endsection
 
