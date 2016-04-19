@@ -956,6 +956,8 @@ var ThumbnailGenerator = new function () {
     self.getData = function() {
         var climages = [];
         var promise = new Promise(function(resolve, reject) {
+            if (self.images.length == 0)
+                resolve([]);
             for (var i = 0; i < self.images.length; i++) {
                 self.images[i].clone(function(cl) {
                     climages.push(cl);
