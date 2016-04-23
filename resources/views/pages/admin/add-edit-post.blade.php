@@ -15,7 +15,7 @@
           id="addEditForm">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-        <div ng-app="PostizeEditor" ng-controller="PostizeController as PCTRL" ng-init="PCTRL.init()">
+        <div ng-app="PostizeEditor" ng-controller="PostizeController as PCTRL" ng-init="PCTRL.init()" id="PostizeEditor">
             <div class="ng-cloak alert alert-warning alert-styled-left" ng-if="::PCTRL.post.id && PCTRL.blocks.length == 0">
                 <span class="text-semibold">Warning! </span>
                 This post has been created with an older version of Postize editor so it's content blocks can't be edited.
@@ -23,8 +23,25 @@
                 <br>However, this post will still be displayed normally on the frontend so immediate action isn't required.
             </div>
         <div class="row">
-            <a href="{{url('dashboard/post/list')}}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i
-                            class="glyphicon glyphicon-chevron-left"></i></b> All Posts</a><br><br>
+            <div class="col-md-6">
+                <a href="{{url('dashboard/post/list')}}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i
+                                class="glyphicon glyphicon-chevron-left"></i></b> All Posts</a><br><br>
+            </div>
+
+            <div class="col-md-6 text-right">
+                <div class="btn-group">
+                    <button type="button" class="btn bg-teal-400 btn-labeled dropdown-toggle"><b><i class="icon-reload-alt"></i></b> Previous Versions <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a href="javascript:;" ng-repeat="(i, state) in PCTRL.autosaves" ng-click="PCTRL.loadAutosaveModal(i)"><i class="icon-chevron-right"></i> Version @{{ i+1 }} (@{{ state.name }})</a></li>
+                        <li><a href="javascript:;" ng-show="PCTRL.autosaves.length == 0"><i class="icon-chevron-right"></i> No saved versions yet.</a></li>
+                        <li class="divider"></li>
+                        <li><a href="javascript:;" ng-click="PCTRL.toggleAutosaveState()"><i class="fa fa-gear"></i> Autosave: @{{ PCTRL.autosavestate ? "ON" : "OFF" }}</a></li>
+                        <li><a href="javascript:;" ng-click="PCTRL.clickAutosave()"><i class="fa fa-save"></i> Save now</a></li>
+                        <li class="divider" ng-show="PCTRL.autosaves.length > 0"></li>
+                        <li><a href="javascript:;" ng-show="PCTRL.autosaves.length > 0" ng-click="PCTRL.clearSavedVersions()"><i class="fa fa-times-circle"></i> Clear saved versions</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
         <div class="row">
@@ -396,10 +413,44 @@
                 </div>
             </div>
         </div>
+
+            <div class="modal fade" id="modalRevertSave" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">@{{ PCTRL.asModalTitle }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div ng-repeat="block in PCTRL.asModalBlocks">
+                                <div ng-if="block.type == 'text'" ng-bind-html="PCTRL.trustedHTML(block.content)">
+
+                                </div>
+                                <div ng-if="block.type == 'image'">
+                                    <img class="img-responsive" style="max-height: 220px;" ng-src="@{{ block.url }}">
+                                <span ng-show="block.source && block.sourceurl">via: <a href="@{{block.sourceurl}}"
+                                                                                        target="_blank">@{{ block.source }}</a></span>
+                                    <span ng-show="block.source && !block.sourceurl">via: @{{ block.source }}</span>
+                                <span ng-show="!block.source && block.sourceurl">via: <a href="@{{block.sourceurl}}"
+                                                                                         target="_blank">source</a></span>
+                                </div>
+                                <div ng-if="block.type == 'embed'" ng-bind-html="PCTRL.trustedHTML(block.content)">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" ng-click="PCTRL.loadAutosave()">Revert Version</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
     </div>
         <input type="hidden" name="blocks" id="blocks" value="">
         <button type="submit" class="btn btn-primary legitRipple">Save Post<i
                     class="icon-arrow-right14 position-right"></i></button>
+
     </form>
 @endsection
 

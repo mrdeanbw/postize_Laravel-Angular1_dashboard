@@ -34,3 +34,7 @@
 .ng-cloak {
     display: none;
 }
+
+#PostizeEditor .dropdown-menu {
+    min-width: 250px;
+}
