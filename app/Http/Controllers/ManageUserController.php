@@ -28,7 +28,7 @@ class ManageUserController extends Controller
         $this->validate($request, [
             'name' => 'required|max:100',
             'email' => 'required|email|max:100',
-            'password' => 'required|max:100',
+            'password' => 'min:6|max:100',
             'image' => 'image',
         ]);
 
