@@ -8,9 +8,11 @@ Route::group(['middleware' => ['auth.basic']], function () {
     Route::get('dashboard/post/{postId?}', 'ManagePostController@getAddEditPost');
     Route::post('dashboard/post/{postId?}', 'ManagePostController@postAddEditPost');
     Route::get('dashboard/user/list', 'ManageUserController@getUserList');
-    Route::get('dashboard/user/{email?}', 'ManageUserController@getAddEditUser');
-    Route::post('dashboard/user', 'ManageUserController@postSaveUser');
-    Route::post('dashboard/user', 'ManageUserController@postSaveUser');
+    Route::get('dashboard/user/settings', 'UserController@getSettings');
+    Route::post('dashboard/user/settings', 'UserController@postSettings');
+    Route::post('dashboard/user/password', 'UserController@postUpdatePassword');
+    Route::get('dashboard/user/{userId?}', 'ManageUserController@getAddEditUser');
+    Route::post('dashboard/user/{userId?}', 'ManageUserController@postSaveUser');
 });
 
 Route::group(['middleware' => ['web']], function () {
@@ -31,36 +33,6 @@ Route::group(['middleware' => ['web']], function () {
         return view('pages.contact');
     });
     Route::get('/category/{category}', 'SiteController@getCategoryPage');
-});
-
-Route::get('fsafsdfasdfasdfasdf', function() {
-    $user = new \App\User();
-    $user->name = 'Will Murray';
-    $user->email = 'murraycian@hotmail.com';
-    $user->password = bcrypt('fumbally16');
-    $user->image = 'http://postize.com/user_avatars/murray.jpg';
-    $user->type = 0;
-    $user->status = 0;
-    $user->created_at = \App\Models\DateTimeExtensions::getDate();
-    $user->updated_at = \App\Models\DateTimeExtensions::getDate();
-    $user->save();
-
-    $user = new \App\User();
-    $user->name = 'Laoshi';
-    $user->email = 'vogelbekah@gmail.com';
-    $user->password = bcrypt('Nishinomiya6');
-    $user->image = 'http://54.200.187.146/user_avatars/laoshi.jpg';
-    $user->type = 0;
-    $user->status = 0;
-    $user->created_at = \App\Models\DateTimeExtensions::getDate();
-    $user->updated_at = \App\Models\DateTimeExtensions::getDate();
-    $user->save();
-
-    $user = \App\User::where('name', 'Fletch')->first();
-    $user->password = bcrypt('VgbdfsyYESCxrCVTvdsa');
-    $user->save();
-
-    echo 'done';
 });
 
 Route::get('{slug}/{userId?}', 'PostController@getPost');

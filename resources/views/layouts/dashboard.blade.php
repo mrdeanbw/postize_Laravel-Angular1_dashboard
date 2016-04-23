@@ -114,6 +114,20 @@
                                     <li class="{{Request::is('dashboard/post') ? 'active' : ''}}"><a href="{{url('dashboard/post')}}">Add New Post</a></li>
                                 </ul>
                             </li>
+                            @if(Auth::user()->type == 1)
+                                <li>
+                                    <a href="#"><i class="icon-user"></i> <span>Users</span></a>
+                                    <ul>
+                                        <li class="{{Request::is('dashboard/user/list') ? 'active' : ''}}" ><a href="{{url('dashboard/user/list')}}">See All Users</a></li>
+                                        <li class="{{Request::is('dashboard/user') ? 'active' : ''}}"><a href="{{url('dashboard/user')}}">Add New User</a></li>
+                                    </ul>
+                                </li>
+                            @endif
+                            <li class="navigation-header"><span>My Settings</span> <i class="icon-menu" title="{{Auth::user()->name}}"></i>
+                            </li>
+                            <li class="{{Request::is('dashboard/user/settings') ? 'active' : ''}}"><a href="{{url('dashboard/user/settings')}}"><i class="icon-cog"></i>
+                                    <span>Settings</span></a></li>
+                            <li>
                         </ul>
                     </div>
                 </div>
@@ -141,9 +155,16 @@
 
             <!-- Content area -->
             <div class="content">
-                @if($errors->any())
-                    <h4>{{$errors->first()}}</h4>
-                    @endif
+                @if (count($errors) > 0)
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 @yield('content')
 
                 <!-- Footer -->
