@@ -51,7 +51,7 @@ class ManageUserController extends Controller
 
         if($request->file('image') && $request->file('image')->isValid()) {
             $filename = str_random(10) .  '.' . $request->file('image')->getClientOriginalExtension();
-            Image::make($request->file('image'))->save(public_path() . '/user_avatars/' . $filename);
+            Image::make($request->file('image'))->resize(47,47)->save(public_path() . '/user_avatars/' . $filename);
             $user->image = 'http://postize.com/user_avatars/' . $filename;
         }
 
