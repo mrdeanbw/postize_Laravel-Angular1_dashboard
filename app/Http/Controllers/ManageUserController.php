@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ManageUserController extends Controller
 {
+    public function __construct() {
+        if(Auth::user()->type == 0) return redirect()->to('dashboard');
+    }
+
     public function getAddEditUser($userId = null)
     {
         $user = User::whereId($userId)->first();
