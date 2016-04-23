@@ -55,6 +55,7 @@ class ManageUserController extends Controller
             $user->image = 'http://postize.com/user_avatars/' . $filename;
         }
 
+        $user->name = $request->input('name', $user->name);
         $user->email = $request->input('email');
         $user->password = bcrypt($request->input('password'));
         $user->type = 0;

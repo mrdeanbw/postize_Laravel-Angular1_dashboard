@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', !empty($post) ? ' - Edit: ' . $user->name . ' (' . $user->email . ' )'  : ' - New User')
+@section('title', !empty($user) ? ' - Edit: ' . $user->name . ' (' . $user->email . ' )'  : ' - New User')
 
 @section('css')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
