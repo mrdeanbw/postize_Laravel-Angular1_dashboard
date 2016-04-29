@@ -28,6 +28,13 @@
 
 
     <link href="{{ asset('assets/front/css/style.css?v1.0.1') }}" rel="stylesheet" type="text/css">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-1766805469808808",
+            enable_page_level_ads: true
+        });
+    </script>
     <script>window.twttr = (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0],
                     t = window.twttr || {};

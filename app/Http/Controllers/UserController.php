@@ -11,7 +11,8 @@ class UserController extends Controller
 {
     public function getSettings() {
         return view('pages.users.user-settings')
-            ->with('user', Auth::user());
+            ->with('user', Auth::user())
+            ->with('postsThisMonth', Post::whereUserId(Auth::user()->getAuthIdentifier())->count());
     }
 
     public function postSettings(Request $request) {

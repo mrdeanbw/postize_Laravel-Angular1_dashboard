@@ -114,6 +114,23 @@
             </div>
         </div>
     </form>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-flat">
+                <div class="panel-heading">
+                    <h5 class="panel-title">Statistics</h5>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Posts This Month:</label>
+
+                        <label class="col-lg-3 control-label">{{ $postsThisMonth }}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js-bottom')
