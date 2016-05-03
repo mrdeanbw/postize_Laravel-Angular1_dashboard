@@ -20,6 +20,7 @@ class PostController extends Controller
 		
         $relatedPosts = Post::take(10)->get();
 		$post->blocks = unserialize(base64_decode($post->content));
+
         return view('pages.post')
             ->with('post', $post)
             ->with('relatedPosts', $relatedPosts)

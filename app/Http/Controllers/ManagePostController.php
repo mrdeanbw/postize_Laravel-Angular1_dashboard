@@ -158,11 +158,11 @@ class ManagePostController extends Controller
                     $newcontent = $nc;
                 }
 
-                if ($blocks[$i]->source && $blocks[$i]->sourceurl)
+                if (!empty($blocks[$i]->source) && !empty($blocks[$i]->sourceurl))
                     $newcontent .= "<span class='source'><span>via:</span> <a href='".$blocks[$i]->sourceurl."' target='_blank'>".$blocks[$i]->source."</a></span>";
-                elseif ($blocks[$i]->source && !$blocks[$i]->sourceurl)
+                elseif (!empty($blocks[$i]->source) && empty($blocks[$i]->sourceurl))
                     $newcontent .= "<span class='source'><span>via:</span> ".$blocks[$i]->source . "</span>";
-                elseif (!$blocks[$i]->source && $blocks[$i]->sourceurl)
+                elseif (empty($blocks[$i]->source) && !empty($blocks[$i]->sourceurl))
                     $newcontent .= "<span class='source'><span>via:</span> <a href='".$blocks[$i]->sourceurl."' target='_blank'>Source</a></span>";
 
                 // The below method extracts all image URLs from the content that are not on our domain
