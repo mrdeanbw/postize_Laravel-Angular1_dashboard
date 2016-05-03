@@ -114,12 +114,21 @@
                                 </div>
                             </div>
                             @endif
+
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Article word count:</label>
+
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" ng-model="PCTRL.totalWordCount" disabled>
+                                </div>
+                            </div>
+
                             <div class="text-right">
                                 <button type="submit" class="btn btn-primary legitRipple">Save Post<i
                                             class="icon-arrow-right14 position-right"></i></button>
                             </div>
-                        </div>
 
+                        </div>
                     </div>
 
                 <!-- /basic layout -->
@@ -210,7 +219,7 @@
 
                             <div class="col-md-12" ng-show="PCTRL.editor.active == 'text'">
                                 <text-angular
-                                        ta-toolbar="[['p'], ['h1','h2','h3'], ['bold','italics'], ['insertLink', 'quote']]"
+                                        ta-toolbar="[['p'], ['h1','h2','h3'], ['bold','italics'], ['insertLink', 'quote'], ['wordcount', 'charcount']]"
                                         ng-model="PCTRL.editor.text.content"></text-angular>
                                 <div class="panel-group panel-group-control panel-group-control-right content-group-lg"
                                      id="accordion-control-right">
@@ -359,6 +368,7 @@
                                 <text-angular
                                         ta-toolbar="[['p'], ['h1','h2','h3'], ['bold','italics'], ['insertLink', 'quote']]"
                                         ng-model="block.content"></text-angular>
+                                <h4>Word count: @{{block.content.split(" ").length}}</h4>
                             </div>
                             <div class="col-md-6">
                                 <h4>Preview</h4>

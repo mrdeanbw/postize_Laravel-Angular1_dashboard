@@ -103,6 +103,19 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
             jQuery(this).parent().toggleClass('open');
         });
 
+        vm.totalWordCount = 0;
+        $scope.$watch(angular.bind(vm, function () {
+            return vm.blocks;
+        }), function (newVal) {
+            vm.totalWordCount = 0;
+            for (var i = 0; i < vm.blocks.length; i++) {
+                if (vm.blocks[i].type != 'text')
+                    continue;
+
+                vm.totalWordCount += vm.blocks[i].content.split(" ").length;
+            }
+        }, true);
+
         vm.initAutosave();
     };
 
@@ -155,6 +168,7 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
             //attach order, for manual order changing
             var len = vm.blocks.length;
             vm.blocks[len - 1].position = len;
+            vm.blocks[len - 1].content+= "";
             vm.editor.text.content = "";
         } else if (vm.editor.active == 'image') {
             //image block creating

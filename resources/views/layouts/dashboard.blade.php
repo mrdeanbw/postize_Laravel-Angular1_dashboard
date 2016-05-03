@@ -68,7 +68,7 @@
         </ul>
 
         <div class="navbar-right">
-            <p class="navbar-text">Hello, {{ Auth::user()->name }}!</p>
+            <p class="navbar-text"><a href="{{url('logout')}}" style="color: #fff"><i class="icon-switch2"></i> Logout</a></p>
         </div>
     </div>
 </div>

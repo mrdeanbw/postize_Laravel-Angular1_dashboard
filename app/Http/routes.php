@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => ['auth.basic']], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', 'DashboardController@getDashboard');
     Route::get('dashboard/post/list', 'ManagePostController@getPostList');
     Route::post('dashboard/post/delete', 'ManagePostController@postDeletePost');
@@ -10,11 +10,21 @@ Route::group(['middleware' => ['auth.basic']], function () {
     Route::get('dashboard/user/list', 'ManageUserController@getUserList');
     Route::get('dashboard/user/{email?}', 'ManageUserController@getAddEditUser');
     Route::post('dashboard/user', 'ManageUserController@postSaveUser');
-    Route::post('dashboard/user', 'ManageUserController@postSaveUser');
 });
 
 Route::group(['middleware' => ['web']], function () {
 	Route::get('/', 'SiteController@getHome');
+
+    Route::get('login', 'Auth\AuthController@getLogin');
+    Route::post('login', 'Auth\AuthController@postLogin');
+
+    Route::get('password-reset', 'Auth\PasswordController@getEmail');
+    Route::post('password-reset', 'Auth\PasswordController@postEmail');
+
+    Route::get('password-set', 'Auth\PasswordController@getReset');
+    Route::post('password-set', 'Auth\PasswordController@postReset');
+
+    Route::get('logout', 'Auth\AuthController@getLogout');
 
     Route::get('search', 'SiteController@getSearch');
 
@@ -33,7 +43,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/category/{category}', 'SiteController@getCategoryPage');
 });
 
-Route::get('fsafsdfasdfasdfasdf', function() {
+/*Route::get('fsafsdfasdfasdfasdf', function() {
     $user = new \App\User();
     $user->name = 'Will Murray';
     $user->email = 'murraycian@hotmail.com';
@@ -62,5 +72,5 @@ Route::get('fsafsdfasdfasdfasdf', function() {
 
     echo 'done';
 });
-
+*/
 Route::get('{slug}/{userId?}', 'PostController@getPost');
