@@ -13,6 +13,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('dashboard/user/password', 'UserController@postUpdatePassword');
     Route::get('dashboard/user/{userId?}', 'ManageUserController@getAddEditUser');
     Route::post('dashboard/user/{userId?}', 'ManageUserController@postSaveUser');
+    Route::get('dashboard/analytics', 'AnalyticsController@getAnalytics');
 });
 
 Route::group(['middleware' => ['web']], function () {

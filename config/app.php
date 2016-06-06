@@ -160,6 +160,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
+        'Spatie\LaravelAnalytics\LaravelAnalyticsServiceProvider',
     ],
 
     /*
@@ -212,6 +213,7 @@ return [
         'HTML'  => Collective\Html\HtmlFacade::class,
         'Grids' => Nayjest\Grids\Grids::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'LaravelAnalytics' => 'Spatie\LaravelAnalytics\LaravelAnalyticsFacade',
     ],
 
 ];

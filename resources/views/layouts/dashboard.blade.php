@@ -116,6 +116,9 @@
                                     <li class="{{Request::is('dashboard/post') ? 'active' : ''}}"><a href="{{url('dashboard/post')}}">Add New Post</a></li>
                                 </ul>
                             </li>
+                            <li class="{{Request::is('dashboard/analytics') ? 'active' : ''}}"><a href="{{url('dashboard/analytics')}}"><i class="icon-home4"></i>
+                                    <span>Analytics</span></a></li>
+                            <li>
                             @if(Auth::user()->type == 1)
                                 <li>
                                     <a href="#"><i class="icon-user"></i> <span>Users</span></a>

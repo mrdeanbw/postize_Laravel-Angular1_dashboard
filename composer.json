@@ -13,7 +13,8 @@
         "nayjest/grids": "^1.1",
         "laravelcollective/html": "^5.2",
         "laracasts/utilities": "^2.1",
-        "jenssegers/agent": "^2.3"
+        "jenssegers/agent": "^2.3",
+        "spatie/laravel-analytics": "^1.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
