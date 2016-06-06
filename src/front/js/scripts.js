@@ -131,13 +131,13 @@
 			}
 		}
 
-		$('.share-buttons a').on('click', function(e) {
+		/*$('.share-buttons a').on('click', function(e) {
 			e.preventDefault();
 			var url = $(this).attr('href');
 
 			var w = window.open(url,'Share','width=550,height=400');
 			return false;
-		});
+		});*/
 
 		$('.load').on('click', function() {
 

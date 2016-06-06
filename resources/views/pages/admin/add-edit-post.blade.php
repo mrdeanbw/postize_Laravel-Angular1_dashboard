@@ -67,8 +67,8 @@
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Link:</label>
 
-                                    <a class="col-lg-9 control-label" href="{{url($post->slug)}}"
-                                       target="_blank">{{url($post->slug)}}</a>
+                                    <a class="col-lg-9 control-label" href="{{url($post->slug)}}?__preview=1"
+                                       target="_blank">View Post</a>
                                 </div>
                             @endif
                             <div class="form-group">
