@@ -15,14 +15,16 @@
         <meta property="og:title" content="{{ config('custom.app-name') }}">
     @endif
 
-    <meta property="og:description" content="{{$post->description or 'Sharable stories galore.' }}">
-    <meta property="og:image" content="{{ $post->image or ''}}">
-    <meta property="og:url" content="{{ !empty($post) ? url($post->slug) : Request::url() }}">
-    <meta property="og:site_name" content="{{ config('custom.app-name') }}">
-    <meta property="og:type" content="article">
-    <meta property="article:author" content="https://www.facebook.com/Postize"/>
-    <meta property="article:publisher" content="https://www.facebook.com/Postize"/>
-    <meta property="fb:app_id" content="1979088928983040"/>
+
+    <meta property="fb:pages" content="122223664476363" />
+    <meta property="og:description" content="{{$post->description or 'Sharable stories galore.' }}" />
+    <meta property="og:image" content="{{ $post->image or ''}}" />
+    <meta property="og:url" content="{{ !empty($post) ? url($post->slug) : Request::url() }}" />
+    <meta property="og:site_name" content="{{ config('custom.app-name') }}" />
+    <meta property="og:type" content="article" />
+    <meta property="article:author" content="https://www.facebook.com/Postize" />
+    <meta property="article:publisher" content="https://www.facebook.com/Postize" />
+    <meta property="fb:app_id" content="270047766678197" />
 
     <meta name="_token" content="{!! csrf_token() !!}"/>
 
