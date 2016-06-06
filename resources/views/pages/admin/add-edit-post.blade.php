@@ -67,8 +67,9 @@
                                 <div class="form-group">
                                     <label class="col-lg-3 control-label">Link:</label>
 
-                                    <a class="col-lg-9 control-label" href="{{url($post->slug)}}?__preview=1"
+                                    <a class="col-lg-9 control-label" href="{{url($post->slug)}}"
                                        target="_blank">View Post</a>
+
                                 </div>
                             @endif
                             <div class="form-group">
@@ -124,6 +125,8 @@
                             </div>
 
                             <div class="text-right">
+                                <a class="btn btn-success legitRipple" href="{{url($post->slug)}}?__preview=1">Preview Post<i
+                                            class="icon-arrow-right14 position-right"></i></a>
                                 <button type="submit" class="btn btn-primary legitRipple">Save Post<i
                                             class="icon-arrow-right14 position-right"></i></button>
                             </div>
