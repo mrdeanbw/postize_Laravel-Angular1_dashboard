@@ -241,7 +241,7 @@
                             </div>
 
                             <div class="col-md-12" ng-show="PCTRL.editor.active == 'image'">
-                                <div class="tabbable nav-tabs-vertical nav-tabs-left">
+                                <div class="tabbable">
                                     <ul class="nav nav-tabs nav-tabs-highlight">
                                         <li class="active"><a href="#left-tab1" data-toggle="tab"><i
                                                         class="icon-upload4 position-left"></i> Upload Images</a></li>
@@ -255,23 +255,38 @@
                                                    multiple="multiple" data-show-caption="false">
                                             <br><br>
                                             <div ng-repeat="t in PCTRL.editor.imageUpload.files" class="row">
-                                                <div class="col-md-3">@{{t.name}}</div>
-                                                <div class="col-md-4"><input class="form-control" placeholder="Source Name (e.g. Diply, Buzzfeed, Tumblr, Reddit/FunkyDog)"
-                                                                             ng-model="t.source"></div>
-                                                <div class="col-md-5"><input class="form-control"
-                                                                             placeholder="Link to source (e.g. http://website.com/cats-are-funny)"
-                                                                             ng-model="t.sourceurl"></div>
+                                                <div class="row">
+                                                    <div class="col-md-2"><input class="form-control" ng-model="t.name" disabled></div>
+                                                    <div class="col-md-2">
+                                                        <input class="form-control" placeholder="Image Title (optional)" ng-model="t.title">
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <textarea class="form-control" placeholder="Image Description (optional)" rows="5" ng-model="t.description"></textarea>
+                                                    </div>
+                                                    <div class="col-md-2"><input class="form-control" placeholder="Source Name (e.g. Diply, Buzzfeed, Tumblr, Reddit/FunkyDog)"
+                                                                                 ng-model="t.source"></div>
+                                                    <div class="col-md-3"><input class="form-control"
+                                                                                 placeholder="Link to source (e.g. http://website.com/cats-are-funny)"
+                                                                                 ng-model="t.sourceurl"></div>
+                                                </div>
                                             </div>
                                         </div>
 
                                         <div class="tab-pane has-padding" id="left-tab2">
-                                            <div ng-repeat="(i, t) in PCTRL.editor.imageLink.links" class="row">
-                                                <div class="col-md-4"><input class="form-control"
+                                            <div ng-repeat="(i, t) in PCTRL.editor.imageLink.links"  class="row">
+                                                <div class="col-md-2"><input class="form-control"
                                                                              placeholder="Link to image"
                                                                              ng-model="t.url"></div>
-                                                <div class="col-md-4"><input class="form-control" placeholder="Source"
+
+                                                <div class="col-md-2">
+                                                    <input class="form-control" placeholder="Image Title (optional)" ng-model="t.title">
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <textarea class="form-control" placeholder="Image Description (optional)" rows="5" ng-model="t.description"></textarea>
+                                                </div>
+                                                <div class="col-md-2"><input class="form-control" placeholder="Source"
                                                                              ng-model="t.source"></div>
-                                                <div class="col-md-3"><input class="form-control"
+                                                <div class="col-md-2"><input class="form-control"
                                                                              placeholder="Link to source"
                                                                              ng-model="t.sourceurl"></div>
                                                 <div class="col-md-1">
@@ -280,6 +295,7 @@
                                                             ng-click="PCTRL.editor.imageLink.links.splice(i, 1)"><i
                                                                 class="icon-cancel-circle2"></i></button>
                                                 </div>
+
                                             </div>
                                             <br>
                                             <button type="button" class="btn btn-primary" ng-click="PCTRL.addLinkImage()">Add New
@@ -381,6 +397,14 @@
                                 <h4>Edit</h4>
                                 <hr>
                                 <div class="form-group">
+                                    <label>Title:</label>
+                                    <input type="text" class="form-control" ng-model="block.title">
+                                </div>
+                                <div class="form-group">
+                                    <label>Description:</label>
+                                    <input type="text" class="form-control" ng-model="block.description">
+                                </div>
+                                <div class="form-group">
                                     <label>Image link:</label>
                                     <input type="text" class="form-control" ng-model="block.url">
                                 </div>
@@ -396,6 +420,8 @@
                             <div class="col-md-6">
                                 <h4>Preview</h4>
                                 <hr>
+                                <h2>@{{ block.title }}</h2>
+                                <p>@{{ block.description }}</p>
                                 <img class="img-responsive" style="max-height: 220px;" ng-src="@{{ block.url }}">
                                 <span ng-show="block.source && block.sourceurl">via: <a href="@{{block.sourceurl}}"
                                                                                         target="_blank">@{{ block.source }}</a></span>

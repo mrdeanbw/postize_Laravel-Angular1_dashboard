@@ -149,13 +149,21 @@ class ManagePostController extends Controller
                 $newcontent = $blocks[$i]->content;
             }
             elseif ($blocks[$i]->type == "image") {
+                $newcontent = "";
+
+                if (!empty($blocks[$i]->title))
+                    $newcontent .= "<h2>" . $blocks[$i]->title . "</h2>";
+
+                if (!empty($blocks[$i]->description))
+                    $newcontent .= "<p>" . $blocks[$i]->description . "</p>";
+
                 $nc = '<img src="'.$blocks[$i]->url.'" >';
                 $transformed = $postTransformer->handleContentExternalUrls($nc, $post->id);
                 if ($transformed) {
-                    $newcontent = $transformed[0];
+                    $newcontent .= $transformed[0];
                     $blocks[$i]->url = $transformed[1];
                 } else {
-                    $newcontent = $nc;
+                    $newcontent .= $nc;
                 }
 
                 if (!empty($blocks[$i]->source) && !empty($blocks[$i]->sourceurl))

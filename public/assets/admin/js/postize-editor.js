@@ -33,7 +33,7 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
                 files: []
             },
             imageLink: {
-                links: [{url: "", source: "", sourceurl: ""}]
+                links: [{title: "", description: "", url: "", source: "", sourceurl: ""}]
             },
             embed: {
                 content: "",
@@ -220,8 +220,10 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
                                     vm.blocks.push({
                                         type: "image",
                                         url: response.url,
+                                        title: all_files[uid].title,
+                                        description: all_files[uid].description,
                                         source: all_files[uid].source,
-                                        sourceurl: all_files[uid].sourceurl
+                                        sourceurl: all_files[uid].sourceurl,
                                     });
                                     //attach order, for manual order changing
                                     var len = vm.blocks.length;
@@ -274,6 +276,8 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
                     vm.blocks.push({
                         type: "image",
                         url: vm.editor.imageLink.links[i].url,
+                        title: vm.editor.imageLink.links[i].title,
+                        description: vm.editor.imageLink.links[i].description,
                         source: vm.editor.imageLink.links[i].source,
                         sourceurl: vm.editor.imageLink.links[i].sourceurl
                     });
