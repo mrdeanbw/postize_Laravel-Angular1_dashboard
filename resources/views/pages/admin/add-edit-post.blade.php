@@ -149,7 +149,7 @@
                         </div>
                         <div ng-show="!PCTRL.post.id || PCTRL.showThmbEditor">
                             <div class="uploader">
-                                <input type="file" class="file-styled" id="canvasImageUpload">
+                                <input type="file" class="file-styled" id="canvasImageUpload" multiple>
                                 <span class="action btn bg-pink-400 legitRipple" style="-webkit-user-select: none;">Choose File</span>
                             </div>
                             <span class="help-block">Accepted formats: gif, png, jpg. Max file size 2Mb. Accepts between 1 to 4 images. Result thumbnail dimensions will be 1200x630px</span>
@@ -254,9 +254,9 @@
                                             <input id="editorFileInput" type="file" class="file-input"
                                                    multiple="multiple" data-show-caption="false">
                                             <br><br>
-                                            <div ng-repeat="t in PCTRL.editor.imageUpload.files" class="row">
+                                            <div ng-repeat="(i, t) in PCTRL.editor.imageUpload.files" class="row">
                                                 <div class="row">
-                                                    <div class="col-md-2"><input class="form-control" ng-model="t.name" disabled></div>
+                                                    <div class="col-md-2"><img ng-src="@{{ PCTRL.imagePreview[i] }}" ng-show="PCTRL.imagePreview[i]" class="img-responsive"></div>
                                                     <div class="col-md-2">
                                                         <input class="form-control" placeholder="Image Title (optional)" ng-model="t.title">
                                                     </div>
@@ -274,7 +274,10 @@
 
                                         <div class="tab-pane has-padding" id="left-tab2">
                                             <div ng-repeat="(i, t) in PCTRL.editor.imageLink.links"  class="row">
-                                                <div class="col-md-2"><input class="form-control"
+                                                <div class="col-md-1">
+                                                    <img ng-src="@{{ t.url }}" ng-show="t.url" class="img-responsive">
+                                                </div>
+                                                <div class="col-md-1"><input class="form-control"
                                                                              placeholder="Link to image"
                                                                              ng-model="t.url"></div>
 
@@ -402,7 +405,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Description:</label>
-                                    <input type="text" class="form-control" ng-model="block.description">
+                                    <textarea class="form-control" ng-model="block.description" rows="5"> </textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Image link:</label>

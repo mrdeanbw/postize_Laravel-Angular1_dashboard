@@ -38,3 +38,7 @@
 #PostizeEditor .dropdown-menu {
     min-width: 250px;
 }
+
+.file-preview {
+    display: none !important;
+}

@@ -21,6 +21,7 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
     };
 
     vm.init = function () {
+        vm.imagePreview = [];
         //passed from laravel, ManagePostController@postAddEditPost
         vm.post = Postize.post ? Postize.post : {title: "", description: ""};
         vm.blocks = Postize.blocks;
@@ -60,6 +61,19 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
         jQuery('#editorFileInput').on('change fileclear', function () {
             $scope.$apply(function () {
                 vm.editor.imageUpload.files = document.getElementById('editorFileInput').files;
+                for (var i=0; i< vm.editor.imageUpload.files.length; i++) {
+                    var reader = new FileReader();
+                    reader.IMGNR = i;
+
+                    reader.onload = function (e) {
+                        var i = this.IMGNR;
+                        $scope.$apply(function () {
+                            vm.imagePreview[i] = e.target.result;
+                        });
+                    };
+
+                    reader.readAsDataURL(vm.editor.imageUpload.files[i]);
+                }
             });
         });
 
@@ -548,27 +562,30 @@ var ThumbnailGenerator = new function () {
 
         //image upload
         document.getElementById('canvasImageUpload').onchange = function (e) {
-            if (self.images.length == 4) {
+            if (self.images.length + e.target.files.length > 4) {
                 jQuery.jGrowl('You can have up to 4 images.', {
                     header: 'Error',
                     theme: 'bg-danger'
                 });
                 return;
             }
-            var reader = new FileReader();
-            reader.readAsDataURL(e.target.files[0]);
+            for (var i=0; i<e.target.files.length;i++ ) {
+                var reader = new FileReader();
+                reader.readAsDataURL(e.target.files[i]);
 
-            reader.onload = function (event) {
-                var imgObj = new Image();
-                imgObj.src = event.target.result;
-                imgObj.onload = function () {
-                    //self.updateModifications(true);
-                    var image = new fabric.Image(imgObj);
-                    self.images.push(image);
-                    self.canvas.add(image);
-                    self.drawLines();
+                reader.onload = function (event) {
+                    var imgObj = new Image();
+                    imgObj.src = event.target.result;
+                    imgObj.onload = function () {
+                        //self.updateModifications(true);
+                        var image = new fabric.Image(imgObj);
+                        self.images.push(image);
+                        self.canvas.add(image);
+                        self.drawLines();
+                    };
                 };
-            };
+            }
+            document.getElementById('canvasImageUpload').value = "";
         };
         self.canvas.on('object:modified', function (ev) {
             if (ev.target != self.cropEl && self.undoredo != true) {
