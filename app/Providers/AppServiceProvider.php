@@ -47,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('pages.post', function($view) {
             view()->share('page', 'post');
+            $view->with('nextPost', Post::with('author')->with('category')->where('id', '!=', $view->post->id)->where('status', 1)->orderByRaw(DB::raw('RAND()'))->take(1)->first());
         });
     }
 

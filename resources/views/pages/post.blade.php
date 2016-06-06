@@ -63,11 +63,11 @@
 
                     {{--<div class="tags">
                         <span>Topics</span>
-                        <a href="">Candy maker</a>
-                        <a href="">Confectioner</a>
-                        <a href="">Guinnes World Records</a>
-                        <a href="">Holocaust survivor</a>
-                        <a href="">Israel</a>
+                        <a href=""></a>
+                        <a href=""></a>
+                        <a href=""></a>
+                        <a href=""></a>
+                        <a href=""></a>
                     </div>--}}
                     <?php $imagesShown = 0; $adShown = false; ?>
                     @for($i = 0; $i < count($post->blocks); $i++)
@@ -79,6 +79,7 @@
 
                         @if($imagesShown == 2 && !$adShown)
                             <?php $adShown = true; ?>
+                            @if(!$preview)
                             <div class="row">
                                 <div class="ad-content">
                                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -92,81 +93,68 @@
                                     <span class="ad-disclaimer">ADVERTISEMENT</span>
                                 </div>
                             </div>
+                                @endif
                         @endif
                     @endfor
 
+                    <div class="row">
+                        <div class="ad-content">
+                            @if(!$preview)
+                                @if($mobile)
+                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                    <ins class="adsbygoogle"
+                                         style="display:inline-block;width:300px;height:250px"
+                                         data-ad-client="ca-pub-1766805469808808"
+                                         data-ad-slot="9667310973"></ins>
+                                    <script>
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+
+                                @else
+                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                    <ins class="adsbygoogle"
+                                         style="display:inline-block;width:728px;height:90px"
+                                         data-ad-client="ca-pub-1766805469808808"
+                                         data-ad-slot="2177946578"></ins>
+                                    <script>
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+                                @endif
+                                <span class="ad-disclaimer">ADVERTISEMENT</span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="row share-buttons big">
+                        <a href="{{url($nextPost->slug)}}" class="row next-post">
+                            <svg>
+                                <use xlink:href="#svg-postize-logo-letter"></use>
+                            </svg>
+                            <span>Next Article&nbsp;&nbsp;&nbsp;>></span>
+                        </a>
+                    </div>
+
                     <div class="row share-buttons big">
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}"
-                           class="row facebook">
+                           class="row facebook" target="_blank">
                             <svg>
                                 <use xlink:href="#svg-facebook"></use>
                             </svg>
                             <span>Share On Facebook</span>
                         </a>
-                        <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}"
-                           class="row twitter">
-                            <svg>
-                                <use xlink:href="#svg-twitter"></use>
-                            </svg>
-                            <span>Share On Twitter</span>
-                        </a>
-                    </div>
 
-                    <div class="row">
-                        <div class="ad-content">
-                            @if($mobile)
-                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                <ins class="adsbygoogle"
-                                     style="display:inline-block;width:300px;height:250px"
-                                     data-ad-client="ca-pub-1766805469808808"
-                                     data-ad-slot="9667310973"></ins>
-                                <script>
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
-                                </script>
-
-                            @else
-                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                <ins class="adsbygoogle"
-                                     style="display:inline-block;width:728px;height:90px"
-                                     data-ad-client="ca-pub-1766805469808808"
-                                     data-ad-slot="2177946578"></ins>
-                                <script>
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
-                                </script>
-                            @endif
-                            <span class="ad-disclaimer">ADVERTISEMENT</span>
-                        </div>
+                        @if(!$mobile)
+                            <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}"
+                               class="row twitter" target="_blank">
+                                <svg>
+                                    <use xlink:href="#svg-twitter"></use>
+                                </svg>
+                                <span>Share On Twitter</span>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </article>
-
-            {{--<div class="siblings row">
-                <div class="pn">
-                    <a href="">
-                        <span class="p">Previous Post</span>
-
-                        <div class="row">
-                            <figure>
-                                <img src="assets/front/img/thumb300.jpg" alt="">
-                            </figure>
-                            <h2>Amazon Will Be Opening Their Second Amazon</h2>
-                        </div>
-                    </a>
-                </div>
-                <div class="pn">
-                    <a href="">
-                        <span class="n">Next Post</span>
-
-                        <div class="row">
-                            <figure>
-                                <img src="assets/front/img/thumb300.jpg" alt="">
-                            </figure>
-                            <h2>Physical Bookstore In San Diego Physical</h2>
-                        </div>
-                    </a>
-                </div>
-            </div>--}}
-
         </section>
         <section>
             <div id="rcjsload_c437be"></div>
@@ -225,25 +213,7 @@
 
         <div class="sticky">
             <div class="add">
-                <div id="rcjsload_3bbf6e"></div>
-                <script type="text/javascript">
-                    (function () {
-                        var referer = "";
-                        try {
-                            if (referer = document.referrer, "undefined" == typeof referer)throw"undefined"
-                        } catch (exception) {
-                            referer = document.location.href, ("" == referer || "undefined" == typeof referer) && (referer = document.URL)
-                        }
-                        referer = referer.substr(0, 700);
-                        var rcel = document.createElement("script");
-                        rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
-                        rcel.type = 'text/javascript';
-                        rcel.src = "http://trends.revcontent.com/serve.js.php?w=17088&t=" + rcel.id + "&c=" + (new Date()).getTime() + "&width=" + (window.outerWidth || document.documentElement.clientWidth) + "&referer=" + referer;
-                        rcel.async = true;
-                        var rcds = document.getElementById("rcjsload_3bbf6e");
-                        rcds.appendChild(rcel);
-                    })();
-                </script>
+
             </div>
             {{--@include('partials.subscribe')--}}
         </div>
@@ -257,4 +227,11 @@
             font-weight: bold
         }
     </style>
-@endsection  
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.content iframe').each(function() {
+                $(this).attr('width', '100%')
+            })
+        });
+    </script>
+@endsection
