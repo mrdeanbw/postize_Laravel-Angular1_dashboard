@@ -123,10 +123,10 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
         }), function (newVal) {
             vm.totalWordCount = 0;
             for (var i = 0; i < vm.blocks.length; i++) {
-                if (vm.blocks[i].type != 'text')
-                    continue;
-
-                vm.totalWordCount += vm.blocks[i].content.split(" ").length;
+                if (vm.blocks[i].type == 'text')
+                    vm.totalWordCount += vm.blocks[i].content.split(" ").length;
+                else if (vm.blocks[i].type == 'image')
+                    vm.totalWordCount += vm.blocks[i].title.split(" ").length + vm.blocks[i].description.split(" ").length;
             }
         }, true);
 
