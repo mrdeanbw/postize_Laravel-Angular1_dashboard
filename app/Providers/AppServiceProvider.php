@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
         });
         view()->composer('partials.sidebar-articles', function($view)
         {
-            $view->with('posts', Post::with('author')->with('category')->where('status', 1)->orderByRaw(DB::raw('RAND()'))->take(3)->get());
+            $view->with('posts', Post::with('author')->with('category')->where('status', 1)->orderByRaw(DB::raw('RAND()'))->take(12)->get());
         });
 
         view()->share('page', 'page');
