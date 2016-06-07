@@ -125,8 +125,10 @@
                             </div>
 
                             <div class="text-right">
+                                @if(!$empty($post))
                                 <a class="btn btn-success legitRipple" href="{{url($post->slug)}}?__preview=1">Preview Post<i
                                             class="icon-arrow-right14 position-right"></i></a>
+                                @endif
                                 <button type="submit" class="btn btn-primary legitRipple">Save Post<i
                                             class="icon-arrow-right14 position-right"></i></button>
                             </div>
