@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\PostStatus;
 use Symfony\Component\HttpFoundation\Request;
 
 class SiteController extends Controller
@@ -31,7 +32,7 @@ class SiteController extends Controller
     }
 
     public function getSearch(Request $request) {
-        $posts = Post::where('title', 'like', '%' . $request->input('s') . '%')->get();
+        $posts = Post::whereStatus(PostStatus::Enabled)->where('title', 'like', '%' . $request->input('s') . '%')->get();
 
         return view('pages.search-results')->with('posts', $posts);
     }
