@@ -193,7 +193,7 @@
         <section>
             <h1 class="section-heading">Next Post</h1>
 
-            <article class="item item--big next-post {{ strtolower($post->category->name) }}" id="next-post">
+            <article class="item item--big next-post {{ strtolower($nextPost->category->name) }}" id="next-post">
                 <div class="item__image-holder">
                     <a href="{{url($nextPost->slug)}}" class="image" id="next-post-url">
                         <figure>
@@ -218,21 +218,21 @@
                     </div>
                 </div>
                 <div class="info">
-                    <a href="{{url($post->slug)}}">
-                        <h1>{{$post->title}}</h1>
+                    <a href="{{url($nextPost->slug)}}">
+                        <h1>{{$nextPost->title}}</h1>
                     </a>
-                    <p>{{$post->description}}</p>
+                    <p>{{$nextPost->description}}</p>
                     <div class="meta-holder">
                         <div class="meta">
                             <figure class="avatar">
-                                <img src="{{$post->author->image}}" alt="">
+                                <img src="{{$nextPost->author->image}}" alt="">
                             </figure>
-                            <div>by <a href="{{url($post->slug)}}" class="author">{{$post->author->name}}</a> on
-                                <span class="date">{{ DateTime::createFromFormat('Y-m-d H:i:s', $post->created_at)->format('jS F, Y') }}</span></div>
+                            <div>by <a href="{{url($nextPost->slug)}}" class="author">{{$nextPost->author->name}}</a> on
+                                <span class="date">{{ DateTime::createFromFormat('Y-m-d H:i:s', $nextPost->created_at)->format('jS F, Y') }}</span></div>
                             </div>
                             {{-- <a href="{{url($post->slug)}}" class="btn">Read more</a> --}}
                             <div class="row share-buttons small">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}" target="_blank"
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{url($nextPost->slug)}}" target="_blank"
                                  class="row facebook">
                                  <div>
                                     <svg>
@@ -241,7 +241,7 @@
                                 </div>
                                 <span>Share</span>
                             </a>
-                            <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}"
+                            <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($nextPost->slug)}}"
                              class="row twitter">
                              <div>
                                 <svg>
@@ -253,7 +253,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ url('category/' . strtolower($post->category->name)) }}" class="category">{{ $post->category->name }}</a>
+            <a href="{{ url('category/' . strtolower($nextPost->category->name)) }}" class="category">{{ $nextPost->category->name }}</a>
 
         </article>
         </section>
