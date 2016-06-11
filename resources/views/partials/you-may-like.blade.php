@@ -12,7 +12,7 @@
             </a>
 
             <div class="meta">
-            	<div>by <a href="{{url($post->slug)}}" class="author"> {{$post->author->name}}</a> on
+            	<div>by <span class="author"> {{$post->author->name}}</span> on
                 <span class="date"> {{ (new DateTime($post->created_at))->format('m M, Y') }}</span></div>
             </div>
         </div>

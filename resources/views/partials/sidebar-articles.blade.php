@@ -1,5 +1,5 @@
-@foreach($posts as $post)
 <div class="articles">
+	@foreach($posts as $post)
 	<article class="item {{ strtolower($post->category->name) }}">
 		<a href="{{url($post->slug)}}" class="image">
 			<figure>
@@ -9,5 +9,5 @@
 		</a>
         <a href="{{ url('category/' . strtolower($post->category->name)) }}" class="category">{{ $post->category->name }}</a>
 	</article>
+	@endforeach
 </div>
-@endforeach

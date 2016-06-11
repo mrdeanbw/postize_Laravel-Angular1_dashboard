@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use Symfony\Component\HttpFoundation\Request;
+use View;
 
 class SiteController extends Controller
 {
     public function getHome() {
         $posts = Post::with('author')->with('category')->take(20)->get();
+
         return view('pages.page', compact($posts));
     }
 
@@ -25,6 +27,8 @@ class SiteController extends Controller
         if(!$category) {
             return view('404');
         }
+
+        View::share('current_category', strtolower($category->name));
 
         return view('pages.page')
             ->with('category', $category);

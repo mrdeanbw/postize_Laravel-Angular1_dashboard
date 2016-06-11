@@ -7,13 +7,14 @@ use App\Models\PostStatus;
 use Agent;
 use Auth;
 use Illuminate\Http\Request;
+use View;
 
 class PostController extends Controller
 {
     public function getPost($slug, Request $request)
     {
         $preview = $request->get('__preview') == 1;
-        $post = Post::where('slug', $slug);
+        $post = Post::where('slug', $slug)->with('category');
 
         if(!$preview || !Auth::check()) {
             $post->whereStatus(PostStatus::Enabled);
@@ -25,7 +26,9 @@ class PostController extends Controller
             return view('errors.404');
         }
 
-        $relatedPosts = Post::where('id', '!=', $post->id)->whereStatus(PostStatus::Enabled)->take(10)->get();
+        View::share('current_category', strtolower($post->category->name));
+
+        $relatedPosts = Post::where('id', '!=', $post->id)->whereStatus(PostStatus::Enabled)->take(3)->get();
 		$post->blocks = unserialize(base64_decode($post->content));
 
         return view('pages.post')

@@ -50,16 +50,30 @@
 				return;
 			}
 
-			var pWidth = width - 315; // 315: Sidebar + 15px margin
-			var hWidth = width - 456; // 456: Logo + Sidebar + 15px margin
-			var postHeaderWidth = width - 341; // 341: Logo small + Sidebar + 15px margin
+			var pWidth = width - 330; // 315: Sidebar + 30px margin
+			var hWidth = width - 471; // 456: Logo + Sidebar + 30px margin
+			var postHeaderWidth = width - 356; // 341: Logo small + Sidebar + 30px margin
 
-			/* jshint ignore:start */
-			$('.sticky').stick_in_parent({
-				parent: "body",
-				offset_top: 80
-			});
-			/* jshint ignore:end */
+			if ( $(window).width() > 800 ) {
+				var isWebkit = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+				var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+
+				/* jshint ignore:start */
+				if ( isWebkit || isSafari ) {
+					$('.sticky').stick_in_parent({
+						parent: $("#container"),
+						offset_top: 80
+					});
+				} else {
+					$('.sticky').stick_in_parent({
+						container: $("#container"),
+						offset_top: 80
+					});
+				}
+				/* jshint ignore:end */
+			} else {
+				$('.sticky').removeAttr('style');
+			}
 
 			$('.page').css({width:pWidth}); 
 			$('.resize').css({width:hWidth});
@@ -73,6 +87,7 @@
 		$(document).on('click', '.more', function () {
 			$('.modal').toggleClass('animate');
 			$('.arrow').toggleClass('animate');
+			$('.more').toggleClass('active');
 		});
 
 		$(document).on('click', '.show-search', function () {
@@ -131,13 +146,13 @@
 			}
 		}
 
-		/*$('.share-buttons a').on('click', function(e) {
+		$('.share-buttons a').on('click', function(e) {
 			e.preventDefault();
 			var url = $(this).attr('href');
 
 			var w = window.open(url,'Share','width=550,height=400');
 			return false;
-		});*/
+		});
 
 		$('.load').on('click', function() {
 
@@ -164,7 +179,116 @@
 		});
 
 		var slc = new SelectDecorator('select');
-	});
- 
 
+		timeoutButton();
+
+	});
+
+	function timeoutButton()
+	{
+		var stroke = document.querySelector('.stroke');
+		var length = stroke.getTotalLength();
+
+		// This logs the stroke lenght to the (devtools) console when run
+		// console.log(length);
+
+		// This sets the strokes dasharray and offset to be exactly the length of the stroke
+		// stroke.style.strokeDasharray = length;
+		// stroke.style.strokeDashoffset = length;
+
+		// Toggle the animation-play-state of the ".stroke" on clicking the ".icon" -container
+		var animationDiv = document.querySelector('.stroke');
+		var clickDiv = document.querySelector('.play-btn');
+		var play = document.querySelector('.play');
+		var pause = document.querySelector('.pause');
+
+		var isPausedByUser = false;
+
+		// prefixer helper function
+		var pfx = ['webkit', 'moz', 'MS', 'o', ''];
+		function prefixedEventListener(element, type, callback) {
+		    for (var p = 0; p < pfx.length; p++) {
+		        if (!pfx[p]) type = type.toLowerCase();
+		        element.addEventListener(pfx[p]+type, callback, false);
+		    }
+		}
+
+		function hasClass(element, cls) {
+			return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+		}
+
+		$(document).scroll(function()
+		{
+			console.log(isPausedByUser);
+
+			if (isPausedByUser)
+				return;
+
+			if ( $('#next-post').isOnScreen() )
+			{
+				animationDiv.setAttribute('class', 'stroke animate');
+				play.classList.add('hidden');
+				pause.classList.remove('hidden');
+				animationDiv.style.webkitAnimationPlayState = 'running';
+				animationDiv.style.animationPlayState = 'running';
+			}
+			else
+			{	
+				animationDiv.style.webkitAnimationPlayState = 'paused';
+				animationDiv.style.animationPlayState = 'paused';
+				animationDiv.setAttribute('class', 'stroke reset');  
+				pause.classList.add('hidden'); 
+				play.classList.remove('hidden'); 
+			} 
+		});
+
+		clickDiv.addEventListener('click', function() {
+			if (
+				animationDiv.style.webkitAnimationPlayState === 'paused' || 
+				animationDiv.style.webkitAnimationPlayState === '' || 
+				animationDiv.style.animationPlayState === 'paused' || 
+				animationDiv.style.animationPlayState === '')
+			{
+				play.classList.add('hidden');
+				pause.classList.remove('hidden');
+				animationDiv.style.webkitAnimationPlayState = 'running';
+				animationDiv.style.animationPlayState = 'running';
+				isPausedByUser = false;
+			}
+			else if (animationDiv.style.webkitAnimationPlayState === 'running' || animationDiv.style.animationPlayState === 'running')
+			{
+				pause.classList.add('hidden');
+				play.classList.remove('hidden');
+		    	animationDiv.style.webkitAnimationPlayState = 'paused';
+		    	animationDiv.style.animationPlayState = 'paused';
+		    	isPausedByUser = true;
+			}
+		});
+
+		prefixedEventListener(animationDiv,'AnimationEnd',function(e)
+		{
+			var link = $('#next-post-url').attr('href');
+			window.location.href = link; 
+		});
+	}
+
+	$.fn.isOnScreen = function(){
+
+		var win = $(window); 
+
+		var viewport = {
+			top : win.scrollTop(),
+			left : win.scrollLeft()
+		};
+		viewport.right = viewport.left + win.width();
+		viewport.bottom = viewport.top + win.height();
+
+		var bounds = this.offset();
+		bounds.right = bounds.left + this.outerWidth();
+		bounds.bottom = bounds.top + this.outerHeight();
+
+		return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+
+	};
+ 
 })(jQuery);

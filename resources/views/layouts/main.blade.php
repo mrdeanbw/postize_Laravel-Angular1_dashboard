@@ -84,10 +84,38 @@
 @include('partials.mobile-menu')
 
 <main class="site">
-    <div class="container wrapper">
+    <div class="container wrapper" id="container">
 
         @yield('content')
 
+    </div>
+
+    <div class="wrapper">
+        
+        @if ( $page == 'page' )
+            <h1 class="section-heading">You may also like:</h1>
+
+            <div class="articles fill-content">
+                @include('partials.you-may-like')
+            </div>
+
+            {{-- Load related posts of different categories
+            <span href="" class="btn load" data-action="you-may-like" data-category="0">Load more</span>
+            --}}
+        @endif
+
+        @if ( $page == 'post' )
+            <h1 class="section-heading">Related stories:</h1>
+
+            <div class="articles fill-content">
+                @include('partials.related')
+            </div>
+
+            {{-- Load related posts of the same category
+            <span href="" class="btn load" data-action="related" data-category="1">Load more</span>
+            --}}
+        @endif
+        
     </div>
 
     @include('partials.footer')

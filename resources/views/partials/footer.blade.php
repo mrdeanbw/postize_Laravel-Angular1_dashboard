@@ -8,10 +8,10 @@
         </section>
         <aside>
             <nav class="nav nav--footer">
-                <a href="{{ url('/terms') }}" class="active">Terms &amp; Conditions</a>
-                <a href="{{ url('/privacy') }}" >Privacy Policy</a>
-                <a href="{{ url('/copyright') }}" >DMCA Removal</a>
-                <a href="{{ url('/contact') }}" >Contact us</a>
+                <a href="{{ url('/terms') }}" @if ( $current_page == 'terms') class="active" @endif>Terms &amp; Conditions</a>
+                <a href="{{ url('/privacy') }}" @if ( $current_page == 'privacy') class="active" @endif>Privacy Policy</a>
+                <a href="{{ url('/copyright') }}" @if ( $current_page == 'copyright') class="active" @endif>DMCA Removal</a>
+                <a href="{{ url('/contact') }}" @if ( $current_page == 'contact') class="active" @endif>Contact us</a>
             </nav>
             <div class="social">
                 <a href="https://facebook.com/Postize" class="facebook"><svg><use xlink:href="#svg-facebook"></use></svg></a>

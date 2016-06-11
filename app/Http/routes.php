@@ -1,5 +1,11 @@
 <?php
 
+use View;
+
+View::share('current_category', '');
+View::share('current_page', '');
+
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', 'DashboardController@getDashboard');
     Route::get('dashboard/post/list', 'ManagePostController@getPostList');
@@ -33,16 +39,28 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('search', 'SiteController@getSearch');
 
     Route::get('terms', function () {
+        View::share('page', 'landing');
+        View::share('current_page', 'terms');
         return view('pages.terms');
     });
     Route::get('privacy', function () {
+        View::share('page', 'landing');
+        View::share('current_page', 'privacy');
         return view('pages.privacy');
     });
     Route::get('copyright', function () {
+        View::share('page', 'landing');
+        View::share('current_page', 'copyright');
         return view('pages.copyright');
     });
     Route::get('contact', function () {
+        View::share('page', 'landing');
+        View::share('current_page', 'contact');
         return view('pages.contact');
+    });
+    Route::get('404', function () {
+        View::share('page', '404');
+        return view('errors.404');
     });
     Route::get('/category/{category}', 'SiteController@getCategoryPage');
 });
