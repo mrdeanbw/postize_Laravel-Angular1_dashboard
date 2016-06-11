@@ -86,14 +86,6 @@ class PostTransformer
             return strpos($imageUrl, 'youtube.com') === false && strpos($imageUrl, 'iframe') === false;
         });
 
-        /*$youtubeUrlsToConvertToEmbed = collect($matches[0])->filter(function ($imageUrl) {
-            return strpos($imageUrl, 'iframe') !== false;
-        });
-
-        foreach($youtubeUrlsToConvertToEmbed as $youtubeUrl) {
-            $content = str_replace($youtubeUrl, $this->convertYoutube($youtubeUrl), $content);
-        }*/
-
         foreach ($imageUrlsToScrape as $imageUrl) {
             $imageUrl = trim(substr($imageUrl, 5), '"'); // 5 = the length of src="
             if (strpos($imageUrl, 'postize') !== false) {
@@ -106,8 +98,8 @@ class PostTransformer
                 File::makeDirectory($imageBasePath . $imageDatesPath, 0755, true);
             }
 
+            $filename = $imageDatesPath . Extensions::getChars(6) . '_' . $postId . '.' . (new \SplFileInfo(preg_replace('/\?.*/', '', $imageUrl)))->getExtension();
 
-            $filename = $imageDatesPath . Extensions::getChars(6) . '_' . $postId . '.' . (new \SplFileInfo($imageUrl))->getExtension();
             try {
                 //Image::make($imageUrl)->save($imageBasePath . $filename);
                 $file = fopen($imageBasePath . $filename, 'w+');
@@ -132,7 +124,7 @@ class PostTransformer
                 \Log::info('ManagePostController::handleContentExternalUrls: Unable to scrape image: ' . $imageUrl . ' - Exception: ' . $e->getMessage());
                 return $content;
             }
-            $content = str_replace('src="' . $imageUrl, 'src="' . UrlHelpers::getContentLink($filename), $content);
+            $content = '<img src="' . UrlHelpers::getContentLink($filename) . '" />';
         }
 
         return [$content, UrlHelpers::getContentLink($filename)];
