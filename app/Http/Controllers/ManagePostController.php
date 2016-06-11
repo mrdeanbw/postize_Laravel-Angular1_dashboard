@@ -110,14 +110,11 @@ class ManagePostController extends Controller
             if ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() && Auth::user()->type == 0) {
                 return redirect()->to('dashboard/post/list');
             }
-            //Log::info('Updating Post ID ' . $post->id . ' - current values are ' . Extensions::varDumpToString($post));
 
             if ($request->input('status') == PostStatus::Deleted && $post['status'] != PostStatus::Deleted) {
                 $post['deleted_at'] = Extensions::getDate();
-                Log::info('Deleted Post ID ' . $post->id);
             } else if ($request->input('status') != PostStatus::Deleted && $post['status'] == PostStatus::Deleted) {
                 $post['deleted_at'] = null;
-                Log::info('Undeleted ' . $post->id);
             }
 
             $post['status'] = $request->input('status');
@@ -172,9 +169,6 @@ class ManagePostController extends Controller
                     $newcontent .= "<span class='source'><span>via:</span> ".$blocks[$i]->source . "</span>";
                 elseif (empty($blocks[$i]->source) && !empty($blocks[$i]->sourceurl))
                     $newcontent .= "<span class='source'><span>via:</span> <a href='".$blocks[$i]->sourceurl."' target='_blank'>Source</a></span>";
-
-                // The below method extracts all image URLs from the content that are not on our domain
-                // So that we can download them to our own server rather than hotlinking
             }
 
             array_push($content, $newcontent);
