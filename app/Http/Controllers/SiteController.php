@@ -11,7 +11,7 @@ use View;
 class SiteController extends Controller
 {
     public function getHome() {
-        $posts = Post::with('author')->with('category')->take(20)->get();
+        $posts = Post::with('author')->with('category')->whereStatus(PostStatus::Enabled)->orderBy('id', 'desc')->take(20)->get();
 
         return view('pages.page', compact($posts));
     }
@@ -26,7 +26,7 @@ class SiteController extends Controller
     public function getCategoryPage($category) {
         $category = Category::where('name', $category)->first();
         if(!$category) {
-            return view('404');
+            \App::abort(404);
         }
 
         View::share('current_category', strtolower($category->name));
@@ -36,7 +36,7 @@ class SiteController extends Controller
     }
 
     public function getSearch(Request $request) {
-        $posts = Post::whereStatus(PostStatus::Enabled)->where('title', 'like', '%' . $request->input('s') . '%')->get();
+        $posts = Post::whereStatus(PostStatus::Enabled)->where('title', 'like', '%' . $request->input('s') . '%')->orderBy('id', 'desc')->take(10)->get();
 
         return view('pages.search-results')->with('posts', $posts);
     }

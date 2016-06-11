@@ -6,14 +6,12 @@
     <section class="content center">
         <h1 class="section-heading big">404</h1>
 
-        <h2>There is nothing here.</h2>
-
-        <img src="{!! asset('assets/front/img/404.gif') !!}" alt="">
+        <h2>Page Not Found</h2>
 
     </section>
 
     <section class="content center">
-        <h2>You may like some of the top posts on Postize.com</h2>
+        <h2>Maybe you can find something even better than where you were trying to go. Check out our top stories below.</h2>
 
         <div class="articles articles--search">
             @include('partials.top-stories')

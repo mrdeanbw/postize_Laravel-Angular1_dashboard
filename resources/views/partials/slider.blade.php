@@ -12,7 +12,7 @@
                 </a>
 
                 <div class="meta">by <a href="{{url($post->slug)}}" class="author">{{$post->author->name}}</a> on
-                    <span class="date">{{ (new DateTime($post->created_at))->format('m M, Y') }}</span>
+                    <span class="date">{{ DateTime::createFromFormat('Y-m-d H:i:s', $post->created_at)->format('jS F, Y') }}</span>
                 </div>
                 <a href="{{url($post->slug)}}" class="btn">Read more</a>
             </aside>

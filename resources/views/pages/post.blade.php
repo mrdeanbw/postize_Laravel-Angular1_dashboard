@@ -73,7 +73,7 @@
                     @for($i = 0; $i < count($post->blocks); $i++)
                         {!! $post->blocks[$i] !!}
 
-                        @if(strpos($post->blocks[$i], '<img ') !== false && strpos($post->blocks[$i], 'src="http://postize.com') !== false)
+                        @if(strpos($post->blocks[$i], '<img ') !== false && strpos($post->blocks[$i], 'src="http://' . config('custom.app-domain')) !== false)
                             <?php $imagesShown++; ?>
                         @endif
 
@@ -151,7 +151,7 @@
         <section>
             <article class="item item--post next">
                 <div class="content row">
-                    <h2>See what's next on Postize.com</h2>
+                    <h2>See what's next on {{ ucwords(config('custom.app-domain')) }}</h2>
                     <a href="{{url($nextPost->slug)}}" class="btn btn--next-post big">Next Post</a>
                </div>
            </article>
@@ -195,9 +195,9 @@
 
             <article class="item item--big next-post {{ strtolower($post->category->name) }}" id="next-post">
                 <div class="item__image-holder">
-                    <a href="{{url($post->slug)}}" class="image" id="next-post-url">
+                    <a href="{{url($nextPost->slug)}}" class="image" id="next-post-url">
                         <figure>
-                            <img src="{{$post->image}}" alt="">
+                            <img src="{{$nextPost->image}}" alt="">
                         </figure>
                     </a>
                     <div class="play-btn">
@@ -228,7 +228,7 @@
                                 <img src="{{$post->author->image}}" alt="">
                             </figure>
                             <div>by <a href="{{url($post->slug)}}" class="author">{{$post->author->name}}</a> on
-                                <span class="date">{{ (new DateTime($post->created_at))->format('m M, Y') }}</span></div>
+                                <span class="date">{{ DateTime::createFromFormat('Y-m-d H:i:s', $post->created_at)->format('jS F, Y') }}</span></div>
                             </div>
                             {{-- <a href="{{url($post->slug)}}" class="btn">Read more</a> --}}
                             <div class="row share-buttons small">
@@ -285,7 +285,7 @@
 
         <div class="sticky sticky--facebook">
 
-            <div class="fb-page" data-href="https://www.facebook.com/Postize" data-height="500" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Postize" class="fb-xfbml-parse-ignore"><a href="https://www.data-show-facepilebook.com/Postize">Postize</a></blockquote></div>
+            <div class="fb-page" data-href="" data-height="500" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Postize" class="fb-xfbml-parse-ignore"><a href="https://www.data-show-facepilebook.com/Postize">Postize</a></blockquote></div>
 
         </div>
 

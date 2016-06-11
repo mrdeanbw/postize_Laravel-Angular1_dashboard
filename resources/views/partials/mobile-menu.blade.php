@@ -1,6 +1,6 @@
 <nav class="mobile-menu">
     <form action="{{url('search')}}">
-        <input type="text" name="s" placeholder="Search Postize">
+        <input type="text" name="s" placeholder="Search {{ config('custom.app-name') }}">
         <span class="magnifier mobile-search"><svg><use xlink:href="#svg-search"></use></svg></span>
     </form>
     <nav class="nav nav--more cats">
@@ -20,13 +20,13 @@
         <a href="{{ url('/terms') }}" @if ( $current_page == 'terms') class="active" @endif>Terms &amp; Conditions</a>
         <a href="{{ url('/privacy') }}" @if ( $current_page == 'privacy') class="active" @endif>Privacy Policy</a>
         <a href="{{ url('/copyright') }}" @if ( $current_page == 'copyright') class="active" @endif>DMCA Removal</a>
-        <a href="{{ url('/contact') }}" @if ( $current_page == 'contact') class="active" @endif>Contact us</a>
+        <a href="{{ url('/contact') }}" @if ( $current_page == 'contact') class="active" @endif>Contact Us</a>
     </nav>
     <div class="nav-footer">
         <div class="social">
-            <a href="https://facebook.com/Postize" class="facebook"><svg><use xlink:href="#svg-facebook"></use></svg></a>
-            <a href="https://twitter.com/PostizeMedia" class="twitter"><svg><use xlink:href="#svg-twitter"></use></svg></a>
-            <a href="https://instagram.com/Postize" class="instagram"><svg><use xlink:href="#svg-instagram"></use></svg></a>
+            <a href="{{ config('custom.facebook-url', '#') }}" class="facebook"><svg><use xlink:href="#svg-facebook"></use></svg></a>
+            <a href="{{ config('custom.twitter-url', '#') }}" class="twitter"><svg><use xlink:href="#svg-twitter"></use></svg></a>
+            <a href="{{ config('custom.instagram-url', '#') }}" class="instagram"><svg><use xlink:href="#svg-instagram"></use></svg></a>
             {{--<a href="" class="youtube"><svg><use xlink:href="#svg-youtube"></use></svg></a>--}}
         </div>
     </div>

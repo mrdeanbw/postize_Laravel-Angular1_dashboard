@@ -1,11 +1,5 @@
 <?php
 
-use View;
-
-View::share('current_category', '');
-View::share('current_page', '');
-
-
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', 'DashboardController@getDashboard');
     Route::get('dashboard/post/list', 'ManagePostController@getPostList');

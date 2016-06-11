@@ -23,7 +23,7 @@ class PostController extends Controller
         $post = $post->first();
 
         if (empty($post)) {
-            return view('errors.404');
+            \App::abort(404);
         }
 
         View::share('current_category', strtolower($post->category->name));

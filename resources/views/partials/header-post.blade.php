@@ -23,7 +23,7 @@
 				</div>
 			</div>
 
-			<a href="" class="btn btn--next-post">Next Post</a>
+			<a href="{{ url($nextPost->slug) }}" class="btn btn--next-post">Next Post</a>
 
 			{{-- <span class="magnifier show-search"><svg><use xlink:href="#svg-search"></use></svg></span> --}}
 
@@ -35,7 +35,7 @@
 
 			<div class="search">
 				<form action="{{url('search')}}">
-					<input type="text" name="s" placeholder="Search Postize">
+					<input type="text" name="s" placeholder="Search {{ config('custom.app-name') }}">
 				</form>
 			</div>
 		</aside>

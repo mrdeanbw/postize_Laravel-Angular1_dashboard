@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        view()->share('page', 'page');
+        view()->share('current_category', '');
+        view()->share('current_page', '');
+
         view()->composer('partials.related', function($view)
         {
             $view->with('posts', Post::with('author')->with('category')->where('status', 1)->orderByRaw(DB::raw('RAND()'))->take(6)->get());
@@ -42,8 +46,6 @@ class AppServiceProvider extends ServiceProvider
         {
             $view->with('posts', Post::with('author')->with('category')->where('status', 1)->orderByRaw(DB::raw('RAND()'))->take(12)->get());
         });
-
-        view()->share('page', 'page');
 
         view()->composer('pages.post', function($view) {
             view()->share('page', 'post');

@@ -2,7 +2,7 @@
     <div class="wrapper wrapper--header">
         <section>
             <a href="{{url('/')}}" class="logo">
-                <img src="{!! asset('assets/front/svg/postize-logo.svg') !!}" alt="">                    
+                <img src="{!! asset(config('custom.site-logo-path')) !!}" alt="">
             </a>
             <nav class="nav nav--main resize">
                 <a href="{{ url('/category/funny') }}" class="funny @if ( $current_category == 'funny') active @endif">Funny</a>
@@ -25,14 +25,14 @@
                     <a href="{{ url('/terms') }}" @if ( $current_page == 'terms') class="active" @endif>Terms &amp; Conditions</a>
                     <a href="{{ url('/privacy') }}" @if ( $current_page == 'privacy') class="active" @endif>Privacy Policy</a>
                     <a href="{{ url('/copyright') }}" @if ( $current_page == 'copyright') class="active" @endif>DMCA Removal</a>
-                    <a href="{{ url('/contact') }}" @if ( $current_page == 'contact') class="active" @endif>Contact us</a>
+                    <a href="{{ url('/contact') }}" @if ( $current_page == 'contact') class="active" @endif>Contact Us</a>
                 </nav>
                 <div class="nav-footer">
                     {{--<a href="{{ url('/submit') }}" class="btn post">Submit post</a>--}}
                     <div class="social">
-                        <a href="https://facebook.com/Postize" class="facebook"><svg><use xlink:href="#svg-facebook"></use></svg></a>
-                        <a href="https://twitter.com/PostizeMedia" class="twitter"><svg><use xlink:href="#svg-twitter"></use></svg></a>
-                        <a href="https://instagram.com/Postize" class="instagram"><svg><use xlink:href="#svg-instagram"></use></svg></a>
+                        <a href="{{ config('custom.facebook-url', '#') }}" class="facebook" target="_blank"><svg><use xlink:href="#svg-facebook"></use></svg></a>
+                        <a href="{{ config('custom.twitter-url', '#') }}" class="twitter" target="_blank"><svg><use xlink:href="#svg-twitter"></use></svg></a>
+                        <a href="{{ config('custom.instagram-url', '#') }}" class="instagram" target="_blank"><svg><use xlink:href="#svg-instagram"></use></svg></a>
                         {{--<a href="" class="youtube"><svg><use xlink:href="#svg-youtube"></use></svg></a>--}}
                     </div>
                 </div>
@@ -55,7 +55,7 @@
 
             <div class="search">
                 <form action="{{url('search')}}">
-                    <input type="text" name="s" placeholder="Search Postize">
+                    <input type="text" name="s" placeholder="Search {{ config('custom.app-name') }}">
                 </form>
             </div>
         </aside>

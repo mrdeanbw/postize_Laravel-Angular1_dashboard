@@ -25,7 +25,7 @@
                                         <img src="{{$post->author->image}}" alt="">
                                     </figure>
                                     <div>by <a href="{{url($post->slug)}}" class="author">{{$post->author->name}}</a> on
-                                        <span class="date">{{ (new DateTime($post->created_at))->format('m M, Y') }}</span></div>
+                                        <span class="date">{{ DateTime::createFromFormat('Y-m-d H:i:s', $post->created_at)->format('jS F, Y') }}</span></div>
                                     </div>
                                     {{-- <a href="{{url($post->slug)}}" class="btn">Read more</a> --}}
                                     <div class="row share-buttons small">
