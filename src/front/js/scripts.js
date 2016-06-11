@@ -219,7 +219,7 @@
 
 		$(document).scroll(function()
 		{
-			console.log(isPausedByUser);
+			// console.log(isPausedByUser);
 
 			if (isPausedByUser)
 				return;
