@@ -18,7 +18,7 @@
         <div ng-app="PostizeEditor" ng-controller="PostizeController as PCTRL" ng-init="PCTRL.init()" id="PostizeEditor">
             <div class="ng-cloak alert alert-warning alert-styled-left" ng-if="::PCTRL.post.id && PCTRL.blocks.length == 0">
                 <span class="text-semibold">Warning! </span>
-                This post has been created with an older version of Postize editor so it's content blocks can't be edited.
+                This post has been created with an older version of the editor so it's content blocks can't be edited.
                 <br>If you want to edit this post, you'll have to recreate the blocks using the new editor.
                 <br>However, this post will still be displayed normally on the frontend so immediate action isn't required.
             </div>
