@@ -88,7 +88,7 @@ class PostTransformer
 
         foreach ($imageUrlsToScrape as $imageUrl) {
             $imageUrl = trim(substr($imageUrl, 5), '"'); // 5 = the length of src="
-            if (strpos($imageUrl, 'postize') !== false) {
+            if (strpos($imageUrl, config('custom.app-domain')) !== false) {
                 return false;
             }
 

@@ -11,13 +11,13 @@
         <title>{{ config('custom.app-name') }} - {{ $category->name }}</title>
         <meta property="og:title" content="{{ config('custom.app-name') }} - {{ $category->name }}">
     @else
-        <title>{{ config('custom.app-name') }}</title>
+        <title>{{ config('custom.app-name') }} - {{ config('custom.app-slogan') }}</title>
         <meta property="og:title" content="{{ config('custom.app-name') }}">
     @endif
 
 
     <meta property="fb:pages" content="122223664476363" />
-    <meta property="og:description" content="{{$post->description or 'Sharable stories galore.' }}" />
+    <meta property="og:description" content="{{$post->description or config('custom.og-description-default') }}" />
     <meta property="og:image" content="{{ $post->image or ''}}" />
     <meta property="og:url" content="{{ !empty($post) ? url($post->slug) : Request::url() }}" />
     <meta property="og:site_name" content="{{ config('custom.app-name') }}" />
