@@ -14,7 +14,7 @@
     <link href="{{ asset('assets/dashboard/css/core.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/dashboard/css/components.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/dashboard/css/colors.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/dashboard/css/postize.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/dashboard/css/main.css') }}" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 
     @yield('css')
@@ -54,7 +54,7 @@
 <!-- Main navbar -->
 <div class="navbar navbar-inverse bg-indigo">
     <div class="navbar-header">
-        <a class="navbar-brand" href="{{url('')}}"><i class="icon-arrow-left5"></i> Back to Postize</a>
+        <a class="navbar-brand" href="{{url('')}}"><i class="icon-arrow-left5"></i> Back to {{ config('custom.app-name') }}</a>
 
         <ul class="nav navbar-nav visible-xs-block">
             <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
@@ -174,7 +174,7 @@
 
                 <!-- Footer -->
                 <div class="footer text-muted">
-                    &copy; 2016 Methodize Media Pty. Ltd. T/A Postize
+                    &copy; 2016 {{config('custom.app-name')}}
                 </div>
                 <!-- /footer -->
 

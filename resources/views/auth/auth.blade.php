@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Postize Login</title>
+    <title>{{config('custom.app-name')}} Login</title>
 
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
@@ -14,7 +14,7 @@
     <link href="{{ asset('assets/dashboard/css/core.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/dashboard/css/components.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets/dashboard/css/colors.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('assets/dashboard/css/postize.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/dashboard/css/main.css') }}" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
 
     @yield('css')
@@ -53,7 +53,7 @@
 <!-- Main navbar -->
 <div class="navbar navbar-inverse">
     <div class="navbar-header">
-        <a class="navbar-brand" href="{{url('/')}}"><img src="{!! asset('assets/front/svg/postize-logo.svg') !!}" alt=""></a>
+        <a class="navbar-brand" href="{{url('/')}}"><img src="{{ config('custom.site-logo-path') }}" alt=""></a>
 
         <ul class="nav navbar-nav pull-right visible-xs-block">
             <li><a data-toggle="collapse" data-target="#navbar-mobile"><i class="icon-tree5"></i></a></li>
@@ -82,7 +82,7 @@
 
                 <!-- Footer -->
                 <div class="footer text-muted text-center">
-                    &copy; {{date('Y')}} <a href="http://www.postize.com">Postize</a>
+                    &copy; {{date('Y')}} <a href="{{ url('/') }}">{{config('custom.app-name')}}</a>
                 </div>
                 <!-- /footer -->
 

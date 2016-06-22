@@ -15,7 +15,7 @@
           id="addEditForm">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-        <div ng-app="PostizeEditor" ng-controller="PostizeController as PCTRL" ng-init="PCTRL.init()" id="PostizeEditor">
+        <div ng-app="MethodizeEditor" ng-controller="MethodizeController as PCTRL" ng-init="PCTRL.init()" id="MethodizeEditor">
             <div class="ng-cloak alert alert-warning alert-styled-left" ng-if="::PCTRL.post.id && PCTRL.blocks.length == 0">
                 <span class="text-semibold">Warning! </span>
                 This post has been created with an older version of the editor so it's content blocks can't be edited.
@@ -509,5 +509,5 @@
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-rangy.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-sanitize.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/postize-editor.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/methodize-editor.js') }}"></script>
 @endsection

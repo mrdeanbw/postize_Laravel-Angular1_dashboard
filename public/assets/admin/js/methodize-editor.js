@@ -1,6 +1,6 @@
-angular.module('PostizeEditor', ['textAngular']);
+angular.module('MethodizeEditor', ['textAngular']);
 
-angular.module('PostizeEditor').controller('PostizeController', function ($scope, $sce, $interval) {
+angular.module('MethodizeEditor').controller('MethodizeController', function ($scope, $sce, $interval) {
     var vm = this;
     var autosaveIntervalHolder = null;
     var confirmOnPageExit = function (e)
@@ -23,8 +23,8 @@ angular.module('PostizeEditor').controller('PostizeController', function ($scope
     vm.init = function () {
         vm.imagePreview = [];
         //passed from laravel, ManagePostController@postAddEditPost
-        vm.post = Postize.post ? Postize.post : {title: "", description: ""};
-        vm.blocks = Postize.blocks;
+        vm.post = Methodize.post ? Methodize.post : {title: "", description: ""};
+        vm.blocks = Methodize.blocks;
         vm.editor = {
             active: 'text',
             text: {

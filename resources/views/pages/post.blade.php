@@ -101,24 +101,10 @@
                         <div class="ad-content">
                             @if(!$preview)
                                 @if($mobile)
-                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                    <ins class="adsbygoogle"
-                                         style="display:inline-block;width:300px;height:250px"
-                                         data-ad-client="ca-pub-1766805469808808"
-                                         data-ad-slot="9667310973"></ins>
-                                    <script>
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
-                                    </script>
+                                    {{ config('custom.banner-advertising-square-1') }}
 
                                 @else
-                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                    <ins class="adsbygoogle"
-                                         style="display:inline-block;width:728px;height:90px"
-                                         data-ad-client="ca-pub-1766805469808808"
-                                         data-ad-slot="2177946578"></ins>
-                                    <script>
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
-                                    </script>
+                                    {{ config('custom.banner-advertising-leaderboard-1') }}
                                 @endif
                                 <span class="ad-disclaimer">ADVERTISEMENT</span>
                             @endif
@@ -161,25 +147,7 @@
         <section>
             <article class="item item--post">
                 <div class="content promoted">
-                    <div id="rcjsload_c437be"></div>
-                    <script type="text/javascript">
-                        (function () {
-                            var referer = "";
-                            try {
-                                if (referer = document.referrer, "undefined" == typeof referer)throw"undefined"
-                            } catch (exception) {
-                                referer = document.location.href, ("" == referer || "undefined" == typeof referer) && (referer = document.URL)
-                            }
-                            referer = referer.substr(0, 700);
-                            var rcel = document.createElement("script");
-                            rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
-                            rcel.type = 'text/javascript';
-                            rcel.src = "http://trends.revcontent.com/serve.js.php?w=17087&t=" + rcel.id + "&c=" + (new Date()).getTime() + "&width=" + (window.outerWidth || document.documentElement.clientWidth) + "&referer=" + referer;
-                            rcel.async = true;
-                            var rcds = document.getElementById("rcjsload_c437be");
-                            rcds.appendChild(rcel);
-                        })();
-                    </script>
+                    {{ config('custom.content-advertising-1') }}
                 </div>
             </article>
         </section>
@@ -261,17 +229,6 @@
 
     <aside class="sidebar">
 
-        {{--<div class="add">
-            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-            <ins class="adsbygoogle"
-                 style="display:inline-block;width:300px;height:250px"
-                 data-ad-client="ca-pub-1766805469808808"
-                 data-ad-slot="9667310973"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </div>--}}
-
         @include('partials.sidebar-articles')
 
         {{-- <div class="sticky">
@@ -285,7 +242,7 @@
 
         <div class="sticky sticky--facebook">
 
-            <div class="fb-page" data-href="" data-height="500" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Postize" class="fb-xfbml-parse-ignore"><a href="https://www.data-show-facepilebook.com/Postize">Postize</a></blockquote></div>
+            <div class="fb-page" data-href="{{config('custom.facebook-url')}}" data-height="500" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="{{config('custom.facebook-url')}}" class="fb-xfbml-parse-ignore"><a href="{{config('custom.facebook-url')}}">{{config('custom.app-name')}}</a></blockquote></div>
 
         </div>
 
@@ -293,13 +250,6 @@
 @endsection
 
 @section('js-bottom')
-    {{--<script type="text/javascript">
-        $(document).ready(function() {
-            $('.content iframe').each(function() {
-                $(this).attr('width', '100%')
-            })
-        });
-    </script> --}}
     <script type="text/javascript">
         $(document).ready(function() {
             $('.content img').each(function() {

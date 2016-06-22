@@ -4,7 +4,7 @@
             <a href="{{url('/')}}" class="logo">
                 <img src="{!! asset(config('custom.site-logo-path')) !!}" alt="">
             </a>
-            <p>Postize, a platform for people who like to read, write, and be up to date on trending information around the globe.</p>
+            <p>{{config('custom.app-name')}}, {{config('custom.og-description-default')}}</p>
         </section>
         <aside>
             <nav class="nav nav--footer">

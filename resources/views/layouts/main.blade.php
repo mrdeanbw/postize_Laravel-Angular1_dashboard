@@ -16,27 +16,23 @@
     @endif
 
 
-    <meta property="fb:pages" content="122223664476363" />
+    <meta property="fb:pages" content="{{ config('custom.facebook-page-id') }}" />
     <meta property="og:description" content="{{$post->description or config('custom.og-description-default') }}" />
     <meta property="og:image" content="{{ $post->image or ''}}" />
     <meta property="og:url" content="{{ !empty($post) ? url($post->slug) : Request::url() }}" />
     <meta property="og:site_name" content="{{ config('custom.app-name') }}" />
     <meta property="og:type" content="article" />
-    <meta property="article:author" content="https://www.facebook.com/Postize" />
-    <meta property="article:publisher" content="https://www.facebook.com/Postize" />
-    <meta property="fb:app_id" content="270047766678197" />
+    <meta property="article:author" content="{{ config('custom.facebook-url') }}" />
+    <meta property="article:publisher" content="{{ config('custom.facebook-url') }}" />
+    <meta property="fb:app_id" content="{{ config('custom.facebook-app-id') }}" />
 
     <meta name="_token" content="{!! csrf_token() !!}"/>
 
 
     <link href="{{ asset('assets/front/css/style.css?v1.0.6') }}" rel="stylesheet" type="text/css">
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-1766805469808808",
-            enable_page_level_ads: true
-        });
-    </script>
+    {{ config('custom.adsense-enable-page-level-ads') }}
+
     <script>window.twttr = (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0],
                     t = window.twttr || {};
@@ -65,7 +61,7 @@
         if (d.getElementById(id)) return;
         js = d.createElement(s);
         js.id = id;
-        js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5&appId=204647506244821";
+        js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.5&appId={{ config('custom.facebook-app-id') }}";
         fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 
@@ -139,7 +135,7 @@
         m.parentNode.insertBefore(a, m)
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-59774468-2', 'auto');
+    ga('create', '{{ config('custom.google-analytics-view-id') }}', 'auto');
     ga('send', 'pageview');
 
 </script>
