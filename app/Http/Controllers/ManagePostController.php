@@ -107,7 +107,7 @@ class ManagePostController extends Controller
             $post['user_id'] = Auth::user()->getAuthIdentifier();
         } else {
             $post = Post::find($postId);
-            if ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() && Auth::user()->type == 0) {
+            if (Auth::user()->type == 0 && ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() || $post->status == PostStatus::Enabled)) {
                 return redirect()->to('dashboard/post/list');
             }
 
