@@ -101,10 +101,10 @@
                         <div class="ad-content">
                             @if(!$preview)
                                 @if($mobile)
-                                    {{ config('custom.banner-advertising-square-1') }}
+                                    {!! config('custom.banner-advertising-square-1') !!}
 
                                 @else
-                                    {{ config('custom.banner-advertising-leaderboard-1') }}
+                                    {!! config('custom.banner-advertising-leaderboard-1') !!}
                                 @endif
                                 <span class="ad-disclaimer">ADVERTISEMENT</span>
                             @endif
