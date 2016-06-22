@@ -14,7 +14,7 @@
 	<section class="from-the-web">
 		<article class="item item--post">
 			<div class="content promoted">
-				{{ config('custom.content-advertising-1') }}
+				{!! config('custom.content-advertising-1') !!}
 			</div>
 		</article>
 	</section>
