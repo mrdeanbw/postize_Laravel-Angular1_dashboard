@@ -36,12 +36,15 @@ class AppServiceProvider extends ServiceProvider
                 $posts->where('category_id', $viewData['category']['id']);
             }
 
-            $view->with('posts', $posts->orderByRaw(DB::raw('RAND()'))->take(6)->get());
+            $view->with('posts', $posts->orderBy('id', 'desc')->take(6)->get());
         });
+
+        // TODO: Confirm if no longer required
         view()->composer('partials.slider', function($view)
         {
             $view->with('posts', Post::with('author')->with('category')->where('status', 1)->orderByRaw(DB::raw('RAND()'))->take(3)->get());
         });
+
         view()->composer('partials.sidebar-articles', function($view)
         {
             $view->with('posts', Post::with('author')->with('category')->where('status', 1)->orderByRaw(DB::raw('RAND()'))->take(12)->get());
