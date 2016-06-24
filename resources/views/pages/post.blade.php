@@ -30,6 +30,16 @@
                 <div class="content">
                     <h1 class="post-title">{{$post->title}}</h1>
 
+                        <div class="ad-content">
+                            <!-- /28112988/PT_Leaderboard_ATF -->
+                            <div id='div-gpt-ad-1466672412806-1'>
+                                <script type='text/javascript'>
+                                    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1466672412806-1'); });
+                                </script>
+                            </div>
+                            <span class="ad-disclaimer">ADVERTISEMENT</span>
+                        </div>
+
                     <div class="meta-holder">
                         <div class="meta">
                             <figure class="avatar">
@@ -61,14 +71,6 @@
                         </div>
                     </div>
 
-                    {{--<div class="tags">
-                        <span>Topics</span>
-                        <a href=""></a>
-                        <a href=""></a>
-                        <a href=""></a>
-                        <a href=""></a>
-                        <a href=""></a>
-                    </div>--}}
                     <?php $imagesShown = 0; $adShown = false; ?>
                     @for($i = 0; $i < count($post->blocks); $i++)
                         {!! $post->blocks[$i] !!}
@@ -82,14 +84,12 @@
                             @if(!$preview)
                             <div class="row">
                                 <div class="ad-content">
-                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                    <ins class="adsbygoogle"
-                                         style="display:inline-block;width:300px;height:250px"
-                                         data-ad-client="ca-pub-1766805469808808"
-                                         data-ad-slot="9667310973"></ins>
-                                    <script>
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    <!-- /28112988/PT_InPost -->
+                                    <div id='div-gpt-ad-1466672412806-0'>
+                                    <script type='text/javascript'>
+                                    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1466672412806-0'); });
                                     </script>
+                                    </div>
                                     <span class="ad-disclaimer">ADVERTISEMENT</span>
                                 </div>
                             </div>
@@ -100,12 +100,12 @@
                     <div class="row">
                         <div class="ad-content">
                             @if(!$preview)
-                                @if($mobile)
-                                    {!! config('custom.banner-advertising-square-1') !!}
-
-                                @else
-                                    {!! config('custom.banner-advertising-leaderboard-1') !!}
-                                @endif
+                                <!-- /28112988/PT_Leaderboard_BTF -->
+                                    <div id='div-gpt-ad-1466672412806-2'>
+                                        <script type='text/javascript'>
+                                            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1466672412806-2'); });
+                                        </script>
+                                    </div>
                                 <span class="ad-disclaimer">ADVERTISEMENT</span>
                             @endif
                         </div>

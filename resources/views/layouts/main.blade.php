@@ -50,6 +50,64 @@
             return t;
         }(document, "script", "twitter-wjs"));</script>
     @yield('css')
+
+    <script type='text/javascript'>
+      var googletag = googletag || {};
+      googletag.cmd = googletag.cmd || [];
+      (function() {
+        var gads = document.createElement('script');
+        gads.async = true;
+        gads.type = 'text/javascript';
+        var useSSL = 'https:' == document.location.protocol;
+        gads.src = (useSSL ? 'https:' : 'http:') +
+          '//www.googletagservices.com/tag/js/gpt.js';
+        var node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(gads, node);
+      })();
+    </script>
+
+    <script type='text/javascript'>
+      googletag.cmd.push(function() {
+
+        var home = (document.location.pathname == "/" || document.location.pathname == "") ? true : false,
+        slots = [],
+        map_atf = googletag.sizeMapping().
+            addSize([1024, 200], [[970, 250], [970, 90], [728, 90]]).
+            addSize([768, 200], [728, 90]).
+            build(),
+        map_lb = googletag.sizeMapping().
+            addSize([768, 200], [728, 90]).
+            build(),
+        map_side = googletag.sizeMapping().
+            addSize([768, 200], [300, 600]).
+            build();
+            
+        slots[0] = googletag.defineSlot('/28112988/PT_Leaderboard_ATF', [[320, 50], [320, 100]], 'div-gpt-ad-1466672412806-1').        
+            defineSizeMapping(map_atf).
+            addService(googletag.pubads());
+        slots[1] = googletag.defineSlot('/28112988/PT_Leaderboard_Middle', [[300, 250]], 'div-gpt-ad-1466672412806-3').
+            defineSizeMapping(map_lb).
+            addService(googletag.pubads()); 
+        slots[2] = googletag.defineSlot('/28112988/PT_Leaderboard_BTF', [[336, 280], [300, 250]], 'div-gpt-ad-1466672412806-2').
+            defineSizeMapping(map_lb).
+            addService(googletag.pubads()); 
+        slots[3] = googletag.defineSlot('/28112988/PT_Sidebar_ATF', [300, 250], 'div-gpt-ad-1466672412806-4').
+            defineSizeMapping(map_side).
+            addService(googletag.pubads()); 
+        googletag.defineSlot('/28112988/PT_Sidebar_BTF', [300, 250], 'div-gpt-ad-1466672412806-5').addService(googletag.pubads());
+        googletag.defineSlot('/28112988/PT_InPost', [[300, 250], [336, 280]], 'div-gpt-ad-1466672412806-0').addService(googletag.pubads());
+
+        if ( home == true ) {
+        googletag.pubads().setTargeting("isHome", "true");
+        } else {
+        googletag.pubads().setTargeting("isHome", "false"); 
+        }
+        googletag.pubads().setTargeting("PostID", "code to fetch post ID");
+        googletag.pubads().setTargeting("Cat", "code to fetch category");
+        googletag.enableServices();
+      });
+    </script>
+
     @yield('js-top')
 </head>
 
