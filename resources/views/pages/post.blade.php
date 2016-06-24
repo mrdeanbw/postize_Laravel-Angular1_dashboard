@@ -30,6 +30,7 @@
                 <div class="content">
                     <h1 class="post-title">{{$post->title}}</h1>
 
+                    <div class="row">
                         <div class="ad-content">
                             <!-- /28112988/PT_Leaderboard_ATF -->
                             <div id='div-gpt-ad-1466672412806-1'>
@@ -39,6 +40,7 @@
                             </div>
                             <span class="ad-disclaimer">ADVERTISEMENT</span>
                         </div>
+                    </div>
 
                     <div class="meta-holder">
                         <div class="meta">
