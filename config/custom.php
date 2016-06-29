@@ -53,5 +53,38 @@ return [
                                     </script>',
 
 
+    'pt-leaderboard-atf' => '<!-- /28112988/PT_Leaderboard_ATF -->
+                            <div id=\'div-gpt-ad-1466672412806-1\'>
+                                <script type=\'text/javascript\'>
+                                    googletag.cmd.push(function() { googletag.display(\'div-gpt-ad-1466672412806-1\'); });
+                                </script>
+                            </div>',
 
+    'pt-in-post' => '<!-- /28112988/PT_InPost -->
+                                    <div id=\'div-gpt-ad-1466672412806-0\'>
+                                    <script type=\'text/javascript\'>
+                                    googletag.cmd.push(function() { googletag.display(\'div-gpt-ad-1466672412806-0\'); });
+                                    </script>
+                                    </div>',
+
+    'pt-leaderboard-atf' => '<!-- /28112988/PT_Leaderboard_BTF -->
+                                    <div id=\'div-gpt-ad-1466672412806-2\'>
+                                        <script type=\'text/javascript\'>
+                                            googletag.cmd.push(function() { googletag.display(\'div-gpt-ad-1466672412806-2\'); });
+                                        </script>
+                                    </div>',
+
+    'pt-sidebar-atf' => '<!-- /28112988/PT_Sidebar_ATF -->
+                            <div id=\'div-gpt-ad-1466672412806-4\'>
+                            <script type=\'text/javascript\'>
+                            googletag.cmd.push(function() { googletag.display(\'div-gpt-ad-1466672412806-4\'); });
+                            </script>
+                            </div>',
+
+    'pt-sidebar-btf' => '<!-- /28112988/PT_Sidebar_BTF -->
+                        <div id=\'div-gpt-ad-1466672412806-5\'>
+                        <script type=\'text/javascript\'>
+                        googletag.cmd.push(function() { googletag.display(\'div-gpt-ad-1466672412806-5\'); });
+                        </script>
+                        </div>'
 ];

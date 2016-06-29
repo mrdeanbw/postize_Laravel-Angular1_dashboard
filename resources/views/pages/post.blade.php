@@ -32,12 +32,7 @@
 
                     <div class="row">
                         <div class="ad-content">
-                            <!-- /28112988/PT_Leaderboard_ATF -->
-                            <div id='div-gpt-ad-1466672412806-1'>
-                                <script type='text/javascript'>
-                                    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1466672412806-1'); });
-                                </script>
-                            </div>
+                            {!! config('custom.pt-leaderboard-atf') !!}
                             <span class="ad-disclaimer">ADVERTISEMENT</span>
                         </div>
                     </div>
@@ -86,12 +81,7 @@
                             @if(!$preview)
                             <div class="row">
                                 <div class="ad-content">
-                                    <!-- /28112988/PT_InPost -->
-                                    <div id='div-gpt-ad-1466672412806-0'>
-                                    <script type='text/javascript'>
-                                    googletag.cmd.push(function() { googletag.display('div-gpt-ad-1466672412806-0'); });
-                                    </script>
-                                    </div>
+                                    {!! config('custom.pt-in-post') !!}
                                     <span class="ad-disclaimer">ADVERTISEMENT</span>
                                 </div>
                             </div>
@@ -102,12 +92,7 @@
                     <div class="row">
                         <div class="ad-content">
                             @if(!$preview)
-                                <!-- /28112988/PT_Leaderboard_BTF -->
-                                    <div id='div-gpt-ad-1466672412806-2'>
-                                        <script type='text/javascript'>
-                                            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1466672412806-2'); });
-                                        </script>
-                                    </div>
+                                {!! config('custom.pt-leaderboard-atf') !!}
                                 <span class="ad-disclaimer">ADVERTISEMENT</span>
                             @endif
                         </div>
@@ -230,6 +215,16 @@
     </div>
 
     <aside class="sidebar">
+        <div class="row">
+            <div class="ad-content">
+                @if(!$preview)
+                {!! config('custom.pt-sidebar-atf') !!}
+                <span class="ad-disclaimer">ADVERTISEMENT</span>
+                @else
+                    <img src="http://placehold.it/300x600">
+                @endif
+            </div>
+        </div>
 
         @include('partials.sidebar-articles')
 
@@ -243,7 +238,16 @@
         </div>--}}
 
         <div class="sticky sticky--facebook">
-
+            <div class="row">
+                <div class="ad-content">
+                    @if(!$preview)
+                        {!! config('custom.pt-sidebar-btf') !!}
+                        <span class="ad-disclaimer">ADVERTISEMENT</span>
+                    @else
+                        <img src="http://placehold.it/300x250">
+                    @endif
+                </div>
+            </div>
             <div class="fb-page" data-href="{{config('custom.facebook-url')}}" data-height="500" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="{{config('custom.facebook-url')}}" class="fb-xfbml-parse-ignore"><a href="{{config('custom.facebook-url')}}">{{config('custom.app-name')}}</a></blockquote></div>
 
         </div>
