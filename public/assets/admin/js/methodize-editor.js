@@ -34,7 +34,7 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
                 files: []
             },
             imageLink: {
-                links: [{title: "", description: "", url: "", source: "", sourceurl: ""}]
+                links: [{title: vm.imageBlockCount() + 1 + ". ", description: "", url: "", source: "", sourceurl: ""}]
             },
             embed: {
                 content: "",
@@ -87,6 +87,11 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
                 return false;
             }
 
+            if(document.getElementById('status').value == 2) {
+                if(!confirm("Are you sure you wish to delete this post?"))
+                    return false;
+            }
+
             var thumbnail = ThumbnailGenerator.getCanvasData();
             if (!vm.post.id && !thumbnail) {
                 jQuery.jGrowl('Please generate a thumbnail image', {
@@ -125,8 +130,12 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
             for (var i = 0; i < vm.blocks.length; i++) {
                 if (vm.blocks[i].type == 'text')
                     vm.totalWordCount += vm.blocks[i].content.split(" ").length;
-                else if (vm.blocks[i].type == 'image')
-                    vm.totalWordCount += vm.blocks[i].title.split(" ").length + vm.blocks[i].description.split(" ").length;
+                else if (vm.blocks[i].type == 'image') {
+                    if (typeof vm.blocks[i].title != 'undefined')
+                        vm.totalWordCount += vm.blocks[i].title.split(" ").length;
+                    if(typeof vm.blocks[i].description != 'undefined')
+                        vm.totalWordCount += vm.blocks[i].description.split(" ").length;
+                }
             }
         }, true);
 
@@ -326,7 +335,7 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
             vm.blocks[len - 1].position = len;
         }
 
-        if (!vm.post && vm.blocks.length > 0)
+        if (vm.post && vm.blocks.length > 0)
             window.onbeforeunload = confirmOnPageExit;
         else
             window.onbeforeunload = null;
@@ -334,7 +343,7 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
     };
 
     vm.addLinkImage = function () {
-        vm.editor.imageLink.links.push({url: "", source: "", sourceurl: ""});
+        vm.editor.imageLink.links.push({url: "", title: vm.imageBlockCount() + 1 + ". ", source: "", sourceurl: ""});
     };
 
     vm.convertYoutubeLink = function (url) {
@@ -534,6 +543,25 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
         }
     };
 
+    vm.imageBlockCount = function() {
+        var count = 0;
+        for (var i = 0; i < vm.blocks.length; i++) {
+            if (vm.blocks[i].type == 'image') {
+                count++;
+            }
+        }
+        if(typeof vm.editor != 'undefined') {
+            for (var i = 0; i < vm.editor.imageLink.links.length; i++) {
+                count++;
+            }
+
+            for (var i = 0; i < vm.editor.imageUpload.files.length; i++) {
+                count++;
+            }
+        }
+
+        return count;
+    }
 });
 
 /**
