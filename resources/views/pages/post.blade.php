@@ -92,7 +92,7 @@
                     <div class="row">
                         <div class="ad-content">
                             @if(!$preview)
-                                {!! config('custom.pt-leaderboard-atf') !!}
+                                {!! config('custom.pt-leaderboard-btf') !!}
                                 <span class="ad-disclaimer">ADVERTISEMENT</span>
                             @endif
                         </div>

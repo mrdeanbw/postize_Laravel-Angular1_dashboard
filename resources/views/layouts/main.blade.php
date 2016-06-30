@@ -104,6 +104,7 @@
         }
         googletag.pubads().setTargeting("PostID", "code to fetch post ID");
         googletag.pubads().setTargeting("Cat", "code to fetch category");
+        googletag.pubads().collapseEmptyDivs();
         googletag.enableServices();
       });
     </script>
