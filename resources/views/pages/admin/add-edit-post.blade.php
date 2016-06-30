@@ -102,12 +102,15 @@
                                     <select id="status" name="status" class="form-control select">
                                         @if (Auth::user()->type == 1 || (isset($post) && $post->status == 1))
                                         <option value="1" {{ !empty($post) && $post->status == 1 ? 'selected' : '' }}>
-                                            Enabled
+                                            Published
                                         </option>
                                         @endif
                                         <option value="0" {{ !empty($post) && $post->status == 0 ? 'selected' : '' }}>
-                                            Pending
+                                            In Progress (Draft)
                                         </option>
+                                            <option value="3" {{ !empty($post) && $post->status == 3 ? 'selected' : '' }}>
+                                                Ready For Review
+                                            </option>
                                         <option value="2" {{ !empty($post) && $post->status == 2 ? 'selected' : '' }}>
                                             Deleted
                                         </option>
@@ -509,5 +512,5 @@
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-rangy.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-sanitize.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/methodize-editor.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/methodize-editor.js') }}"?v1.0.2></script>
 @endsection

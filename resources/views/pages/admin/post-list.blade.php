@@ -38,7 +38,7 @@
                                 <span class="label border-left-violet label-striped">{{$post->category_name}}</span>
                             </td>
                             <td class="text-center postizeStatusWrap">
-                                @if($post->status == 1 )
+                                @if($post->status == \App\Models\PostStatus::Enabled)
                                     <i class="icon-checkmark-circle text-success" data-popup="tooltip" title="" data-original-title="Published"></i><br>
                                 @else
                                     <i class="icon-question4 text-info" data-popup="tooltip" title="" data-original-title="Pending"></i><br>
