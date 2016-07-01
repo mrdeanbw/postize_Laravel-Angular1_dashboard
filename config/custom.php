@@ -67,7 +67,7 @@ return [
                                     </script>
                                     </div>',
 
-    'pt-leaderboard-atf' => '<!-- /28112988/PT_Leaderboard_BTF -->
+    'pt-leaderboard-btf' => '<!-- /28112988/PT_Leaderboard_BTF -->
                                     <div id=\'div-gpt-ad-1466672412806-2\'>
                                         <script type=\'text/javascript\'>
                                             googletag.cmd.push(function() { googletag.display(\'div-gpt-ad-1466672412806-2\'); });
