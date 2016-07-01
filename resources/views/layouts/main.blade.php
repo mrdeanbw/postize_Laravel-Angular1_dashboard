@@ -200,7 +200,6 @@
 </script>
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="{{ asset('assets/front/js/scripts.js?v1.0.1') }}"></script>
-<script src="//go.mobstitialtag.com/notice.php?p=685922&interstitial=1"></script>
 @yield('js-bottom')
 </body>
 </html>
