@@ -174,18 +174,25 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
     };
 
     vm.insertBlock = function () {
-        if (vm.editor.active == 'text') {
-            //text block creating
-            if (!vm.editor.text.content) {
-                jQuery.jGrowl('Please enter some text first', {
-                    header: 'Invalid',
-                    theme: 'bg-danger'
-                });
-                return;
+        if (vm.editor.active == 'text' || vm.editor.active == 'pagebreak') {
+            if (vm.editor.active == 'text') {
+                //text block creating
+                if (!vm.editor.text.content) {
+                    jQuery.jGrowl('Please enter some text first', {
+                        header: 'Invalid',
+                        theme: 'bg-danger'
+                    });
+                    return;
+                }
+
+                var txt = angular.copy(vm.editor.text.content);
             }
-            var txt = angular.copy(vm.editor.text.content);
+            else {
+                var txt = '<!!--nextpage--!!>';
+            }
+
             vm.blocks.push({
-                type: "text",
+                type: vm.editor.active,
                 content: txt
             });
             //attach order, for manual order changing

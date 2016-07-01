@@ -333,6 +333,27 @@
             </div>
         </div>
 
+            {{--<div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-flat">
+                        <div class="panel-heading">
+                            <h5 class="panel-title">Page Breaks</h5>
+                        </div>
+                        <div class="panel-body">
+
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="btn bg-teal-400 btn-labeled insertContentButton"
+                                            ng-click="PCTRL.editor.active = 'pagebreak'; PCTRL.insertBlock()"><b><i class="icon-pencil4"></i></b> <span>Insert Page Break</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>--}}
+
         <div class="row" ng-repeat="(i, block) in PCTRL.blocks">
             <div class="col-md-12">
                 <div class="panel panel-flat">
@@ -340,15 +361,18 @@
                         <div class="row">
                             <div class="col-sm-3">
                                 <h5 class="panel-title">
-                            <span ng-show="block.type == 'text'">
-                                <i class="icon-typography"></i> @{{i+1}}. Text Block
-                            </span>
-                            <span class="text-right" ng-show="block.type == 'image'">
-                                <i class="icon-image2"></i> @{{i+1}}. Image Block
-                            </span>
-                            <span class="text-right" ng-show="block.type == 'embed'">
-                                <i class="icon-embed2"></i> @{{i+1}}. Embed Block
-                            </span>
+                                    <span ng-show="block.type == 'text'">
+                                        <i class="icon-typography"></i> @{{i+1}}. Text Block
+                                    </span>
+                                    <span class="text-right" ng-show="block.type == 'image'">
+                                        <i class="icon-image2"></i> @{{i+1}}. Image Block
+                                    </span>
+                                    <span class="text-right" ng-show="block.type == 'embed'">
+                                        <i class="icon-embed2"></i> @{{i+1}}. Embed Block
+                                    </span>
+                                    <span ng-show="block.type == 'text'">
+                                        <i class="icon-typography"></i> @{{i+1}}. Page Break Block
+                                    </span>
                                 </h5>
                             </div>
                             <div class="col-sm-4 text-right">
@@ -456,6 +480,21 @@
                                 <div ng-bind-html="PCTRL.trustedHTML(block.content)"></div>
                             </div>
                         </div>
+                        <div class="row" ng-if="block.type == 'pagebreak'">
+                            <div class="col-md-6">
+                                <h4>Edit</h4>
+                                <hr>
+                                <text-angular
+                                        ta-toolbar="[['p'], ['h1','h2','h3'], ['bold','italics'], ['insertLink', 'quote']]"
+                                        ng-model="block.content"></text-angular>
+                                <h4>Word count: @{{block.content.split(" ").length}}</h4>
+                            </div>
+                            <div class="col-md-6">
+                                <h4>Preview</h4>
+                                <hr>
+                                <div ng-bind-html="PCTRL.trustedHTML(block.content)"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -512,5 +551,5 @@
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-rangy.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-sanitize.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/methodize-editor.js') }}"?v1.0.2></script>
+    <script src="{{ asset('assets/admin/js/methodize-editor.js?v1.0.3') }}"></script>
 @endsection
