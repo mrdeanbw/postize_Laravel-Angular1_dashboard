@@ -552,11 +552,14 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
 
     vm.imageBlockCount = function() {
         var count = 0;
-        for (var i = 0; i < vm.blocks.length; i++) {
-            if (vm.blocks[i].type == 'image') {
-                count++;
+        if(typeof vm.blocks.length != 'undefined') {
+            for (var i = 0; i < vm.blocks.length; i++) {
+                if (vm.blocks[i].type == 'image') {
+                    count++;
+                }
             }
         }
+
         if(typeof vm.editor != 'undefined') {
             for (var i = 0; i < vm.editor.imageLink.links.length; i++) {
                 count++;
