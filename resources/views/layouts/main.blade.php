@@ -31,7 +31,7 @@
 
     <link href="{{ asset('assets/front/css/style.css?v1.0.6') }}" rel="stylesheet" type="text/css">
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    {{ config('custom.adsense-enable-page-level-ads') }}
+    {!! config('custom.adsense-enable-page-level-ads') !!}
 
     <script>window.twttr = (function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0],
