@@ -87,7 +87,7 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
                 return false;
             }
 
-            if(document.getElementById('status').value == 2) {
+            if(document.getElementById('status') != null && document.getElementById('status').value == 2) {
                 if(!confirm("Are you sure you wish to delete this post?"))
                     return false;
             }
