@@ -127,14 +127,16 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
             return vm.blocks;
         }), function (newVal) {
             vm.totalWordCount = 0;
-            for (var i = 0; i < vm.blocks.length; i++) {
-                if (vm.blocks[i].type == 'text')
-                    vm.totalWordCount += vm.blocks[i].content.split(" ").length;
-                else if (vm.blocks[i].type == 'image') {
-                    if (typeof vm.blocks[i].title != 'undefined')
-                        vm.totalWordCount += vm.blocks[i].title.split(" ").length;
-                    if(typeof vm.blocks[i].description != 'undefined')
-                        vm.totalWordCount += vm.blocks[i].description.split(" ").length;
+            if(vm.blocks != null) {
+                for (var i = 0; i < vm.blocks.length; i++) {
+                    if (vm.blocks[i].type == 'text')
+                        vm.totalWordCount += vm.blocks[i].content.split(" ").length;
+                    else if (vm.blocks[i].type == 'image') {
+                        if (typeof vm.blocks[i].title != 'undefined')
+                            vm.totalWordCount += vm.blocks[i].title.split(" ").length;
+                        if (typeof vm.blocks[i].description != 'undefined')
+                            vm.totalWordCount += vm.blocks[i].description.split(" ").length;
+                    }
                 }
             }
         }, true);
