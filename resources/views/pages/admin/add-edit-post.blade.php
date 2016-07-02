@@ -551,5 +551,5 @@
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-rangy.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-sanitize.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/methodize-editor.js?v1.0.5') }}"></script>
+    <script src="{{ asset('assets/admin/js/methodize-editor.js?v1.0.6') }}"></script>
 @endsection
