@@ -3,6 +3,7 @@ angular.module('MethodizeEditor', ['textAngular']);
 angular.module('MethodizeEditor').controller('MethodizeController', function ($scope, $sce, $interval) {
     var vm = this;
     var autosaveIntervalHolder = null;
+    var previousActiveSelection = null;
     vm.multiplePageBreakCount = 4; // Sensible default, industry standard
     var confirmOnPageExit = function (e)
     {
@@ -142,6 +143,8 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
             }
         }, true);
 
+        previousActiveSelection = vm.editor.active;
+
         vm.initAutosave();
     };
 
@@ -203,6 +206,9 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
             vm.blocks[len - 1].position = len;
             vm.blocks[len - 1].content += "";
             vm.editor.text.content = "";
+
+            if(vm.editor.active == 'pagebreak')
+                vm.editor.active = previousActiveSelection;
         } else if (vm.editor.active == 'image') {
             //image block creating
             if (jQuery("#left-tab1").hasClass('active')) {
@@ -603,6 +609,9 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
 
                 imageBlocksSinceLastPageBreak = 0;
             }
+        }
+        if(vm.editor.active == 'pagebreak') {
+            vm.editor.active = previousActiveSelection;
         }
 
         vm.handleDirtyForm();

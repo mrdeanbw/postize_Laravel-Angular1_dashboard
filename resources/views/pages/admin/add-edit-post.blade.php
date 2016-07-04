@@ -194,17 +194,17 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <button ng-click="PCTRL.editor.active = 'text'" type="button"
+                                <button ng-click="PCTRL.previousActiveSelection = PCTRL.editor.active; PCTRL.editor.active = 'text'" type="button"
                                         class="btn btn-labeled btn-xlg"
                                         ng-class="PCTRL.editor.active == 'text' ? 'btn-success' : 'btn-primary'"><b><i
                                                 class="icon-typography"></i></b> Text
                                 </button>
-                                <button ng-click="PCTRL.editor.active = 'image'" type="button"
+                                <button ng-click="PCTRL.previousActiveSelection = PCTRL.editor.active; PCTRL.editor.active = 'image'" type="button"
                                         class="btn btn-labeled btn-xlg"
                                         ng-class="PCTRL.editor.active == 'image' ? 'btn-success' : 'btn-primary'"><b><i
                                                 class="icon-image2"></i></b> Image
                                 </button>
-                                <button ng-click="PCTRL.editor.active = 'embed'" type="button"
+                                <button ng-click="PCTRL.previousActiveSelection = PCTRL.editor.active; PCTRL.editor.active = 'embed'" type="button"
                                         class="btn btn-labeled btn-xlg"
                                         ng-class="PCTRL.editor.active == 'embed' ? 'btn-success' : 'btn-primary'"><b><i
                                                 class="icon-embed2"></i></b> Embed
@@ -560,5 +560,5 @@
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-rangy.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-sanitize.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/methodize-editor.js?v1.1.2') }}"></script>
+    <script src="{{ asset('assets/admin/js/methodize-editor.js?v1.1.3') }}"></script>
 @endsection
