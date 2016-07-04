@@ -55,6 +55,11 @@ class PostController extends Controller
 
                 $currentPageContent[] = $blockContent[$i];
             }
+
+            if($i == count($blockContent) - 1) {
+                $pages[] = $currentPageContent;
+                $currentPageContent = [];
+            }
         }
 
         if ($pageNumber == 0) $pageNumber = 1;
