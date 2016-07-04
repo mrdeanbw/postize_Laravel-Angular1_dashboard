@@ -2,7 +2,7 @@
 	<div class="wrapper wrapper--header">
 		<section>
 			<a href="{{url('/')}}" class="logo">
-				<img src="{{ config('custom.site-icon-path') }}" alt="">
+				<img src="{{ url(config('custom.site-icon-path')) }}" alt="">
 			</a>
 			<h2 class="resize-post-header">{{ $post->title }}</h2>
 		</section>
