@@ -42,9 +42,7 @@
                             <figure class="avatar">
                                 <img src="{{ $post->author->image }}" alt="">
                             </figure>
-                            <div>by <a href="" class="author">{{$post->author->name}}</a> on <span class="date">
-								{{ DateTime::createFromFormat('Y-m-d H:i:s', $post->created_at)->format('jS F, Y') }}
-							</span></div>
+                            <div>by <a href="" class="author">{{$post->author->name}}</a></div>
                         </div>
                         <div class="row share-buttons small">
                             <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}" target="_blank"

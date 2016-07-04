@@ -12,8 +12,7 @@
             </a>
 
             <div class="meta">
-            	<div>by <span class="author"> {{$post->author->name}}</span> on
-                <span class="date"> {{ DateTime::createFromFormat('Y-m-d H:i:s', $post->created_at)->format('jS F, Y') }}</span></div>
+            	<div>by <span class="author"> {{$post->author->name}}</span></div>
             </div>
         </div>
         <a href="{{ url('category/' . strtolower($post->category->name)) }}" class="category">{{ $post->category->name }}</a>
