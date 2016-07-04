@@ -42,7 +42,15 @@ class PostController extends Controller
                 $currentPageContent = [];
             } else {
                 if ($blockContent[$i]->type == 'image') {
-                    $blockContent[$i]->content = '<img src="' . $blockContent[$i]->url . '" /><span class="source"><span>via:</span><a href="' .
+                    $blockContent[$i]->content = '';
+
+                    if(!empty($blockContent[$i]->title))
+                        $blockContent[$i]->content .= '<h2>' . $blockContent[$i]->title . '</h2>';
+
+                    if(!empty($blockContent[$i]->description))
+                        $blockContent[$i]->content .= '<p>' . $blockContent[$i]->description . '</p>';
+
+                    $blockContent[$i]->content .= '<img src="' . $blockContent[$i]->url . '" /><span class="source"><span>via:</span><a href="' .
                         $blockContent[$i]->sourceurl . '" target="blank">' . $blockContent[$i]->source . '</a></span>';
                 }
 
