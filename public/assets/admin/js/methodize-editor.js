@@ -3,6 +3,7 @@ angular.module('MethodizeEditor', ['textAngular']);
 angular.module('MethodizeEditor').controller('MethodizeController', function ($scope, $sce, $interval) {
     var vm = this;
     var autosaveIntervalHolder = null;
+    vm.multiplePageBreakCount = 4; // Sensible default, industry standard
     var confirmOnPageExit = function (e)
     {
         // If we haven't been passed the event get the window.event
@@ -200,7 +201,7 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
             //attach order, for manual order changing
             var len = vm.blocks.length;
             vm.blocks[len - 1].position = len;
-            vm.blocks[len - 1].content+= "";
+            vm.blocks[len - 1].content += "";
             vm.editor.text.content = "";
         } else if (vm.editor.active == 'image') {
             //image block creating
@@ -344,11 +345,14 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
             vm.blocks[len - 1].position = len;
         }
 
+        vm.handleDirtyForm();
+    };
+
+    vm.handleDirtyForm = function() {
         if (vm.post && vm.blocks.length > 0)
             window.onbeforeunload = confirmOnPageExit;
         else
             window.onbeforeunload = null;
-
     };
 
     vm.addLinkImage = function () {
@@ -573,17 +577,35 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
         }
 
         return count;
-    }
+    };
 
     vm.insertPageBreaks = function() {
+        if(vm.multiplePageBreakCount == 0) return;
+
         var imageBlocksSinceLastPageBreak = 0;
-        for(var i = 0; i < vm.blocks; i++) {
+        for(var i = 0; i < vm.blocks.length; i++) {
             if(vm.blocks[i].type == 'image') {
                 imageBlocksSinceLastPageBreak++;
+            }
 
+            if(i < (vm.blocks.length - 1) && imageBlocksSinceLastPageBreak == vm.multiplePageBreakCount) {
+                var pageBreakBlock = {
+                    type: 'pagebreak',
+                    content: '<!!--nextpage--!!>',
+                    position: i + 2
+                };
 
+                vm.blocks.splice(i + 1, 0, pageBreakBlock);
+
+                // Reorder all blocks after the inserted one
+                for (var j = i + 1; j < vm.blocks.length; j++)
+                    vm.blocks[j].position = j + 1;
+
+                imageBlocksSinceLastPageBreak = 0;
             }
         }
+
+        vm.handleDirtyForm();
     }
 });
 

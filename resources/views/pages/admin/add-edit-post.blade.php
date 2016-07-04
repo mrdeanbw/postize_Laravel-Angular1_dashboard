@@ -351,7 +351,7 @@
                                 <div class="form-group">
                                     <div class="input-group bootstrap-touchspin">
                                         <span class="input-group-addon bootstrap-touchspin-prefix">Set Number of Images On Each Page:</span>
-                                        <input type="text" class="form-control touchspin-button-group ng-pristine ng-untouched ng-valid ng-not-empty" value="50" style="display: block;" ng-model="PCTRL.multiplePageBreakCount">
+                                        <input type="text" class="form-control touchspin-button-group ng-pristine ng-untouched ng-valid ng-not-empty" style="display: block;" ng-model="PCTRL.multiplePageBreakCount">
                                         <div class="input-group-btn">
                                             <button class="btn btn-default bootstrap-touchspin-down legitRipple" type="button" ng-click="PCTRL.multiplePageBreakCount = PCTRL.multiplePageBreakCount - 1">-
                                             </button>
@@ -560,5 +560,5 @@
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-rangy.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-sanitize.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/methodize-editor.js?v1.1.1') }}"></script>
+    <script src="{{ asset('assets/admin/js/methodize-editor.js?v1.1.2') }}"></script>
 @endsection
