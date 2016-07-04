@@ -49,8 +49,12 @@ class PostController extends Controller
                     if(!empty($blockContent[$i]->description))
                         $blockContent[$i]->content .= '<p>' . $blockContent[$i]->description . '</p>';
 
-                    $blockContent[$i]->content .= '<img src="' . $blockContent[$i]->url . '" /><span class="source"><span>via:</span><a href="' .
+                    $blockContent[$i]->content .= '<img src="' . $blockContent[$i]->url . '" />';
+
+                    if(!empty($blockContent[$i]->source) && !empty($blockContent[$i]->sourceurl)) {
+                        $blockContent[$i]->content .= '<span class="source"><span>via:</span><a href="' .
                         $blockContent[$i]->sourceurl . '" target="blank">' . $blockContent[$i]->source . '</a></span>';
+                    }
                 }
 
                 $currentPageContent[] = $blockContent[$i];
