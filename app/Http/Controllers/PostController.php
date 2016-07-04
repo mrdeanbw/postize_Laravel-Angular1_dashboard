@@ -36,8 +36,7 @@ class PostController extends Controller
         $pages = [];
         $currentPageContent = [];
         for($i = 0; $i < count($blockContent); $i++) {
-            if ($blockContent[$i]->type == 'pagebreak' && $i < count($blockContent) - 1) {
-                $numberOfPagesInArticle++;
+            if ($blockContent[$i]->type == 'pagebreak') {
                 $pages[] = $currentPageContent;
                 $currentPageContent = [];
             } else {
@@ -54,13 +53,12 @@ class PostController extends Controller
                         $blockContent[$i]->sourceurl . '" target="blank">' . $blockContent[$i]->source . '</a></span>';
                 }
 
-                if($blockContent[$i]->type != 'pagebreak')
-                    $currentPageContent[] = $blockContent[$i];
+                $currentPageContent[] = $blockContent[$i];
             }
         }
 
         if ($pageNumber == 0) $pageNumber = 1;
-        if ($pageNumber > $numberOfPagesInArticle)
+        if ($pageNumber > count($pages))
             return redirect()->to('/');
 
         $post->blocks = $pages[$pageNumber - 1];
