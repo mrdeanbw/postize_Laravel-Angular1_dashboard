@@ -58,4 +58,4 @@ Route::group(['middleware' => ['web']], function () {
     });
     Route::get('/category/{category}', 'SiteController@getCategoryPage');
 });
-Route::get('{slug}/{userId?}', 'PostController@getPost');
+Route::get('{slug}/{pageNumber?}', 'PostController@getPost');

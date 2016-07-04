@@ -574,6 +574,17 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
 
         return count;
     }
+
+    vm.insertPageBreaks = function() {
+        var imageBlocksSinceLastPageBreak = 0;
+        for(var i = 0; i < vm.blocks; i++) {
+            if(vm.blocks[i].type == 'image') {
+                imageBlocksSinceLastPageBreak++;
+
+
+            }
+        }
+    }
 });
 
 /**

@@ -68,15 +68,15 @@
                         </div>
                     </div>
 
-                    <?php $imagesShown = 0; $adShown = false; ?>
+                    <?php $mediaBlocksShown = 0; $adShown = false; ?>
                     @for($i = 0; $i < count($post->blocks); $i++)
-                        {!! $post->blocks[$i] !!}
+                        {!! $post->blocks[$i]->content !!}
 
-                        @if(strpos($post->blocks[$i], '<img ') !== false && strpos($post->blocks[$i], 'src="http://' . config('custom.app-domain')) !== false)
-                            <?php $imagesShown++; ?>
+                        @if(in_array($post->blocks[$i]->type, ['image', 'embed']))
+                            <?php $mediaBlocksShown++; ?>
                         @endif
 
-                        @if($imagesShown == 2 && !$adShown)
+                        @if($mediaBlocksShown == 1 && !$adShown)
                             <?php $adShown = true; ?>
                             @if(!$preview)
                             <div class="row">
@@ -85,7 +85,7 @@
                                     <span class="ad-disclaimer">ADVERTISEMENT</span>
                                 </div>
                             </div>
-                                @endif
+                            @endif
                         @endif
                     @endfor
 
@@ -97,6 +97,12 @@
                             @endif
                         </div>
                     </div>
+
+                    @if(!$post->is_last_page)
+                        <div class="content row">
+                            <a href="{{ $nextPageUrl }}" class="btn btn--next-page big">Next Page ></a>
+                        </div>
+                    @endif
 
                     <div class="row share-buttons big">
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}"
@@ -120,7 +126,8 @@
                 </div>
             </article>
         </section>
-        
+
+        @if($post->is_last_page)
         <section>
             <article class="item item--post next">
                 <div class="content row">
@@ -128,8 +135,8 @@
                     <a href="{{url($nextPost->slug)}}" class="btn btn--next-post big">Next Post</a>
                </div>
            </article>
-
        </section>
+        @endif
 
         <section>
             <article class="item item--post">
@@ -256,6 +263,10 @@
 @endsection
 
 @section('js-bottom')
+    @if($pageNumber > 1)
+        <script src="//go.mobstitialtag.com/notice.php?p=685922&interstitial=1"></script>
+    @endif
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('.content img').each(function() {

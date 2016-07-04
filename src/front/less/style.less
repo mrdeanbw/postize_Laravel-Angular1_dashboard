@@ -147,7 +147,7 @@ a {
 		margin: 90px auto;
 	}
 
-	&--next-post {
+	&--next-post, &--next-page {
 		height: 30px;
 		line-height: 30px;
 		padding: 0 15px;
@@ -164,6 +164,21 @@ a {
 			text-align: center;
 			z-index: 1;
 			color: #fff !important;
+			font-size: 2em;
+		}
+	}
+
+	&--next-page {
+		&.big {
+			width: 100%;
+			max-width: none;
+			height: 58px;
+			line-height: 58px;
+			text-align: center;
+			z-index: 1;
+			color: #fff !important;
+			font-size: 2em;
+			text-decoration: none !important;
 		}
 	}
 }

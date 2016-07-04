@@ -332,27 +332,44 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-flat">
+                    <div class="panel-heading">
+                        <h5 class="panel-title">Page Breaks</h5>
+                    </div>
+                    <div class="panel-body">
 
-            {{--<div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-flat">
-                        <div class="panel-heading">
-                            <h5 class="panel-title">Page Breaks</h5>
-                        </div>
-                        <div class="panel-body">
-
-                            <hr>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <button type="button" class="btn bg-teal-400 btn-labeled insertContentButton"
-                                            ng-click="PCTRL.editor.active = 'pagebreak'; PCTRL.insertBlock()"><b><i class="icon-pencil4"></i></b> <span>Insert Page Break</span>
-                                    </button>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button type="button" class="btn bg-teal-400 btn-labeled insertContentButton"
+                                        ng-click="PCTRL.editor.active = 'pagebreak'; PCTRL.insertBlock()"><b><i class="icon-pencil4"></i></b> <span>Insert Page Break</span>
+                                </button>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-addon bootstrap-touchspin-prefix">Set Number of Images On Each Page:</span>
+                                        <input type="text" class="form-control touchspin-button-group ng-pristine ng-untouched ng-valid ng-not-empty" value="50" style="display: block;" ng-model="PCTRL.multiplePageBreakCount">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default bootstrap-touchspin-down legitRipple" type="button" ng-click="PCTRL.multiplePageBreakCount = PCTRL.multiplePageBreakCount - 1">-
+                                            </button>
+                                            <button class="btn btn-default bootstrap-touchspin-up legitRipple" type="button" ng-click="PCTRL.multiplePageBreakCount = PCTRL.multiplePageBreakCount + 1">+
+                                            </button>
+                                            <button type="button" class="btn bg-teal-400 btn-labeled insertContentButton"
+                                                    ng-click="PCTRL.editor.active = 'pagebreak'; PCTRL.insertPageBreaks()"><b><i class="icon-pencil4"></i></b> <span>Insert Page Breaks</span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>--}}
+            </div>
+        </div>
 
         <div class="row" ng-repeat="(i, block) in PCTRL.blocks">
             <div class="col-md-12">
@@ -481,18 +498,10 @@
                             </div>
                         </div>
                         <div class="row" ng-if="block.type == 'pagebreak'">
-                            <div class="col-md-6">
-                                <h4>Edit</h4>
-                                <hr>
-                                <text-angular
-                                        ta-toolbar="[['p'], ['h1','h2','h3'], ['bold','italics'], ['insertLink', 'quote']]"
-                                        ng-model="block.content"></text-angular>
-                                <h4>Word count: @{{block.content.split(" ").length}}</h4>
-                            </div>
-                            <div class="col-md-6">
-                                <h4>Preview</h4>
-                                <hr>
-                                <div ng-bind-html="PCTRL.trustedHTML(block.content)"></div>
+                            <div class="col-md-12">
+                                <div class="alert alert-info alert-styled-left alert-bordered">
+                                    <span class="text-semibold">This is a Page Break block, a "Next Page" button will be shown on the website to split the article into multiple pages.</span></a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -551,5 +560,5 @@
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-rangy.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular-sanitize.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/editors/textangular/textAngular.min.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/methodize-editor.js?v1.1.0') }}"></script>
+    <script src="{{ asset('assets/admin/js/methodize-editor.js?v1.1.1') }}"></script>
 @endsection

@@ -13,14 +13,6 @@ class UrlHelpers
 
         return $pathParts[1] ;
     }
-    public static function getNextPageUrl($url) {
-        $pathParts = self::getPathParts($url);
-
-        if(count($pathParts) > 2) {
-
-        }
-        return $pathParts[1];
-    }
 
     public static function getPathParts($url) {
         if (!Extensions::startsWith($url, 'http://')) {
@@ -43,10 +35,6 @@ class UrlHelpers
     }
     public static function getFullPublicContentPath() {
         return public_path() . '/' . config('custom.content-directory') . date('Y') . '/' . date('m') . '/';
-    }
-    
-    public static function getPostUrl($postId, $permalink) {
-        return 'http://toptenhen.com/item/' . $postId . '/' . $permalink;
     }
 
     public static function getPostUrlWithSubdomain($postId, $permalink, $subdomain) {
