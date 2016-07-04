@@ -36,7 +36,7 @@ class PostController extends Controller
         $pages = [];
         $currentPageContent = [];
         for($i = 0; $i < count($blockContent); $i++) {
-            if ($blockContent[$i]->type == 'pagebreak' || $i == count($blockContent) - 1) {
+            if ($blockContent[$i]->type == 'pagebreak' && $i < count($blockContent) - 1) {
                 $numberOfPagesInArticle++;
                 $pages[] = $currentPageContent;
                 $currentPageContent = [];
@@ -54,7 +54,8 @@ class PostController extends Controller
                         $blockContent[$i]->sourceurl . '" target="blank">' . $blockContent[$i]->source . '</a></span>';
                 }
 
-                $currentPageContent[] = $blockContent[$i];
+                if($blockContent[$i]->type != 'pagebreak')
+                    $currentPageContent[] = $blockContent[$i];
             }
         }
 
