@@ -127,9 +127,19 @@
                                 </div>
                             </div>
 
+                            @if(Auth::user()->type == \App\Models\UserType::Administrator)
+                                <div class="form-group">
+                                    <label class="col-lg-3 control-label">Image Block Count:</label>
+
+                                    <div class="col-lg-9">
+                                        <input type="text" class="form-control" ng-model="PCTRL.imageBlockCount" disabled>
+                                    </div>
+                                </div>
+                            @endif
+
                             <div class="text-right">
                                 @if(!empty($post))
-                                <a class="btn btn-success legitRipple" href="{{url($post->slug)}}?__preview=1">Preview Post<i
+                                <a class="btn btn-success legitRipple" href="{{url($post->slug)}}?__preview=1" target="_blank">Preview Post<i
                                             class="icon-arrow-right14 position-right"></i></a>
                                 @endif
                                 <button type="submit" class="btn btn-primary legitRipple">Save Post<i
