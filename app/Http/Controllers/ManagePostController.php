@@ -197,12 +197,12 @@ class ManagePostController extends Controller
             ->with('post', $post)
             ->with('categories', Category::get())
             ->with('message', $message);
-    }
+    }\
 
     public function getPostList() {
         $posts = Post::join('user as u', 'u.id', '=', 'post.user_id')
             ->join('category as c', 'c.id', '=', 'post.category_id')
-            ->whereIn('p.status', [PostStatus::ReadyForReview, PostStatus::Enabled, PostStatus::RequiresRevision])
+            ->whereIn('post.status', [PostStatus::ReadyForReview, PostStatus::Enabled, PostStatus::RequiresRevision])
             ->orderBy('id', 'desc')
             ->select(['post.*', 'u.name as author_name', 'u.email', 'u.image as author_image', 'c.name as category_name'])
             ->paginate(30);
