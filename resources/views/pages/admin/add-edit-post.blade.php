@@ -132,7 +132,7 @@
                                     <label class="col-lg-3 control-label">Image Block Count:</label>
 
                                     <div class="col-lg-9">
-                                        <input type="text" class="form-control" ng-model="PCTRL.imageBlockCount" disabled>
+                                        <input type="text" class="form-control" ng-model="PCTRL.imageBlockCount()" disabled>
                                     </div>
                                 </div>
                             @endif
