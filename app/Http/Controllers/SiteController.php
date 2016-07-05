@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\PostStatus;
 use Symfony\Component\HttpFoundation\Request;
 use View;
+use Auth;
 
 class SiteController extends Controller
 {
