@@ -127,15 +127,20 @@
                                 </div>
                             </div>
 
-                            @if(Auth::user()->type == \App\Models\UserType::Administrator)
-                                <div class="form-group">
-                                    <label class="col-lg-3 control-label">Image Block Count:</label>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Image Block Count:</label>
 
-                                    <div class="col-lg-9">
-                                        <input type="text" class="form-control" ng-model="PCTRL.imageBlockCount()" disabled>
-                                    </div>
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" ng-model="PCTRL.imageBlockCount()" disabled>
                                 </div>
-                            @endif
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Pages In Article: </label>
+
+                                <div class="col-lg-9">
+                                    <input type="text" class="form-control" ng-model="PCTRL.pageCount()" disabled>
+                                </div>
+                            </div>
 
                             <div class="text-right">
                                 @if(!empty($post))

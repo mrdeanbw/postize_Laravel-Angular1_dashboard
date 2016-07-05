@@ -585,6 +585,19 @@ angular.module('MethodizeEditor').controller('MethodizeController', function ($s
         return count;
     };
 
+    vm.pageCount = function() {
+        var count = 1;
+        if(vm.blocks != null) {
+            for (var i = 0; i < vm.blocks.length; i++) {
+                if (vm.blocks[i].type == 'pagebreak') {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    };
+
     vm.insertPageBreaks = function() {
         if(vm.multiplePageBreakCount == 0) return;
 

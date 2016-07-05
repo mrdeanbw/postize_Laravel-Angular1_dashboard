@@ -36,7 +36,8 @@ class SiteController extends Controller
     }
 
     public function getSearch(Request $request) {
-        $posts = Post::whereStatus(PostStatus::Enabled)->where('title', 'like', '%' . $request->input('s') . '%')->orderBy('id', 'desc')->take(10)->get();
+        $maximumResultCount = Auth::check() ? 1000 : 10;
+        $posts = Post::whereStatus(PostStatus::Enabled)->where('title', 'like', '%' . $request->input('s') . '%')->orderBy('id', 'desc')->take($maximumResultCount)->get();
 
         return view('pages.search-results')->with('posts', $posts);
     }
