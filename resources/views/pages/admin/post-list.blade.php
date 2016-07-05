@@ -41,7 +41,7 @@
                                 @if($post->status == \App\Models\PostStatus::Enabled)
                                     <i class="icon-checkmark-circle text-success" data-popup="tooltip" title="" data-original-title="Published"></i><br>
                                 @else
-                                    <i class="icon-question4 text-info" data-popup="tooltip" title="" data-original-title="Pending"></i><br>
+                                    <i class="icon-question4 text-info" data-popup="tooltip" title="" data-original-title="Ready For Review"></i><br>
                                 @endif
                             </td>
                             <td class="text-center">

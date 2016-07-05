@@ -111,6 +111,9 @@
                                             <option value="3" {{ !empty($post) && $post->status == 3 ? 'selected' : '' }}>
                                                 Ready For Review
                                             </option>
+                                            <option value="4" {{ !empty($post) && $post->status == 4 ? 'selected' : '' }}>
+                                                Requires Revision
+                                            </option>
                                         <option value="2" {{ !empty($post) && $post->status == 2 ? 'selected' : '' }}>
                                             Deleted
                                         </option>

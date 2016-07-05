@@ -7,4 +7,5 @@ abstract class PostStatus {
 	const Enabled = 1;
 	const Deleted = 2;
 	const ReadyForReview = 3;
+	const RequiresRevision = 4;
 }
