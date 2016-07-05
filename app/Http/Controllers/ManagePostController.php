@@ -197,7 +197,7 @@ class ManagePostController extends Controller
             ->with('post', $post)
             ->with('categories', Category::get())
             ->with('message', $message);
-    }\
+    }
 
     public function getPostList() {
         $posts = Post::join('user as u', 'u.id', '=', 'post.user_id')
