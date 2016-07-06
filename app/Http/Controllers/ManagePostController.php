@@ -107,9 +107,11 @@ class ManagePostController extends Controller
             $post['user_id'] = Auth::user()->getAuthIdentifier();
         } else {
             $post = Post::find($postId);
-            if (Auth::user()->type == 0 && ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() || $post->status == PostStatus::Enabled)) {
+
+            // TODO: Restore this once Ezra fixes articles
+            /*if (Auth::user()->type == 0 && ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() || $post->status == PostStatus::Enabled)) {
                 return redirect()->to('dashboard/post/list');
-            }
+            }*/
 
             if ($request->input('status') == PostStatus::Deleted && $post['status'] != PostStatus::Deleted) {
                 $post['deleted_at'] = Extensions::getDate();
