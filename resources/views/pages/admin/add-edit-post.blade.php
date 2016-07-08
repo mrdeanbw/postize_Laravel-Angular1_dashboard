@@ -22,7 +22,7 @@
                 <br>If you want to edit this post, you'll have to recreate the blocks using the new editor.
                 <br>However, this post will still be displayed normally on the frontend so immediate action isn't required.
             </div>
-            @if($post->status == \App\Models\PostStatus::RequiresRevision)
+            @if(!empty($post) && $post->status == \App\Models\PostStatus::RequiresRevision)
                 <div class="row">
                     <div class="col-md-12">
                         <div class="alert alert-info alert-styled-left">
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                @elseif(($post->status == \App\Models\PostStatus::Published && $post->internal_comments != null))
+                @elseif(!empty($post) && $post->status == \App\Models\PostStatus::Published && $post->internal_comments != null)
                 <div class="row">
                     <div class="col-md-12">
                         <div class="alert alert-info alert-styled-left">
@@ -178,7 +178,7 @@
                                 <label class="col-lg-3 control-label">Internal Comments: </label>
 
                                 <div class="col-lg-9">
-                                    <textarea name="internal_comments" type="text" class="form-control">{{$post->internal_comments}}</textarea>
+                                    <textarea name="internal_comments" type="text" class="form-control">{{$post->internal_comments or ''}}</textarea>
                                 </div>
                             </div>
                             @endif
