@@ -6,6 +6,15 @@
 @endsection
 
 @section('content')
+    @if($numberOfPostsRequiringRevision > 0)
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-warning alert-styled-left">
+                <span class="text-semibold">You have post(s) that require your attention. They have been sent back to you with comments. Filter posts by the 'Requires Revision' option below.</span>
+            </div>
+        </div>
+    </div>
+    @endif
     <div class="row">
         <div class="col-md-2">
             <a href="{{url('dashboard/post')}}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i
@@ -15,9 +24,6 @@
               action="{{ Request::fullUrl() }}"
               method="post">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            <div class="col-md-1">
-                <label class="control-label">Filtering Options:</label>
-            </div>
             <div class="col-md-3">
                         <select name="statusFilter" class="form-control">
                             <option value="-1" {{ Session::get('statusFilter') == null || Session::get('statusFilter') == -1 ? 'selected' : '' }}>All Posts</option>

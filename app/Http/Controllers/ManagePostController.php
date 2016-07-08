@@ -115,6 +115,7 @@ class ManagePostController extends Controller
 
         $post['title'] = $request->input('title');
         $post['slug'] = !empty($post['slug']) ? $post['slug'] : str_slug($post['title']);
+        $post['internal_comments'] = $request->input('internal_comments');
 
         $post['description'] = $request->input('description');
         $post['category_id'] = $request->input('category_id', 1);
@@ -209,7 +210,13 @@ class ManagePostController extends Controller
             ->select(['post.*', 'u.name as author_name', 'u.email', 'u.image as author_image', 'c.name as category_name'])
             ->paginate($postsPerPage);
 
+        $numberOfPostsRequiringRevision = 0;
+        foreach($posts as $post) {
+            if($post->status == PostStatus::RequiresRevision && Auth::user()->getAuthIdentifier() == $post->user_id)
+                $numberOfPostsRequiringRevision++;
+        }
+
         return view('pages.admin.post-list')
-            ->with(['posts' => $posts]);
+            ->with(['posts' => $posts, 'numberOfPostsRequiringRevision' => $numberOfPostsRequiringRevision]);
     }
 }

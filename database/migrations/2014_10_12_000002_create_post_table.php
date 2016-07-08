@@ -22,6 +22,7 @@ class CreatePostTable extends Migration
             $table->mediumText('blockcontent');
             $table->string('image');
             $table->tinyInteger('status')->default(0);
+            $table->string('internal_comments');
             $table->timestamps();
             $table->softDeletes();
 

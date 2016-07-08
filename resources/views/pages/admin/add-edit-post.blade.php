@@ -22,6 +22,23 @@
                 <br>If you want to edit this post, you'll have to recreate the blocks using the new editor.
                 <br>However, this post will still be displayed normally on the frontend so immediate action isn't required.
             </div>
+            @if($post->status == \App\Models\PostStatus::RequiresRevision)
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-info alert-styled-left">
+                            <p class="text-semibold">
+                                This post needs changes before it can be published, see the comments below:</p><br />
+                            <span>
+                                @if($post->internal_comments != null)
+                                    {!! nl2br($post->internal_comments)  !!}
+                                @else
+                                    This post needs changes before it can be published, but moderators haven't yet specified which changes need to be made, check back later
+                                 @endif
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            @endif
         <div class="row">
             <div class="col-md-6">
                 <a href="{{url('dashboard/post/list')}}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i
@@ -144,6 +161,15 @@
                                     <input type="text" class="form-control" ng-model="PCTRL.pageCount()" disabled>
                                 </div>
                             </div>
+                            @if(Auth::user()->type == \App\Models\UserType::Administrator || Auth::user()->type == \App\Models\UserType::Moderator)
+                            <div class="form-group">
+                                <label class="col-lg-3 control-label">Internal Comments: </label>
+
+                                <div class="col-lg-9">
+                                    <textarea name="internal_comments" type="text" class="form-control">{{$post->internal_comments}}</textarea>
+                                </div>
+                            </div>
+                            @endif
 
                             <div class="text-right">
                                 @if(!empty($post))
