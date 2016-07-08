@@ -76,60 +76,6 @@ class Extensions
         return substr(str_shuffle("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $num);
     }
 
-    public static function obfs($source, $addition, $pos) {
-        return substr_replace($source, $addition, $pos, 0);
-    }
-
-    public static function unobfs($source, $pos, $length) {
-        return substr_replace($source, '', $pos, $length);
-    }
-
-    public static function getRandomCaption() {
-        $captions = array(
-            'Check out this awesome article!',
-            'You\'ll love this one.',
-            'Don\t miss this one!',
-            'Pure gold, this is awesome.',
-            'You need to see this.'
-        );
-
-        return $captions[array_rand($captions)];
-    }
-
-    public static function getRandomMessageCallToAction() {
-        $messageCallToActions = array(
-            'See them all: ',
-            'More: ',
-            'More here: ',
-            'Check out the best ones: ',
-            'See all pics: ',
-            'Look at all images here: '
-        );
-
-        return $messageCallToActions[array_rand($messageCallToActions)];
-    }
-
-    public static function updateViewsInMemoryDataStoreByGuid($guid, $pageNumber = 0) {
-        $subdomain = UrlHelpers::getSubdomain();
-
-        if (!empty($subdomain)) {
-            $redis = Redis::connection();
-            $redis->incr($guid . '-views');
-
-            if ($pageNumber > 0)
-                $redis->incr($guid . '-clicks');
-        }
-    }
-
-    public static function compareViewCount($a, $b) {
-        if ($a->ViewCount > $b->ViewCount)
-            return -1;
-        if ($a->ViewCount < $b->ViewCount)
-            return 1;
-
-        return 0;
-    }
-
     public static function echoPrettyArrayDump($array) {
         echo "<pre>";
         print_r($array);
@@ -143,104 +89,6 @@ class Extensions
                 return true;
         }
         return false;
-    }
-
-    public static function paymentFrequencyToEnum($paymentFrequency) {
-        $enumValue = 'None';
-
-        switch (strtolower($paymentFrequency)) {
-            case 'net30':
-                $enumValue = 'N30';
-                break;
-            case 'monthly':
-                $enumValue = 'MON';
-                break;
-            case 'weekly':
-                $enumValue = 'WEK';
-                break;
-            default:
-                break;
-        }
-
-        return $enumValue;
-    }
-
-    public static function uploadThumbsToCdn() {
-        $filesDirectory = public_path() . DIRECTORY_SEPARATOR . 'thumbs';
-        $processedFilesDirectory = public_path() . DIRECTORY_SEPARATOR . 'thumbsprocessed';
-        $errorFilesDirectory = public_path() . DIRECTORY_SEPARATOR . 'thumbserror';
-        $files = File::allFiles($filesDirectory);
-        try {
-            foreach ($files as $file) {
-                $cdnFile =  OpenCloud::upload(Config::get('custom.cdn-thumbs-container-name'), $file);
-
-                flush();
-                ob_flush();
-                echo $cdnFile->PublicURL() . "\n";
-
-                if (!empty($cdnFile)) {
-                    if (!File::exists($processedFilesDirectory)) {
-                        File::makeDirectory($processedFilesDirectory, 0775);
-                    }
-
-                    File::move($file->getPathName(), $processedFilesDirectory . DIRECTORY_SEPARATOR . $file->getFilename());
-                } else {
-                    throw new Exception("Error with CDN upload.");
-                }
-            }
-        }
-        catch(Exception $e) {
-            if (!File::exists($errorFilesDirectory)) {
-                File::makeDirectory($errorFilesDirectory, 0775);
-            }
-
-            File::move($file->getPathName(), $errorFilesDirectory . DIRECTORY_SEPARATOR . $file->getFilename());
-
-            throw $e;
-        }
-
-        HipChat::notify('Uploaded thumbs to CDN', 'green');
-
-        return Response::make(200);
-    }
-
-    public static function uploadContentToCdn() {
-        $filesDirectory = public_path() . DIRECTORY_SEPARATOR . 'uploads';
-        $processedFilesDirectory = public_path() . DIRECTORY_SEPARATOR . 'uploadsprocessed';
-        $errorFilesDirectory = public_path() . DIRECTORY_SEPARATOR . 'uploadserror';
-        $files = File::allFiles($filesDirectory);
-        try {
-            foreach ($files as $file) {
-                $cdnFile =  OpenCloud::upload(Config::get('custom.cdn-content-container-name'), $file);
-
-                flush();
-                ob_flush();
-                echo $cdnFile->PublicURL() . "\n";
-
-                if (!empty($cdnFile)) {
-                    if (!File::exists($processedFilesDirectory)) {
-                        File::makeDirectory($processedFilesDirectory, 0775);
-                    }
-
-                    File::move($file->getPathName(), $processedFilesDirectory . DIRECTORY_SEPARATOR . $file->getFilename());
-                } else {
-                    throw new Exception("Error with CDN upload.");
-                }
-            }
-        }
-        catch(Exception $e) {
-            if (!File::exists($errorFilesDirectory)) {
-                File::makeDirectory($errorFilesDirectory, 0775);
-            }
-
-            File::move($file->getPathName(), $errorFilesDirectory . DIRECTORY_SEPARATOR . $file->getFilename());
-
-            throw $e;
-        }
-
-        HipChat::notify('Uploaded content to CDN', 'green');
-
-        return Response::make(200);
     }
 
     static function startsWith($haystack, $needle) {
@@ -287,5 +135,17 @@ class Extensions
         }
 
         return substr($text, 0, $characters - 3) . '...';
+    }
+
+    public static function arrayUnsetByValue(array $array, $valueToUnset) {
+        if(!$array || count($array) == 0) return;
+
+        foreach ($array as $key => $value) {
+            if ($value == $valueToUnset) {
+                unset($array[$key]);
+            }
+        }
+
+        return array_values($array);
     }
 }

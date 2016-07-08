@@ -7,7 +7,40 @@
 
 @section('content')
     <div class="row">
-        <a href="{{url('dashboard/post')}}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i class="glyphicon glyphicon-plus"></i></b> Create Post</a><br><br>
+        <div class="col-md-2">
+            <a href="{{url('dashboard/post')}}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i
+                            class="glyphicon glyphicon-plus"></i></b> Create Post</a><br><br>
+        </div>
+        <form class="form-horizontal"
+              action="{{ Request::fullUrl() }}"
+              method="post">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <div class="col-md-1">
+                <label class="control-label">Filtering Options:</label>
+            </div>
+            <div class="col-md-3">
+                        <select name="statusFilter" class="form-control">
+                            <option value="-1" {{ Session::get('statusFilter') == null || Session::get('statusFilter') == -1 ? 'selected' : '' }}>All Posts</option>
+                            <option value="0" {{ Session::get('statusFilter') == 0 ? 'selected' : '' }}>In Progress (Draft)</option>
+                            <option value="1" {{ Session::get('statusFilter') == 1 ? 'selected' : '' }}>Published</option>
+                            <option value="3" {{ Session::get('statusFilter') == 3 ? 'selected' : '' }}>Ready For Review</option>
+                            <option value="4" {{ Session::get('statusFilter') == 4 ? 'selected' : '' }}>Requires Revision</option>
+                        </select>
+            </div>
+            <div class="col-md-3">
+                <select name="postsPerPageFilter" class="form-control">
+                    <option value="20" {{ Session::get('postsPerPageFilter') == 20 ? 'selected' : '' }}>Show 20 Posts Per Page</option>
+                    <option value="50" {{ Session::get('postsPerPageFilter') == 50 ? 'selected' : '' }}>Show 50 Posts Per Page</option>
+                    <option value="100" {{ Session::get('postsPerPageFilter') == 100 ? 'selected' : '' }}>Show 100 Posts Per Page</option>
+                    @if(Auth::user()->type == \App\Models\UserType::Administrator)
+                        <option value="1000" {{ Session::get('postsPerPageFilter') == 1000 ? 'selected' : '' }}>Show 1000 Posts Per Page</option>
+                    @endif
+                </select>
+                </div>
+            <div class="col-md-3">
+                <input style="margin-left:20px" type="submit" class="btn btn-primary legitRipple" value="Filter Posts"/>
+            </div>
+        </form>
     </div>
 
     <div class="panel panel-flat" id="data">
@@ -39,21 +72,32 @@
                             </td>
                             <td class="text-center postizeStatusWrap">
                                 @if($post->status == \App\Models\PostStatus::Enabled)
-                                    <i class="icon-checkmark-circle text-success" data-popup="tooltip" title="" data-original-title="Published"></i><br>
-                                @else
-                                    <i class="icon-question4 text-info" data-popup="tooltip" title="" data-original-title="Ready For Review"></i><br>
+                                    <i class="icon-checkmark-circle text-success" data-popup="tooltip" title=""
+                                       data-original-title="Published"></i><br>
+                                @elseif($post->status == \App\Models\PostStatus::ReadyForReview)
+                                    <i class="icon-question4 text-info" data-popup="tooltip" title=""
+                                       data-original-title="Ready For Review"></i><br>
+                                @elseif($post->status == \App\Models\PostStatus::Pending)
+                                <i class="icon-question4 text-info" data-popup="tooltip" title=""
+                                   data-original-title="Draft"></i><br>
+                                @elseif($post->status == \App\Models\PostStatus::RequiresRevision)
+                                <i class="icon-question4 text-info" data-popup="tooltip" title=""
+                                   data-original-title="Requires Revision"></i><br>
                                 @endif
                             </td>
                             <td class="text-center">
                                 @if ($post->author_image)
-                                    <img src="{{$post->author_image}}" class="img-circle img-md" alt="" data-popup="tooltip" title="" data-original-title="{{$post->author_name}}">
+                                    <img src="{{$post->author_image}}" class="img-circle img-md" alt=""
+                                         data-popup="tooltip" title="" data-original-title="{{$post->author_name}}">
                                 @else
                                     <span class="label label-flat border-indigo text-indigo-600">{{$post->author_name}}</span>
                                 @endif
                             </td>
                             <td>
-                                @if(Auth::user()->type == 1 || $post->user_id == Auth::user()->id)
-                                <a href="{{url('dashboard/post/' . $post->id) }}" class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i class="glyphicon glyphicon-edit"></i></b> Edit</a>
+                                @if(Auth::user()->type == \App\Models\UserType::Administrator || Auth::user()->type == \App\Models\UserType::Moderator || $post->user_id == Auth::user()->id)
+                                    <a href="{{url('dashboard/post/' . $post->id) }}"
+                                       class="btn bg-indigo-400 btn-labeled btn-rounded"><b><i
+                                                    class="glyphicon glyphicon-edit"></i></b> Edit</a>
                                 @endif
                             </td>
                         </tr>

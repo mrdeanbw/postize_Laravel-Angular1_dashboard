@@ -2,7 +2,7 @@
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard', 'DashboardController@getDashboard');
-    Route::get('dashboard/post/list', 'ManagePostController@getPostList');
+    Route::any('dashboard/post/list', 'ManagePostController@getPostList');
     Route::post('dashboard/post/delete', 'ManagePostController@postDeletePost');
     Route::post('dashboard/post/uploadimage', 'ManagePostController@postUploadImage');
     Route::get('dashboard/post/{postId?}', 'ManagePostController@getAddEditPost');

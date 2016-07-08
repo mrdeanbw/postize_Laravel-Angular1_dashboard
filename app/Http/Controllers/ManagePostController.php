@@ -11,42 +11,18 @@ use App\Models\UrlHelpers;
 use Auth;
 use DB;
 use File;
-use Grids;
 use Html;
 use Image;
 use Log;
 use JavaScript;
-use Mockery\CountValidator\Exception;
-use Nayjest\Grids\Components\Base\RenderableRegistry;
-use Nayjest\Grids\Components\ColumnHeadersRow;
-use Nayjest\Grids\Components\ColumnsHider;
-use Nayjest\Grids\Components\CsvExport;
-use Nayjest\Grids\Components\ExcelExport;
-use Nayjest\Grids\Components\Filters\DateRangePicker;
-use Nayjest\Grids\Components\FiltersRow;
-use Nayjest\Grids\Components\HtmlTag;
-use Nayjest\Grids\Components\Laravel5\Pager;
-use Nayjest\Grids\Components\OneCellRow;
-use Nayjest\Grids\Components\RecordsPerPage;
-use Nayjest\Grids\Components\RenderFunc;
-use Nayjest\Grids\Components\ShowingRecords;
-use Nayjest\Grids\Components\TFoot;
-use Nayjest\Grids\Components\THead;
-use Nayjest\Grids\Components\TotalsRow;
-use Nayjest\Grids\DataRow;
-use Nayjest\Grids\DbalDataProvider;
-use Nayjest\Grids\EloquentDataProvider;
-use Nayjest\Grids\FieldConfig;
-use Nayjest\Grids\FilterConfig;
-use Nayjest\Grids\Grid;
-use Nayjest\Grids\GridConfig;
-use Nayjest\Grids\SelectFilterConfig;
 use Symfony\Component\HttpFoundation\Request;
+use Session;
 
 
 class ManagePostController extends Controller
 {
-    public function getAddEditPost($postId = null) {
+    public function getAddEditPost($postId = null)
+    {
         $post = [];
         if (!empty($postId)) {
             $post = Post::where('id', $postId)
@@ -72,8 +48,14 @@ class ManagePostController extends Controller
             ->with('categories', Category::get());
     }
 
-    public function postUploadImage(Request $request) {
+    public function postUploadImage(Request $request)
+    {
+        $this->validate($request, [
+            'imagecontent' => 'image'
+        ]);
+
         if ($request->hasFile('imagecontent') && $request->file('imagecontent')->isValid()) {
+
             Log::info('Payload included "image" parameter, and the image is valid');
             $filename = Extensions::getChars(32) . '.' . $request->file('imagecontent')->getClientOriginalExtension();
             $request->file('imagecontent')->move(
@@ -90,7 +72,8 @@ class ManagePostController extends Controller
      * @param null $postId
      * @return mixed
      */
-    public function postAddEditPost(Request $request, $postId = null) {
+    public function postAddEditPost(Request $request, $postId = null)
+    {
         if ($postId == null) {
             if (Post::where('slug', str_slug($request->input('title')))->exists()) {
                 \Log::info('Slug existed:' . $request->input('title'));
@@ -142,12 +125,11 @@ class ManagePostController extends Controller
         $blocks = json_decode($request->input('blocks'));
         $content = [];
 
-        for($i = 0; $i < count($blocks); $i++) {
+        for ($i = 0; $i < count($blocks); $i++) {
 
             if ($blocks[$i]->type == "text" || $blocks[$i]->type == "embed") {
                 $newcontent = $blocks[$i]->content;
-            }
-            elseif ($blocks[$i]->type == "image") {
+            } elseif ($blocks[$i]->type == "image") {
                 $newcontent = "";
 
                 if (!empty($blocks[$i]->title))
@@ -156,7 +138,7 @@ class ManagePostController extends Controller
                 if (!empty($blocks[$i]->description))
                     $newcontent .= "<p>" . $blocks[$i]->description . "</p>";
 
-                $nc = '<img src="'.$blocks[$i]->url.'" >';
+                $nc = '<img src="' . $blocks[$i]->url . '" >';
                 $transformed = $postTransformer->handleContentExternalUrls($nc, $post->id);
                 if ($transformed) {
                     $newcontent .= $transformed[0];
@@ -166,11 +148,11 @@ class ManagePostController extends Controller
                 }
 
                 if (!empty($blocks[$i]->source) && !empty($blocks[$i]->sourceurl))
-                    $newcontent .= "<span class='source'><span>via:</span> <a href='".$blocks[$i]->sourceurl."' target='_blank'>".$blocks[$i]->source."</a></span>";
+                    $newcontent .= "<span class='source'><span>via:</span> <a href='" . $blocks[$i]->sourceurl . "' target='_blank'>" . $blocks[$i]->source . "</a></span>";
                 elseif (!empty($blocks[$i]->source) && empty($blocks[$i]->sourceurl))
-                    $newcontent .= "<span class='source'><span>via:</span> ".$blocks[$i]->source . "</span>";
+                    $newcontent .= "<span class='source'><span>via:</span> " . $blocks[$i]->source . "</span>";
                 elseif (empty($blocks[$i]->source) && !empty($blocks[$i]->sourceurl))
-                    $newcontent .= "<span class='source'><span>via:</span> <a href='".$blocks[$i]->sourceurl."' target='_blank'>Source</a></span>";
+                    $newcontent .= "<span class='source'><span>via:</span> <a href='" . $blocks[$i]->sourceurl . "' target='_blank'>Source</a></span>";
             }
 
             array_push($content, $newcontent);
@@ -201,13 +183,31 @@ class ManagePostController extends Controller
             ->with('message', $message);
     }
 
-    public function getPostList() {
+    public function getPostList(Request $request)
+    {
+        $postStatesShown = [PostStatus::Enabled, PostStatus::RequiresRevision, PostStatus::ReadyForReview];
+
+        if($request->has('statusFilter')) {
+            $statusFilter = $request->get('statusFilter');
+            Session::put('statusFilter', $statusFilter);
+
+            switch($statusFilter) {
+                case 0: $postStatesShown = [PostStatus::Pending]; break;
+                case 1: $postStatesShown = [PostStatus::Enabled]; break;
+                case 3: $postStatesShown = [PostStatus::ReadyForReview]; break;
+                case 4: $postStatesShown = [PostStatus::RequiresRevision]; break;
+            }
+        }
+
+        $postsPerPage = $request->get('postsPerPageFilter', 20);
+        Session::put('postsPerPageFilter', $postsPerPage);
+
         $posts = Post::join('user as u', 'u.id', '=', 'post.user_id')
             ->join('category as c', 'c.id', '=', 'post.category_id')
-            ->whereIn('post.status', [PostStatus::ReadyForReview, PostStatus::Pending, PostStatus::Enabled, PostStatus::RequiresRevision])
+            ->whereIn('post.status', $postStatesShown)
             ->orderBy('id', 'desc')
             ->select(['post.*', 'u.name as author_name', 'u.email', 'u.image as author_image', 'c.name as category_name'])
-            ->paginate(30);
+            ->paginate($postsPerPage);
 
         return view('pages.admin.post-list')
             ->with(['posts' => $posts]);
