@@ -42,7 +42,7 @@
             </div>
         </form>
     </div>
-
+    <div class="text-center">{!! $posts->links() !!}</div><br />
     <div class="panel panel-flat" id="data">
         <div class="panel-body">
             <div class="table-responsive">
