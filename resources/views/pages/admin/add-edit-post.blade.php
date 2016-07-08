@@ -33,7 +33,19 @@
                                     {!! nl2br($post->internal_comments)  !!}
                                 @else
                                     This post needs changes before it can be published, but moderators haven't yet specified which changes need to be made, check back later
-                                 @endif
+                                @endif
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                @elseif(($post->status == \App\Models\PostStatus::Published && $post->internal_comments != null))
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-info alert-styled-left">
+                            <p class="text-semibold">
+                                Internal Comments: </p><br />
+                            <span>
+                                {!! nl2br($post->internal_comments)  !!}
                             </span>
                         </div>
                     </div>
