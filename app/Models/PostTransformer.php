@@ -8,7 +8,8 @@ use Log;
 
 class PostTransformer
 {
-    public function handleContentImageData($content, $postId) {
+    public function handleContentImageData($content, $postId)
+    {
         do {
             $positionOfImageDataStart = strpos($content, 'data:image');
 
@@ -39,7 +40,8 @@ class PostTransformer
         return $content;
     }
 
-    public function handleExtraneousData($content) {
+    public function handleExtraneousData($content)
+    {
         $content = $this->stripAttributes($content, ['style', 'src', 'alt', 'target', 'href', 'height', 'width', 'frameborder', 'allowfullscreen']);
 
         // Specific, i like
@@ -79,58 +81,50 @@ class PostTransformer
     }
 
 
-    public function handleContentExternalUrls($content, $postId) {
-        preg_match_all('!src="https?://\S+!', $content, $matches);
-
-        $imageUrlsToScrape = collect($matches[0])->filter(function ($imageUrl) {
-            return strpos($imageUrl, 'youtube.com') === false && strpos($imageUrl, 'iframe') === false;
-        });
-
-        foreach ($imageUrlsToScrape as $imageUrl) {
-            $imageUrl = trim(substr($imageUrl, 5), '"'); // 5 = the length of src="
-            if (strpos($imageUrl, config('custom.app-domain')) !== false) {
-                return false;
-            }
-
-            $imageDatesPath = UrlHelpers::getCurrentFolderDates();
-            $imageBasePath = public_path() . '/' . config('custom.content-directory');
-            if (!File::exists($imageBasePath . $imageDatesPath)) {
-                File::makeDirectory($imageBasePath . $imageDatesPath, 0755, true);
-            }
-
-            $filename = $imageDatesPath . Extensions::getChars(6) . '_' . $postId . '.' . (new \SplFileInfo(preg_replace('/\?.*/', '', $imageUrl)))->getExtension();
-
-            try {
-                //Image::make($imageUrl)->save($imageBasePath . $filename);
-                $file = fopen($imageBasePath . $filename, 'w+');
-
-                $curl = curl_init($imageUrl);
-
-                // Update as of PHP 5.4 array() can be written []
-                curl_setopt_array($curl, [
-                    CURLOPT_URL            => $imageUrl,
-                    CURLOPT_BINARYTRANSFER => 1,
-                    CURLOPT_RETURNTRANSFER => 1,
-                    CURLOPT_FILE           => $file,
-                    CURLOPT_TIMEOUT        => 50,
-                    CURLOPT_USERAGENT      => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'
-                ]);
-
-                $response = curl_exec($curl);
-                if($response === false) {
-                    throw new \Exception('Curl error: ' . curl_error($curl));
-                }
-            } catch (\Exception $e) {
-                \Log::info('ManagePostController::handleContentExternalUrls: Unable to scrape image: ' . $imageUrl . ' - Exception: ' . $e->getMessage());
-                return $content;
-            }
-            $content = '<img src="' . UrlHelpers::getContentLink($filename) . '" />';
+    public function handleContentExternalUrls($url, $postId)
+    {
+        if (strpos($url, config('custom.app-domain')) !== false) {
+            return $url;
         }
 
-        return [$content, UrlHelpers::getContentLink($filename)];
+        $imageDatesPath = UrlHelpers::getCurrentFolderDates();
+        $imageBasePath = public_path() . '/' . config('custom.content-directory');
+        if (!File::exists($imageBasePath . $imageDatesPath)) {
+            File::makeDirectory($imageBasePath . $imageDatesPath, 0755, true);
+        }
+
+        $filename = $imageDatesPath . Extensions::getChars(6) . '_' . $postId . '.' . (new \SplFileInfo(preg_replace('/\?.*/', '', $url)))->getExtension();
+
+        try {
+            //Image::make($imageUrl)->save($imageBasePath . $filename);
+            $file = fopen($imageBasePath . $filename, 'w+');
+
+            $curl = curl_init($url);
+
+            // Update as of PHP 5.4 array() can be written []
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $url,
+                CURLOPT_BINARYTRANSFER => 1,
+                CURLOPT_RETURNTRANSFER => 1,
+                CURLOPT_FILE => $file,
+                CURLOPT_TIMEOUT => 50,
+                CURLOPT_USERAGENT => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'
+            ]);
+
+            $response = curl_exec($curl);
+            if ($response === false) {
+                throw new \Exception('Curl error: ' . curl_error($curl));
+            }
+        } catch (\Exception $e) {
+            \Log::info('ManagePostController::handleContentExternalUrls: Unable to scrape image: ' . $url . ' - Exception: ' . $e->getMessage());
+            return false;
+        }
+
+        return UrlHelpers::getContentLink($filename);
     }
 
-    function stripAttributes($s, $allowedattr = array()) {
+    function stripAttributes($s, $allowedattr = array())
+    {
         if (preg_match_all("/<[^>]*\\s([^>]*)\\/*>/msiU", $s, $res, PREG_SET_ORDER)) {
             foreach ($res as $r) {
                 $tag = $r[0];
@@ -156,7 +150,8 @@ class PostTransformer
         return $s;
     }
 
-    function convertYoutube($string) {
+    function convertYoutube($string)
+    {
         return preg_replace(
             "/\s*[a-zA-Z\/\/:\.]*youtu(be.com\/watch\?v=|.be\/)([a-zA-Z0-9\-_]+)([a-zA-Z0-9\/\*\-\_\?\&\;\%\=\.]*)/i",
             "<iframe width=\"420\" height=\"315\" src=\"//www.youtube.com/embed/$2\" allowfullscreen></iframe>",
@@ -164,7 +159,8 @@ class PostTransformer
         );
     }
 
-    public function containsVideoLink(Post $post) {
+    public function containsVideoLink(Post $post)
+    {
         preg_match_all('!src="https?://\S+!', $post->content, $matches);
 
         $matchedVideoUrls = collect($matches[0])->filter(function ($matchedUrl) {
@@ -174,7 +170,8 @@ class PostTransformer
         return !$matchedVideoUrls->isEmpty();
     }
 
-    function getOpenGraphThumbnail($html) {
+    function getOpenGraphThumbnail($html)
+    {
         $matches = array();
 
         // images
