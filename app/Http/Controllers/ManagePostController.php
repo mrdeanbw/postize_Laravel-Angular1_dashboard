@@ -199,7 +199,7 @@ class ManagePostController extends Controller
             }
         }
 
-        $postsPerPage = $request->get('postsPerPageFilter', 20);
+        $postsPerPage = $request->get('postsPerPageFilter', Session::get('postsPerPageFilter', 20));
         Session::put('postsPerPageFilter', $postsPerPage);
 
         $posts = Post::join('user as u', 'u.id', '=', 'post.user_id')
