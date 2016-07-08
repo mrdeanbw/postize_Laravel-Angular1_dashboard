@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                @elseif(!empty($post) && $post->status == \App\Models\PostStatus::Published && $post->internal_comments != null)
+                @elseif(!empty($post) && $post->status == \App\Models\PostStatus::Enabled && $post->internal_comments != null)
                 <div class="row">
                     <div class="col-md-12">
                         <div class="alert alert-info alert-styled-left">
