@@ -190,8 +190,8 @@ class ManagePostController extends Controller
     {
         $postStatesShown = [PostStatus::Enabled, PostStatus::RequiresRevision, PostStatus::ReadyForReview, PostStatus::Pending];
 
-        $statusFilter = $request->has('statusFilter', Session::get('statusFilter', null));
-        if($statusFilter) {
+        $statusFilter = $request->get('statusFilter', Session::get('statusFilter', null));
+        if($statusFilter != null) {
             Session::put('statusFilter', $statusFilter);
 
             switch($statusFilter) {
