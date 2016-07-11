@@ -188,7 +188,7 @@ class ManagePostController extends Controller
 
     public function getPostList(Request $request)
     {
-        $postStatesShown = [PostStatus::Enabled, PostStatus::RequiresRevision, PostStatus::ReadyForReview];
+        $postStatesShown = [PostStatus::Enabled, PostStatus::RequiresRevision, PostStatus::ReadyForReview, PostStatus::Pending];
 
         if($request->has('statusFilter')) {
             $statusFilter = $request->get('statusFilter');

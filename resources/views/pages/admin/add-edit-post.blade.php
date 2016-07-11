@@ -343,7 +343,8 @@
                                                 </div>
                                                 <div class="col-md-1"><input class="form-control"
                                                                              placeholder="Link to image"
-                                                                             ng-model="t.url"></div>
+                                                                             ng-model="t.url"
+                                                                             ng-change="PCTRL.autoAddImageSourceName(t)"></div>
 
                                                 <div class="col-md-2">
                                                     <input class="form-control" placeholder="Image Title (optional)" ng-model="t.title">
