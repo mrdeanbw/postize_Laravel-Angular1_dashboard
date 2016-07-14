@@ -90,10 +90,8 @@
             addService(googletag.pubads()); 
         slots[2] = googletag.defineSlot('/28112988/PT_Leaderboard_BTF', [[336, 280], [300, 250]], 'div-gpt-ad-1466672412806-2').
             defineSizeMapping(map_lb).
-            addService(googletag.pubads()); 
-        slots[3] = googletag.defineSlot('/28112988/PT_Sidebar_ATF', [300, 250], 'div-gpt-ad-1466672412806-4').
-            defineSizeMapping(map_side).
-            addService(googletag.pubads()); 
+            addService(googletag.pubads());
+        slots[3] = googletag.defineSlot('/28112988/PT_Sidebar_ATF', [[300, 600], [300, 250]], 'div-gpt-ad-1466672412806-4').addService(googletag.pubads());
         googletag.defineSlot('/28112988/PT_Sidebar_BTF', [300, 250], 'div-gpt-ad-1466672412806-5').addService(googletag.pubads());
         googletag.defineSlot('/28112988/PT_InPost', [[300, 250], [336, 280]], 'div-gpt-ad-1466672412806-0').addService(googletag.pubads());
 
