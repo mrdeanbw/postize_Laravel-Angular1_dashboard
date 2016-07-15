@@ -51,6 +51,7 @@
         }(document, "script", "twitter-wjs"));</script>
     @yield('css')
 
+
     <script type='text/javascript'>
       var googletag = googletag || {};
       googletag.cmd = googletag.cmd || [];
@@ -106,6 +107,35 @@
         googletag.enableServices();
       });
     </script>
+
+    <script type="text/javascript">var m_w = window.innerWidth; </script>
+    <style type="text/css">
+        .fake, .mgtobottom { display: none; }
+        @media (max-width:480px) {
+            #M182928ScriptRootC61843 {display:none!important;}
+            #M182928ScriptRootC61846 {min-height: 180px;}
+            #M182928ScriptRootC61848 {display: none!important;}
+            #M182928ScriptRootC61850 {min-height: 180px;}
+        }
+        @media (min-width:480px) {
+            #M182928ScriptRootC61843 {min-height: 200px;}
+            #M182928ScriptRootC61846 {display:none!important;}
+            #M182928ScriptRootC61848 {min-height: 200px;}
+            #M182928ScriptRootC61850 {display: none!important;}
+        }
+        @media (max-width:568px) {
+            #M182928PreloadC61852 {min-height: 200px;}
+            #M182928PreloadC61859 {display: none!important;}
+        }
+        @media (min-width:1024px) {
+            #M182928PreloadC61852 {min-height: 200px;}
+            #M182928PreloadC61859 {display: none!important;}
+        }
+        @media (min-width:667px) and (max-width:900px) {
+            #M182928PreloadC61852 {display: none!important;}
+            #M182928PreloadC61859 {min-height: 180px;}
+        }
+    </style>
 
     @yield('js-top')
 </head>

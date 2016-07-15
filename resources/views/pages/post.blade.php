@@ -23,6 +23,12 @@
         <section>
             <article class="item item--post news">
 
+                @if(!$preview && !$mobile)
+                <div class="ad-content">
+                    {!! config('custom.mgid-top') !!}
+                </div>
+                @endif
+
                 <figure class="top-image">
                     <img src="{{$post->image}}" alt="">
                 </figure>
@@ -139,7 +145,7 @@
         <section>
             <article class="item item--post">
                 <div class="content promoted">
-                    {!! config('custom.content-advertising-1') !!}
+                    {!! config('custom.mgid-below-content') !!}
                 </div>
             </article>
         </section>

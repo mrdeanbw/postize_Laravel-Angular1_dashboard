@@ -35,6 +35,28 @@ return [
 					var rcds = document.getElementById("rcjsload_5e8030"); rcds.appendChild(rcel);
 				})();</script>',
 
+    'mgid-top' => '<div id="M182928ScriptRootC61843">
+                    <div id="M182928PreloadC61843"></div>
+                    <script> if ( m_w > 480 ) { (function(){ var D=new Date(),d=document,b=\'body\',ce=\'createElement\',ac=\'appendChild\',st=\'style\',ds=\'display\',n=\'none\',gi=\'getElementById\'; var i=d[ce](\'iframe\');i[st][ds]=n;d[gi]("M182928ScriptRootC61843")[ac](i);try{var iw=i.contentWindow.document;iw.open();iw.writeln("<ht"+"ml><bo"+"dy></bo"+"dy></ht"+"ml>");iw.close();var c=iw[b];} catch(e){var iw=d;var c=d[gi]("M182928ScriptRootC61843");}var dv=iw[ce](\'div\');dv.id="MG_ID";dv[st][ds]=n;dv.innerHTML=61843;c[ac](dv); var s=iw[ce](\'script\');s.async=\'async\';s.defer=\'defer\';s.charset=\'utf-8\';s.src="//jsc.mgid.com/p/o/postize.com.61843.js?t="+D.getYear()+D.getMonth()+D.getDate()+D.getHours();c[ac](s);})(); }
+                    </script>
+                </div>
+                <div id="M182928ScriptRootC61846">
+                    <div id="M182928PreloadC61846"></div>
+                    <script> if ( m_w <= 480 ) { (function(){ var D=new Date(),d=document,b=\'body\',ce=\'createElement\',ac=\'appendChild\',st=\'style\',ds=\'display\',n=\'none\',gi=\'getElementById\'; var i=d[ce](\'iframe\');i[st][ds]=n;d[gi]("M182928ScriptRootC61846")[ac](i);try{var iw=i.contentWindow.document;iw.open();iw.writeln("<ht"+"ml><bo"+"dy></bo"+"dy></ht"+"ml>");iw.close();var c=iw[b];} catch(e){var iw=d;var c=d[gi]("M182928ScriptRootC61846");}var dv=iw[ce](\'div\');dv.id="MG_ID";dv[st][ds]=n;dv.innerHTML=61846;c[ac](dv); var s=iw[ce](\'script\');s.async=\'async\';s.defer=\'defer\';s.charset=\'utf-8\';s.src="//jsc.mgid.com/p/o/postize.com.61846.js?t="+D.getYear()+D.getMonth()+D.getDate()+D.getHours();c[ac](s);})(); }
+                    </script>
+                </div>',
+
+    'mgid-below-content' => '<div id="M182928ScriptRootC61848">
+                                <div id="M182928PreloadC61848"></div>
+                                <script> if ( m_w > 480 ) { (function(){ var D=new Date(),d=document,b=\'body\',ce=\'createElement\',ac=\'appendChild\',st=\'style\',ds=\'display\',n=\'none\',gi=\'getElementById\'; var i=d[ce](\'iframe\');i[st][ds]=n;d[gi]("M182928ScriptRootC61848")[ac](i);try{var iw=i.contentWindow.document;iw.open();iw.writeln("<ht"+"ml><bo"+"dy></bo"+"dy></ht"+"ml>");iw.close();var c=iw[b];} catch(e){var iw=d;var c=d[gi]("M182928ScriptRootC61848");}var dv=iw[ce](\'div\');dv.id="MG_ID";dv[st][ds]=n;dv.innerHTML=61848;c[ac](dv); var s=iw[ce](\'script\');s.async=\'async\';s.defer=\'defer\';s.charset=\'utf-8\';s.src="//jsc.mgid.com/p/o/postize.com.61848.js?t="+D.getYear()+D.getMonth()+D.getDate()+D.getHours();c[ac](s);})();	}
+                                </script>
+                            </div>
+                            <div id="M182928ScriptRootC61850">
+                                <div id="M182928PreloadC61850"></div>
+                                <script> if ( m_w <= 480 ) { (function(){ var D=new Date(),d=document,b=\'body\',ce=\'createElement\',ac=\'appendChild\',st=\'style\',ds=\'display\',n=\'none\',gi=\'getElementById\'; var i=d[ce](\'iframe\');i[st][ds]=n;d[gi]("M182928ScriptRootC61850")[ac](i);try{var iw=i.contentWindow.document;iw.open();iw.writeln("<ht"+"ml><bo"+"dy></bo"+"dy></ht"+"ml>");iw.close();var c=iw[b];} catch(e){var iw=d;var c=d[gi]("M182928ScriptRootC61850");}var dv=iw[ce](\'div\');dv.id="MG_ID";dv[st][ds]=n;dv.innerHTML=61850;c[ac](dv); var s=iw[ce](\'script\');s.async=\'async\';s.defer=\'defer\';s.charset=\'utf-8\';s.src="//jsc.mgid.com/p/o/postize.com.61850.js?t="+D.getYear()+D.getMonth()+D.getDate()+D.getHours();c[ac](s);})(); }
+                                </script>
+                            </div>',
+
     'banner-advertising-square-1' => '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                                     <ins class="adsbygoogle"
                                          style="display:inline-block;width:300px;height:250px"
