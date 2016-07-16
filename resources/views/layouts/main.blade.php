@@ -110,7 +110,9 @@
 
     <script type="text/javascript">var m_w = window.innerWidth; </script>
     <style type="text/css">
-        .fake, .mgtobottom { display: none; }
+        .fake, .mgtobottom, .mgheader > div, .mgheader > span {
+            display: none !important;
+        }
         @media (max-width:480px) {
             #M182928ScriptRootC61843 {display:none!important;}
             #M182928ScriptRootC61846 {min-height: 180px;}
