@@ -79,6 +79,9 @@ class PostController extends Controller
             $nextPageUrl .= '?' . $urlParts['query'];
         }
 
+        if($post->id == 612)
+        Log::info('PUBLSH.CO - ' . Request::ip() . ' - ' . $_SERVER['HTTP_USER_AGENT']);
+
         return view('pages.post')
             ->with('post', $post)
             ->with('pageNumber', $pageNumber)

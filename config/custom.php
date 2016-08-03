@@ -57,6 +57,17 @@ return [
                                 </script>
                             </div>',
 
+    'mgid-right-rail' => '<div id="M182928ScriptRootC61852"> 
+                                <div id="M182928PreloadC61852"></div> 
+                                <script> if ( m_w <= 568 && m_w >= 1024) { (function(){ var D=new Date(),d=document,b=\'body\',ce=\'createElement\',ac=\'appendChild\',st=\'style\',ds=\'display\',n=\'none\',gi=\'getElementById\'; var i=d[ce](\'iframe\');i[st][ds]=n;d[gi]("M182928ScriptRootC61852")[ac](i);try{var iw=i.contentWindow.document;iw.open();iw.writeln("<ht"+"ml><bo"+"dy></bo"+"dy></ht"+"ml>");iw.close();var c=iw[b];} catch(e){var iw=d;var c=d[gi]("M182928ScriptRootC61852");}var dv=iw[ce](\'div\');dv.id="MG_ID";dv[st][ds]=n;dv.innerHTML=61852;c[ac](dv); var s=iw[ce](\'script\');s.async=\'async\';s.defer=\'defer\';s.charset=\'utf-8\';s.src="//jsc.mgid.com/p/o/postize.com.61852.js?t="+D.getYear()+D.getMonth()+D.getDate()+D.getHours();c[ac](s);})(); }
+                                </script> 
+                            </div> 
+                            <div id="M182928ScriptRootC61859"> 
+                                <div id="M182928PreloadC61859"></div> 
+                                <script> if ( m_w >= 667 && m_w <= 900 ){ (function(){ var D=new Date(),d=document,b=\'body\',ce=\'createElement\',ac=\'appendChild\',st=\'style\',ds=\'display\',n=\'none\',gi=\'getElementById\'; var i=d[ce](\'iframe\');i[st][ds]=n;d[gi]("M182928ScriptRootC61859")[ac](i);try{var iw=i.contentWindow.document;iw.open();iw.writeln("<ht"+"ml><bo"+"dy></bo"+"dy></ht"+"ml>");iw.close();var c=iw[b];} catch(e){var iw=d;var c=d[gi]("M182928ScriptRootC61859");}var dv=iw[ce](\'div\');dv.id="MG_ID";dv[st][ds]=n;dv.innerHTML=61859;c[ac](dv); var s=iw[ce](\'script\');s.async=\'async\';s.defer=\'defer\';s.charset=\'utf-8\';s.src="//jsc.mgid.com/p/o/postize.com.61859.js?t="+D.getYear()+D.getMonth()+D.getDate()+D.getHours();c[ac](s);})(); }
+                                </script> 
+                            </div>',
+
     'banner-advertising-square-1' => '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                                     <ins class="adsbygoogle"
                                          style="display:inline-block;width:300px;height:250px"
