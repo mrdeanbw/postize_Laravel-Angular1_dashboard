@@ -52,7 +52,21 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('pages.post', function($view) {
             view()->share('page', 'post');
-            $view->with('nextPost', Post::with('author')->with('category')->where('id', '!=', $view->post->id)->where('status', 1)->orderByRaw(DB::raw('RAND()'))->take(1)->first());
+            $posts = DB::table('post as p')
+                    ->join('category as c', 'c.id', '=', 'p.category_id')
+                    ->join('user as u', 'u.id', '=', 'p.user_id')
+                ->where('p.id', '!=', $view->post->id)
+                ->where('p.status', 1)
+                ->orderBy('p.id', 'desc')
+                ->take(50)
+                ->get(['p.*',
+                    'c.name as category_name',
+                    'u.name as author_name',
+                    'u.image as author_image']);
+
+            $post = $posts[array_rand($posts)];
+
+            $view->with('nextPost', $post);
         });
     }
 

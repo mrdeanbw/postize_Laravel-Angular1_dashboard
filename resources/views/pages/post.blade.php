@@ -21,9 +21,9 @@
     <div class="page">
 
         <section>
-            <article class="item item--post news">
+            <article class="item item--post item--top news">
 
-                @if(!$preview && !$mobile)
+                @if(!$preview && $mobile)
                 <div class="ad-content">
                     {!! config('custom.mgid-top') !!}
                 </div>
@@ -106,7 +106,12 @@
                         <div class="content row">
                             <a href="{{ $nextPageUrl }}" class="btn btn--next-page big">Next Page ></a>
                         </div>
+                        @else
+                        <div class="content row">
+                            <a href="{{ url($nextPost->slug) }}" class="btn btn--next-page big">Next Post ></a>
+                        </div>
                     @endif
+
 
                     <div class="row share-buttons big">
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}"
@@ -131,17 +136,6 @@
             </article>
         </section>
 
-        @if($post->is_last_page)
-        <section>
-            <article class="item item--post next">
-                <div class="content row">
-                    <h2>See what's next on {{ ucwords(config('custom.app-domain')) }}</h2>
-                    <a href="{{url($nextPost->slug)}}" class="btn btn--next-post big">Next Post</a>
-               </div>
-           </article>
-       </section>
-        @endif
-
         <section>
             <article class="item item--post">
                 <div class="content promoted">
@@ -159,7 +153,7 @@
         <section>
             <h1 class="section-heading">Next Post</h1>
 
-            <article class="item item--big next-post {{ strtolower($nextPost->category->name) }}" id="next-post">
+            <article class="item item--big next-post {{ strtolower($nextPost->category_name) }}" id="next-post">
                 <div class="item__image-holder">
                     <a href="{{url($nextPost->slug)}}" class="image" id="next-post-url">
                         <figure>
@@ -191,10 +185,9 @@
                     <div class="meta-holder">
                         <div class="meta">
                             <figure class="avatar">
-                                <img src="{{$nextPost->author->image}}" alt="">
+                                <img src="{{$nextPost->author_image}}" alt="">
                             </figure>
-                            <div>by <a href="{{url($nextPost->slug)}}" class="author">{{$nextPost->author->name}}</a> on
-                                <span class="date">{{ DateTime::createFromFormat('Y-m-d H:i:s', $nextPost->created_at)->format('jS F, Y') }}</span></div>
+                            <div>by <a href="{{url($nextPost->slug)}}" class="author">{{$nextPost->author_name}}</a></div>
                             </div>
                             {{-- <a href="{{url($post->slug)}}" class="btn">Read more</a> --}}
                             <div class="row share-buttons small">
@@ -219,7 +212,7 @@
                     </div>
                 </div>
             </div>
-            <a href="{{ url('category/' . strtolower($nextPost->category->name)) }}" class="category">{{ $nextPost->category->name }}</a>
+            <a href="{{ url('category/' . strtolower($nextPost->category_name)) }}" class="category">{{ $nextPost->category_name }}</a>
 
         </article>
         </section>
@@ -239,16 +232,7 @@
 
         @include('partials.sidebar-articles')
 
-        {{-- <div class="sticky">
-            <div class="add">
-
-            </div>
-
-            @include('partials.subscribe')
-
-        </div>--}}
-
-        <div class="sticky sticky--facebook">
+        <div class="sticky">
             <div class="row">
                 <div class="ad-content">
                     @if(!$preview)
@@ -259,18 +243,19 @@
                     @endif
                 </div>
             </div>
-            <div class="fb-page" data-href="{{config('custom.facebook-url')}}" data-height="500" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="{{config('custom.facebook-url')}}" class="fb-xfbml-parse-ignore"><a href="{{config('custom.facebook-url')}}">{{config('custom.app-name')}}</a></blockquote></div>
-
+            @if(!$preview)
+                <div class="row">
+                    <div class="ad-content">
+                        {!! config('custom.mgid-right-rail') !!}
+                    </div>
+                </div>
+            @endif
         </div>
 
     </aside>
 @endsection
 
 @section('js-bottom')
-    @if($pageNumber > 1)
-        <script src="//go.mobstitialtag.com/notice.php?p=685922&interstitial=1"></script>
-    @endif
-
     <script type="text/javascript">
         $(document).ready(function() {
             $('.content img').each(function() {
