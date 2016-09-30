@@ -23,12 +23,6 @@
         <section>
             <article class="item item--post item--top news">
 
-                @if(!$preview && $mobile)
-                <div class="ad-content">
-                    {!! config('custom.mgid-top') !!}
-                </div>
-                @endif
-
                 <figure class="top-image">
                     <img src="{{$post->image}}" alt="">
                 </figure>
@@ -38,7 +32,27 @@
 
                     <div class="row">
                         <div class="ad-content">
-                            {!! config('custom.pt-leaderboard-atf') !!}
+                            @if($mobile)
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- PT_Leaderboard_300x250 -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:300px;height:250px"
+                                     data-ad-client="ca-pub-1766805469808808"
+                                     data-ad-slot="2336573377"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            @else
+                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                <!-- PT_Leaderboard_ATF_728x90 -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:728px;height:90px"
+                                     data-ad-client="ca-pub-1766805469808808"
+                                     data-ad-slot="8104457372"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+                            @endif
                             <span class="ad-disclaimer">ADVERTISEMENT</span>
                         </div>
                     </div>
@@ -50,26 +64,29 @@
                             </figure>
                             <div>by <a href="" class="author">{{$post->author->name}}</a></div>
                         </div>
-                        <div class="row share-buttons small">
-                            <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}" target="_blank"
-                               class="row facebook">
-                                <div>
-                                    <svg>
-                                        <use xlink:href="#svg-facebook"></use>
-                                    </svg>
-                                </div>
-                                <span>Share</span>
-                            </a>
-                            <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}"
-                               class="row twitter">
-                                <div>
-                                    <svg>
-                                        <use xlink:href="#svg-twitter"></use>
-                                    </svg>
-                                </div>
-                                <span>Tweet</span>
-                            </a>
-                        </div>
+                        @if(!$mobile)
+                            <div class="row share-buttons small">
+                                <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}"
+                                   target="_blank"
+                                   class="row facebook">
+                                    <div>
+                                        <svg>
+                                            <use xlink:href="#svg-facebook"></use>
+                                        </svg>
+                                    </div>
+                                    <span>Share</span>
+                                </a>
+                                <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}"
+                                   class="row twitter">
+                                    <div>
+                                        <svg>
+                                            <use xlink:href="#svg-twitter"></use>
+                                        </svg>
+                                    </div>
+                                    <span>Tweet</span>
+                                </a>
+                            </div>
+                        @endif
                     </div>
 
                     <?php $mediaBlocksShown = 0; $adShown = false; ?>
@@ -83,12 +100,20 @@
                         @if($mediaBlocksShown == 1 && !$adShown)
                             <?php $adShown = true; ?>
                             @if(!$preview)
-                            <div class="row">
-                                <div class="ad-content">
-                                    {!! config('custom.pt-in-post') !!}
-                                    <span class="ad-disclaimer">ADVERTISEMENT</span>
+                                <div class="row">
+                                    <div class="ad-content">
+                                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                        <!-- PT_InPost_300x250_2 -->
+                                        <ins class="adsbygoogle"
+                                             style="display:inline-block;width:300px;height:250px"
+                                             data-ad-client="ca-pub-1766805469808808"
+                                             data-ad-slot="7826864976"></ins>
+                                        <script>
+                                            (adsbygoogle = window.adsbygoogle || []).push({});
+                                        </script>
+                                        <span class="ad-disclaimer">ADVERTISEMENT</span>
+                                    </div>
                                 </div>
-                            </div>
                             @endif
                         @endif
                     @endfor
@@ -96,7 +121,27 @@
                     <div class="row">
                         <div class="ad-content">
                             @if(!$preview)
-                                {!! config('custom.pt-leaderboard-btf') !!}
+                                @if($mobile)
+                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                    <!-- PT_Leaderboard_BTF_300x250 -->
+                                    <ins class="adsbygoogle"
+                                         style="display:inline-block;width:300px;height:250px"
+                                         data-ad-client="ca-pub-1766805469808808"
+                                         data-ad-slot="3534656977"></ins>
+                                    <script>
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+                                @else
+                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                    <!-- PT_Leaderboard_BTF_728x90 -->
+                                    <ins class="adsbygoogle"
+                                         style="display:inline-block;width:728px;height:90px"
+                                         data-ad-client="ca-pub-1766805469808808"
+                                         data-ad-slot="2177946578"></ins>
+                                    <script>
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+                                @endif
                                 <span class="ad-disclaimer">ADVERTISEMENT</span>
                             @endif
                         </div>
@@ -106,7 +151,7 @@
                         <div class="content row">
                             <a href="{{ $nextPageUrl }}" class="btn btn--next-page big">Next Page ></a>
                         </div>
-                        @else
+                    @else
                         <div class="content row">
                             <a href="{{ url($nextPost->slug) }}" class="btn btn--next-page big">Next Post ></a>
                         </div>
@@ -162,19 +207,19 @@
                     </a>
                     <div class="play-btn">
                         <svg viewBox="0 0 60 60">
-                          <title>play icon</title>
-                          <g>
-                            <path class="play" fill="#f1f1f1" d="M24.89,40.84c-0.37,0.22-0.83,0.23-1.2,0.02s-0.6-0.61-0.6-1.04V20.2c0-0.43,0.23-0.83,0.6-1.04
-                            c0.37-0.21,0.83-0.21,1.2,0.02l16.35,9.81c0.36,0.21,0.58,0.6,0.58,1.02s-0.22,0.81-0.58,1.02L24.89,40.84z" />
-                            <path class="pause hidden" fill="#f1f1f1" d="M28.03,19.06v21.88c0,0.86-0.7,1.56-1.56,1.56h-3.12c-0.86,0-1.56-0.7-1.56-1.56V19.06
+                            <title>play icon</title>
+                            <g>
+                                <path class="play" fill="#f1f1f1" d="M24.89,40.84c-0.37,0.22-0.83,0.23-1.2,0.02s-0.6-0.61-0.6-1.04V20.2c0-0.43,0.23-0.83,0.6-1.04
+                            c0.37-0.21,0.83-0.21,1.2,0.02l16.35,9.81c0.36,0.21,0.58,0.6,0.58,1.02s-0.22,0.81-0.58,1.02L24.89,40.84z"/>
+                                <path class="pause hidden" fill="#f1f1f1" d="M28.03,19.06v21.88c0,0.86-0.7,1.56-1.56,1.56h-3.12c-0.86,0-1.56-0.7-1.56-1.56V19.06
                             c0-0.86,0.7-1.56,1.56-1.56h3.12C27.33,17.5,28.03,18.2,28.03,19.06z M38.46,19.06v21.88c0,0.86-0.7,1.56-1.56,1.56h-3.12
-                            c-0.86,0-1.56-0.7-1.56-1.56V19.06c0-0.86,0.7-1.56,1.56-1.56h3.12C37.76,17.5,38.46,18.2,38.46,19.06z" />
-                            <path class="stroke-bg" fill="none" stroke="#999" stroke-width="4" d="M30,7C17.32,7,7,17.32,7,30
-                            c0,12.68,10.32,23,23,23c12.68,0,23-10.32,23-23C53,17.32,42.68,7,30,7z" />
-                            <path class="stroke" fill="none" stroke="#f1f1f1" stroke-width="4" d="M30,7C17.32,7,7,17.32,7,30
-                            c0,12.68,10.32,23,23,23c12.68,0,23-10.32,23-23C53,17.32,42.68,7,30,7z" />
-                        </g>
-                    </svg>
+                            c-0.86,0-1.56-0.7-1.56-1.56V19.06c0-0.86,0.7-1.56,1.56-1.56h3.12C37.76,17.5,38.46,18.2,38.46,19.06z"/>
+                                <path class="stroke-bg" fill="none" stroke="#999" stroke-width="4" d="M30,7C17.32,7,7,17.32,7,30
+                            c0,12.68,10.32,23,23,23c12.68,0,23-10.32,23-23C53,17.32,42.68,7,30,7z"/>
+                                <path class="stroke" fill="none" stroke="#f1f1f1" stroke-width="4" d="M30,7C17.32,7,7,17.32,7,30
+                            c0,12.68,10.32,23,23,23c12.68,0,23-10.32,23-23C53,17.32,42.68,7,30,7z"/>
+                            </g>
+                        </svg>
                     </div>
                 </div>
                 <div class="info">
@@ -187,13 +232,15 @@
                             <figure class="avatar">
                                 <img src="{{$nextPost->author_image}}" alt="">
                             </figure>
-                            <div>by <a href="{{url($nextPost->slug)}}" class="author">{{$nextPost->author_name}}</a></div>
+                            <div>by <a href="{{url($nextPost->slug)}}" class="author">{{$nextPost->author_name}}</a>
                             </div>
-                            {{-- <a href="{{url($post->slug)}}" class="btn">Read more</a> --}}
-                            <div class="row share-buttons small">
-                                <a href="https://www.facebook.com/sharer/sharer.php?u={{url($nextPost->slug)}}" target="_blank"
-                                 class="row facebook">
-                                 <div>
+                        </div>
+                        {{-- <a href="{{url($post->slug)}}" class="btn">Read more</a> --}}
+                        <div class="row share-buttons small">
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{url($nextPost->slug)}}"
+                               target="_blank"
+                               class="row facebook">
+                                <div>
                                     <svg>
                                         <use xlink:href="#svg-facebook"></use>
                                     </svg>
@@ -201,20 +248,21 @@
                                 <span>Share</span>
                             </a>
                             <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($nextPost->slug)}}"
-                             class="row twitter">
-                             <div>
-                                <svg>
-                                    <use xlink:href="#svg-twitter"></use>
-                                </svg>
-                            </div>
-                            <span>Tweet</span>
-                        </a>
+                               class="row twitter">
+                                <div>
+                                    <svg>
+                                        <use xlink:href="#svg-twitter"></use>
+                                    </svg>
+                                </div>
+                                <span>Tweet</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <a href="{{ url('category/' . strtolower($nextPost->category_name)) }}" class="category">{{ $nextPost->category_name }}</a>
+                <a href="{{ url('category/' . strtolower($nextPost->category_name)) }}"
+                   class="category">{{ $nextPost->category_name }}</a>
 
-        </article>
+            </article>
         </section>
     </div>
 
@@ -222,8 +270,8 @@
         <div class="row">
             <div class="ad-content">
                 @if(!$preview)
-                {!! config('custom.pt-sidebar-atf') !!}
-                <span class="ad-disclaimer">ADVERTISEMENT</span>
+                    {!! config('custom.pt-sidebar-atf') !!}
+                    <span class="ad-disclaimer">ADVERTISEMENT</span>
                 @else
                     <img src="http://placehold.it/300x600">
                 @endif
@@ -257,8 +305,8 @@
 
 @section('js-bottom')
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('.content img').each(function() {
+        $(document).ready(function () {
+            $('.content img').each(function () {
                 $(this).removeAttr('style');
             })
         });
