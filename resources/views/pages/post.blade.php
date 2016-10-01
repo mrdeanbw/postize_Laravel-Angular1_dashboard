@@ -32,27 +32,13 @@
 
                     <div class="row">
                         <div class="ad-content">
-                            @if($mobile)
-                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                <!-- PT_Leaderboard_300x250 -->
-                                <ins class="adsbygoogle"
-                                     style="display:inline-block;width:300px;height:250px"
-                                     data-ad-client="ca-pub-1766805469808808"
-                                     data-ad-slot="2336573377"></ins>
-                                <script>
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
-                                </script>
-                            @else
-                                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                <!-- PT_Leaderboard_ATF_728x90 -->
-                                <ins class="adsbygoogle"
-                                     style="display:inline-block;width:728px;height:90px"
-                                     data-ad-client="ca-pub-1766805469808808"
-                                     data-ad-slot="8104457372"></ins>
-                                <script>
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
-                                </script>
-                            @endif
+                            <ins class="adsbygoogle"
+                                 style="display:inline-block;width:300px;height:250px"
+                                 data-ad-client="ca-pub-1766805469808808"
+                                 data-ad-slot="2336573377"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
                             <span class="ad-disclaimer">ADVERTISEMENT</span>
                         </div>
                     </div>
