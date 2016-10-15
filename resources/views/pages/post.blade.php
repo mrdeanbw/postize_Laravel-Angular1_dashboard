@@ -187,7 +187,7 @@
         </section>
 
         @if($mobile)
-        <section>
+        <section class="text-center">
             <div id="fc_2507917978"></div>
             <script type="text/javascript">
                 (function (d,c) {
