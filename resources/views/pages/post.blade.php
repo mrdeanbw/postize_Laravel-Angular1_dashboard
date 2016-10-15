@@ -170,11 +170,34 @@
         <section>
             <article class="item item--post">
                 <div class="content promoted">
-                    {!! config('custom.mgid-below-content') !!}
+                    <div id="rcjsload_d38057"></div>
+                    <script type="text/javascript">
+                        (function() {
+                            var referer="";try{if(referer=document.referrer,"undefined"==typeof referer)throw"undefined"}catch(exception){referer=document.location.href,(""==referer||"undefined"==typeof referer)&&(referer=document.URL)}referer=referer.substr(0,700);
+                            var rcel = document.createElement("script");
+                            rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
+                            rcel.type = 'text/javascript';
+                            rcel.src = "http://trends.revcontent.com/serve.js.php?w=17087&t="+rcel.id+"&c="+(new Date()).getTime()+"&width="+(window.outerWidth || document.documentElement.clientWidth)+"&referer="+referer;
+                            rcel.async = true;
+                            var rcds = document.getElementById("rcjsload_d38057"); rcds.appendChild(rcel);
+                        })();
+                    </script>
                 </div>
             </article>
         </section>
 
+        <section>
+            <div id="fc_2507917978"></div>
+            <script type="text/javascript">
+                (function (d,c) {
+                    var s = d.createElement('script');
+                    s.type = 'text/javascript';
+                    s.src = 'https://a.rfgsi.com/v2/banner?fc_id=fc_2507917978&si_id=355&se_id=589';
+                    s.async = true;
+                    d.getElementById(c).appendChild(s);
+                })(document, 'fc_2507917978');
+            </script>
+        </section>
         <section>
             <div class="comments">
                 <div class="fb-comments" data-href="{{url($post->slug)}}" data-width="100%" data-numposts="5"></div>
@@ -280,7 +303,18 @@
             @if(!$preview)
                 <div class="row">
                     <div class="ad-content">
-                        {!! config('custom.mgid-right-rail') !!}
+                        <div id="rcjsload_b1bdc5"></div>
+                        <script type="text/javascript">
+                            (function() {
+                                var referer="";try{if(referer=document.referrer,"undefined"==typeof referer)throw"undefined"}catch(exception){referer=document.location.href,(""==referer||"undefined"==typeof referer)&&(referer=document.URL)}referer=referer.substr(0,700);
+                                var rcel = document.createElement("script");
+                                rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
+                                rcel.type = 'text/javascript';
+                                rcel.src = "http://trends.revcontent.com/serve.js.php?w=17088&t="+rcel.id+"&c="+(new Date()).getTime()+"&width="+(window.outerWidth || document.documentElement.clientWidth)+"&referer="+referer;
+                                rcel.async = true;
+                                var rcds = document.getElementById("rcjsload_b1bdc5"); rcds.appendChild(rcel);
+                            })();
+                        </script>
                     </div>
                 </div>
             @endif
