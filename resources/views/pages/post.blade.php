@@ -186,6 +186,7 @@
             </article>
         </section>
 
+        @if($mobile)
         <section>
             <div id="fc_2507917978"></div>
             <script type="text/javascript">
@@ -198,11 +199,12 @@
                 })(document, 'fc_2507917978');
             </script>
         </section>
-        <section>
+        @endif
+        {{--<section>
             <div class="comments">
                 <div class="fb-comments" data-href="{{url($post->slug)}}" data-width="100%" data-numposts="5"></div>
             </div>
-        </section>
+        </section>--}}
 
         <section>
             <h1 class="section-heading">Next Post</h1>
