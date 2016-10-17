@@ -186,20 +186,7 @@
             </article>
         </section>
 
-        @if($mobile)
-        <section class="text-center">
-            <div id="fc_2507917978"></div>
-            <script type="text/javascript">
-                (function (d,c) {
-                    var s = d.createElement('script');
-                    s.type = 'text/javascript';
-                    s.src = 'https://a.rfgsi.com/v2/banner?fc_id=fc_2507917978&si_id=355&se_id=589';
-                    s.async = true;
-                    d.getElementById(c).appendChild(s);
-                })(document, 'fc_2507917978');
-            </script>
-        </section>
-        @endif
+       
         {{--<section>
             <div class="comments">
                 <div class="fb-comments" data-href="{{url($post->slug)}}" data-width="100%" data-numposts="5"></div>
