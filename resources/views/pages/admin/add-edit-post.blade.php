@@ -32,23 +32,7 @@
                 <br>If you want to edit this post, you'll have to recreate the blocks using the new editor.
                 <br>However, this post will still be displayed normally on the frontend so immediate action isn't required.
             </div>
-            @if(!empty($post) && $post->status == \App\Models\PostStatus::RequiresRevision)
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-info alert-styled-left">
-                            <p class="text-semibold">
-                                This post needs changes before it can be published, see the comments below:</p><br />
-                            <span>
-                                @if($post->internal_comments != null)
-                                    {!! nl2br($post->internal_comments)  !!}
-                                @else
-                                    This post needs changes before it can be published, but moderators haven't yet specified which changes need to be made, check back later
-                                @endif
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                @elseif(!empty($post) && !empty($postActivity) && count($postActivity) > 0)
+            @if(!empty($post) && !empty($postActivity) && count($postActivity) > 0)
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-info panel-bordered">
