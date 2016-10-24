@@ -5,6 +5,16 @@
 @section('css')
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel='stylesheet' href='{{ asset('assets/plugins/editors/textangular/textAngular.css') }}'>
+
+    <style type="text/css">
+        .post-statistics span {
+            font-size: 1.5em !important;
+        }
+
+        .post-statistics ul {
+            list-style: none;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -67,10 +77,10 @@
                                             <tr>
                                                 <td class="text-center">
                                                     @if($activity->type == \App\Models\PostActivityType::AddedComment)
-                                                        <i class="fa fa-comment fa-3x" aria-hidden="true" style="color: #a6e1ec"></i><br />
+                                                        <i class="fa fa-comment fa-3x" style="color: #a6e1ec"></i><br />
                                                         Comment
                                                         @else
-                                                        <i class="fa fa-file-text-o fa-3x" aria-hidden="true"></i><br />
+                                                        <i class="fa fa-file-text-o fa-3x"></i><br />
                                                         Activity
                                                     @endif
                                                 </td>
@@ -119,6 +129,11 @@
                     <div class="panel panel-flat">
                         <div class="panel-heading">
                             <h5 class="panel-title">Post Details</h5>
+                            <div class="heading-elements">
+                                <ul class="icons-list">
+                                    <li><a data-action="collapse" class=""></a></li>
+                                </ul>
+                            </div>
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
@@ -191,25 +206,23 @@
                             @endif
 
                             <div class="form-group">
-                                <label class="col-lg-1 control-label">Article word count:</label>
+                                <label class="col-lg-1 control-label">Statistics:</label>
 
-                                <div class="col-lg-9">
-                                    <input type="text" class="form-control" ng-model="PCTRL.totalWordCount" disabled>
-                                </div>
-                            </div>
+                                <div class="col-lg-9 post-statistics">
+                                    <ul>
+                                        <li><i class="fa fa-image fa-2x" style="color: #b3d271"></i>
+                                            <span ng-bind="PCTRL.imageBlockCount()" disabled></span><span style="font-size: 1.5em"> Image Blocks</span></li>
+                                        <li>
 
-                            <div class="form-group">
-                                <label class="col-lg-1 control-label">Image Block Count:</label>
+                                            <i class="fa fa-image fa-2x" style="color: #cc6666"></i>
+                                            <span ng-bind="PCTRL.pageCount()" disabled></span><span> Pages In Article</span>
+                                        </li>
+                                        <li>
 
-                                <div class="col-lg-9">
-                                    <input type="text" class="form-control" ng-model="PCTRL.imageBlockCount()" disabled>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-lg-1 control-label">Pages In Article: </label>
-
-                                <div class="col-lg-9">
-                                    <input type="text" class="form-control" ng-model="PCTRL.pageCount()" disabled>
+                                            <i class="fa fa-file-word-o fa-2x" style="color: #455A64"></i>
+                                            <span ng-bind="PCTRL.totalWordCount" disabled></span><span> Word Count</span>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             @if(Auth::user()->type == \App\Models\UserType::Administrator || Auth::user()->type == \App\Models\UserType::Moderator)
@@ -243,6 +256,11 @@
                 <div class="panel panel-flat">
                     <div class="panel-heading">
                         <h5 class="panel-title">Thumbnail Generator</h5>
+                        <div class="heading-elements">
+                            <ul class="icons-list">
+                                <li><a data-action="collapse" class=""></a></li>
+                            </ul>
+                        </div>
                     </div>
                     <div class="panel-body">
 
