@@ -214,7 +214,7 @@
                                             <span ng-bind="PCTRL.imageBlockCount()" disabled></span><span style="font-size: 1.5em"> Image Blocks</span></li>
                                         <li>
 
-                                            <i class="fa fa-image fa-2x" style="color: #cc6666"></i>
+                                            <i class="fa fa-text-o fa-2x" style="color: #cc6666"></i>
                                             <span ng-bind="PCTRL.pageCount()" disabled></span><span> Pages In Article</span>
                                         </li>
                                         <li>
