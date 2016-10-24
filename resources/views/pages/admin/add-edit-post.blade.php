@@ -48,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-                @elseif(!empty($post) && !empty($postActivity))
+                @elseif(!empty($post) && !empty($postActivity) && count($postActivity) > 0)
                 <div class="row">
                     <div class="col-md-12">
                         <div class="panel panel-info panel-bordered">
@@ -214,7 +214,7 @@
                                             <span ng-bind="PCTRL.imageBlockCount()" disabled></span><span style="font-size: 1.5em"> Image Blocks</span></li>
                                         <li>
 
-                                            <i class="fa fa-text-o fa-2x" style="color: #cc6666"></i>
+                                            <i class="fa fa-file-text-o fa-2x" style="color: #cc6666"></i>
                                             <span ng-bind="PCTRL.pageCount()" disabled></span><span> Pages In Article</span>
                                         </li>
                                         <li>
