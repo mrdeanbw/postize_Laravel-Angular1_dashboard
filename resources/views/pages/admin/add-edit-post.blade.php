@@ -38,15 +38,54 @@
                         </div>
                     </div>
                 </div>
-                @elseif(!empty($post) && $post->status == \App\Models\PostStatus::Enabled && $post->internal_comments != null)
+                @elseif(!empty($post) && !empty($postActivity))
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="alert alert-info alert-styled-left">
-                            <p class="text-semibold">
-                                Internal Comments: </p><br />
-                            <span>
-                                {!! nl2br($post->internal_comments)  !!}
-                            </span>
+                        <div class="panel panel-info panel-bordered">
+                            <div class="panel-heading">
+                                <h6 class="panel-title">Post Activity and Comments<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+                                <div class="heading-elements">
+                                    <ul class="icons-list">
+                                        <li><a data-action="collapse"></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Type</th>
+                                            <th>Activity</th>
+                                            <th class="text-center">User</th>
+                                            <th class="text-center">Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($postActivity as $activity)
+                                            <tr>
+                                                <td class="text-center">
+                                                    @if($activity->type == \App\Models\PostActivityType::AddedComment)
+                                                        <i class="fa fa-comment fa-3x" aria-hidden="true" style="color: #a6e1ec"></i><br />
+                                                        Comment
+                                                        @else
+                                                        <i class="fa fa-file-text-o fa-3x" aria-hidden="true"></i><br />
+                                                        Activity
+                                                    @endif
+                                                </td>
+                                                <td style="width:80%">
+                                                    {{ $activity->comment }}
+                                                </td>
+                                                <td class="text-center"><img src="{{$activity->user->image}}" class="img-circle img-md" /><br ><strong>{{ $activity->user->name }}</strong></td>
+                                                <td>{{ \App\Models\DateTimeExtensions::toRelative($activity->created_at) }}</td>
+                                            </tr>
+
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,7 +122,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Post Title:</label>
+                                <label class="col-lg-1 control-label">Post Title:</label>
 
                                 <div class="col-lg-9">
                                     <input name="title" type="text" class="form-control"
@@ -94,7 +133,7 @@
 
                             @if (!empty($post->slug))
                                 <div class="form-group">
-                                    <label class="col-lg-3 control-label">Link:</label>
+                                    <label class="col-lg-1 control-label">Link:</label>
 
                                     <a class="col-lg-9 control-label" href="{{url($post->slug)}}"
                                        target="_blank">View Post</a>
@@ -102,7 +141,7 @@
                                 </div>
                             @endif
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Description (tagline):</label>
+                                <label class="col-lg-1 control-label">Description (tagline):</label>
 
                                 <div class="col-lg-9">
                                     <input name="description" type="text" class="form-control"
@@ -112,7 +151,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Category:</label>
+                                <label class="col-lg-1 control-label">Category:</label>
 
                                 <div class="col-lg-9">
                                     <select id="category" name="category_id" class="form-control" required>
@@ -125,7 +164,7 @@
 
                             @if (Auth::user()->type == 1 || (isset($post->user_id) && $post->user_id == Auth::user()->id))
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Status:</label>
+                                <label class="col-lg-1 control-label">Status:</label>
 
                                 <div class="col-lg-9">
                                     <select id="status" name="status" class="form-control select">
@@ -152,7 +191,7 @@
                             @endif
 
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Article word count:</label>
+                                <label class="col-lg-1 control-label">Article word count:</label>
 
                                 <div class="col-lg-9">
                                     <input type="text" class="form-control" ng-model="PCTRL.totalWordCount" disabled>
@@ -160,14 +199,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Image Block Count:</label>
+                                <label class="col-lg-1 control-label">Image Block Count:</label>
 
                                 <div class="col-lg-9">
                                     <input type="text" class="form-control" ng-model="PCTRL.imageBlockCount()" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Pages In Article: </label>
+                                <label class="col-lg-1 control-label">Pages In Article: </label>
 
                                 <div class="col-lg-9">
                                     <input type="text" class="form-control" ng-model="PCTRL.pageCount()" disabled>
@@ -175,10 +214,11 @@
                             </div>
                             @if(Auth::user()->type == \App\Models\UserType::Administrator || Auth::user()->type == \App\Models\UserType::Moderator)
                             <div class="form-group">
-                                <label class="col-lg-3 control-label">Internal Comments: </label>
+                                <label class="col-lg-1 control-label">Comment: </label>
 
                                 <div class="col-lg-9">
-                                    <textarea name="internal_comments" type="text" class="form-control">{{$post->internal_comments or ''}}</textarea>
+                                    <textarea name="comment" type="text" class="form-control" style="border:1px solid black; padding: 5px; border-radius:5px"></textarea><br/>
+                                    <small>Save a comment by clicking on the 'Save Post' button. To view all comments, see the 'Post Activity' section at the top.</small>
                                 </div>
                             </div>
                             @endif

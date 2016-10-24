@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Extensions;
 use App\Models\Post;
+use App\Models\PostActivity;
+use App\Models\PostActivityType;
 use App\Models\PostStatus;
+use App\Models\PostStatusPresenter;
 use App\Models\PostTransformer;
 use App\Models\UrlHelpers;
+use App\Models\UserType;
+use App\User;
 use Auth;
 use DB;
 use File;
@@ -43,9 +48,25 @@ class ManagePostController extends Controller
             ]);
         }
 
+        $postActivity = null;
+        if($postId != null) {
+            $postActivity = PostActivity::where('post_id', $postId)->orderBy('created_at', 'desc')->get();
+
+            if($postActivity) {
+                foreach($postActivity as $activity) {
+                    $user = User::find($activity->user_id);
+
+                    if($user) {
+                        $activity->user = $user;
+                    }
+                }
+            }
+        }
+
         return view('pages.admin.add-edit-post')
             ->with('post', $post)
-            ->with('categories', Category::get());
+            ->with('categories', Category::get())
+            ->with('postActivity', $postActivity);
     }
 
     public function postUploadImage(Request $request)
@@ -74,6 +95,8 @@ class ManagePostController extends Controller
      */
     public function postAddEditPost(Request $request, $postId = null)
     {
+        $isNewPost = false;
+        $originalStatus = -1;
         if ($postId == null) {
             if (Post::where('slug', str_slug($request->input('title')))->exists()) {
                 \Log::info('Slug existed:' . $request->input('title'));
@@ -82,6 +105,7 @@ class ManagePostController extends Controller
             }
 
             Log::info('Creating new post...');
+            $isNewPost = true;
             $post = new Post();
             if (Auth::user()->type == 1)
                 $post['status'] = $request->get('status');
@@ -90,9 +114,9 @@ class ManagePostController extends Controller
             $post['user_id'] = Auth::user()->getAuthIdentifier();
         } else {
             $post = Post::find($postId);
+            $originalStatus = $post->status;
 
-            // TODO: Restore this once Ezra fixes articles
-            /*if (Auth::user()->type == 0 && ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() || $post->status == PostStatus::Enabled)) {
+            /*if (Auth::user()->type == UserType::Normal && ($post->user_id != \Illuminate\Support\Facades\Auth::user()->getAuthIdentifier() || $post->status == PostStatus::Enabled)) {
                 return redirect()->to('dashboard/post/list');
             }*/
 
@@ -115,11 +139,26 @@ class ManagePostController extends Controller
 
         $post['title'] = $request->input('title');
         $post['slug'] = !empty($post['slug']) ? $post['slug'] : str_slug($post['title']);
-        $post['internal_comments'] = $request->input('internal_comments');
+
+        if($request->get('comment')) {
+            PostActivity::create([
+                'post_id' => $post->id,
+                'type' => PostActivityType::AddedComment,
+                'comment' => $request->get('comment'),
+                'user_id' => Auth::user()->getAuthIdentifier()]);
+        }
 
         $post['description'] = $request->input('description');
         $post['category_id'] = $request->input('category_id', 1);
         $post->save();
+        
+        if($isNewPost) {
+            PostActivity::create(['post_id' => $post->id, 'type' => PostActivityType::CreatedPost, 'comment' => Auth::user()->name . ' created the post.', 'user_id' => Auth::user()->getAuthIdentifier()]);
+        }
+
+        if($originalStatus != -1 && $originalStatus != $post->status) {
+            PostActivity::create(['post_id' => $post->id, 'type' => PostActivityType::ChangedStatus, 'comment' => Auth::user()->name . ' changed the status to "' . PostStatusPresenter::present($post->status) . '".', 'user_id' => Auth::user()->getAuthIdentifier()]);
+        }
 
         Log::info('Transforming content...');
         $postTransformer = new PostTransformer();
