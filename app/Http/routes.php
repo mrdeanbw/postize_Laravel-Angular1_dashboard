@@ -14,6 +14,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('dashboard/user/{userId?}', 'ManageUserController@getAddEditUser');
     Route::post('dashboard/user/{userId?}', 'ManageUserController@postSaveUser');
     Route::get('dashboard/analytics', 'AnalyticsController@getAnalytics');
+    Route::get('dashboard/post-activity/{id}/delete', 'ManagePostController@getPostActivityDelete');
 });
 
 Route::group(['middleware' => ['web']], function () {
@@ -58,4 +59,5 @@ Route::group(['middleware' => ['web']], function () {
     });
     Route::get('/category/{category}', 'SiteController@getCategoryPage');
 });
+
 Route::get('{slug}/{pageNumber?}', 'PostController@getPost');
