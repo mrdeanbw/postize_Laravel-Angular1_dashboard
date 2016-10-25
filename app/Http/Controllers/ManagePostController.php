@@ -260,4 +260,11 @@ class ManagePostController extends Controller
         return view('pages.admin.post-list')
             ->with(['posts' => $posts, 'numberOfPostsRequiringRevision' => $numberOfPostsRequiringRevision]);
     }
+
+    public function getPostActivityDelete($id)
+    {
+        PostActivity::where('id', $id)->delete();
+
+        return redirect()->back();
+    }
 }

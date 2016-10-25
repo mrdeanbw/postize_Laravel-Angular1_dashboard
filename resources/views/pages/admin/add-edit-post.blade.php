@@ -54,6 +54,9 @@
                                             <th>Activity</th>
                                             <th class="text-center">User</th>
                                             <th class="text-center">Date</th>
+                                            @if(Auth::user()->type == \App\Models\UserType::Administrator)
+                                                <th class="text-center">Actions</th>
+                                                @endif
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -73,6 +76,9 @@
                                                 </td>
                                                 <td class="text-center"><img src="{{$activity->user->image}}" class="img-circle img-md" /><br ><strong>{{ $activity->user->name }}</strong></td>
                                                 <td>{{ \App\Models\DateTimeExtensions::toRelative($activity->created_at) }}</td>
+                                                @if(Auth::user()->type == \App\Models\UserType::Administrator)
+                                                <td><a href={{ url('dashboard/post-activity/')}}{{$activity->id}}/delete">Delete</a></td>
+                                                    @endif
                                             </tr>
 
                                             @endforeach
