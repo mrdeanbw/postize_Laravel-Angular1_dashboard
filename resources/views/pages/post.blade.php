@@ -32,13 +32,16 @@
 
                     <div class="row">
                         <div class="ad-content">
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- PT_InPost_336x280_1 -->
                             <ins class="adsbygoogle"
-                                 style="display:inline-block;width:300px;height:250px"
+                                 style="display:inline-block;width:336px;height:280px"
                                  data-ad-client="ca-pub-1766805469808808"
-                                 data-ad-slot="2336573377"></ins>
+                                 data-ad-slot="6773872172"></ins>
                             <script>
                                 (adsbygoogle = window.adsbygoogle || []).push({});
                             </script>
+
                             <span class="ad-disclaimer">ADVERTISEMENT</span>
                         </div>
                     </div>
@@ -88,12 +91,11 @@
                             @if(!$preview)
                                 <div class="row">
                                     <div class="ad-content">
-                                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                        <!-- PT_InPost_300x250_2 -->
+                                        <!-- PT_InPost_336x280_2 -->
                                         <ins class="adsbygoogle"
-                                             style="display:inline-block;width:300px;height:250px"
+                                             style="display:inline-block;width:336px;height:280px"
                                              data-ad-client="ca-pub-1766805469808808"
-                                             data-ad-slot="7826864976"></ins>
+                                             data-ad-slot="8111004579"></ins>
                                         <script>
                                             (adsbygoogle = window.adsbygoogle || []).push({});
                                         </script>
@@ -107,27 +109,15 @@
                     <div class="row">
                         <div class="ad-content">
                             @if(!$preview)
-                                @if($mobile)
-                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                    <!-- PT_Leaderboard_BTF_300x250 -->
-                                    <ins class="adsbygoogle"
-                                         style="display:inline-block;width:300px;height:250px"
-                                         data-ad-client="ca-pub-1766805469808808"
-                                         data-ad-slot="3534656977"></ins>
-                                    <script>
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
-                                    </script>
-                                @else
-                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                    <!-- PT_Leaderboard_BTF_728x90 -->
-                                    <ins class="adsbygoogle"
-                                         style="display:inline-block;width:728px;height:90px"
-                                         data-ad-client="ca-pub-1766805469808808"
-                                         data-ad-slot="2177946578"></ins>
-                                    <script>
-                                        (adsbygoogle = window.adsbygoogle || []).push({});
-                                    </script>
-                                @endif
+                                <!-- PT_InPost_336x280_3 -->
+                                <ins class="adsbygoogle"
+                                     style="display:inline-block;width:336px;height:280px"
+                                     data-ad-client="ca-pub-1766805469808808"
+                                     data-ad-slot="9587737776"></ins>
+                                <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                </script>
+
                                 <span class="ad-disclaimer">ADVERTISEMENT</span>
                             @endif
                         </div>
