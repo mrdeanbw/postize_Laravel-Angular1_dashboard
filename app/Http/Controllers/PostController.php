@@ -9,6 +9,7 @@ use Agent;
 use Auth;
 use Illuminate\Http\Request;
 use View;
+use DB;
 
 class PostController extends Controller
 {
@@ -29,8 +30,17 @@ class PostController extends Controller
 
         View::share('current_category', strtolower($post->category->name));
 
-        $relatedPosts = Post::where('id', '!=', $post->id)->whereStatus(PostStatus::Enabled)->take(3)->get();
-		$blockContent = unserialize(base64_decode($post->blockcontent));
+        $relatedPostsSidebar = Post::with('author')
+            ->with('category')
+            ->where('id', '!=', $post->id)
+            ->where('status', PostStatus::Enabled)
+            ->orderByRaw(DB::raw('RAND()'))
+            ->take(12)
+            ->get();
+
+        $relatedPostsBottom = array_slice($relatedPostsSidebar->toArray(), 0, 3);
+
+        $blockContent = unserialize(base64_decode($post->blockcontent));
 
         $numberOfPagesInArticle = 1;
         $pages = [];
@@ -83,7 +93,8 @@ class PostController extends Controller
             ->with('post', $post)
             ->with('pageNumber', $pageNumber)
             ->with('nextPageUrl', $nextPageUrl)
-            ->with('relatedPosts', $relatedPosts)
+            ->with('relatedPosts', $relatedPostsBottom)
+            ->with('relatedPostsSidebar', $relatedPostsSidebar)
             ->with('preview', $preview)
             ->with('mobile', Agent::isMobile() || Agent::isTablet());
     }

@@ -265,8 +265,15 @@
     <aside class="sidebar">
         <div class="row">
             <div class="ad-content">
-                @if(!$preview)
-                    {!! config('custom.pt-sidebar-atf') !!}
+            @if(!$preview)
+
+                <!-- /28112988/PT_RightSide_300x250_1 -->
+                    <div id='div-gpt-ad-1477597404543-0' style='height:250px; width:300px;'>
+                        <script>
+                            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1477597404543-0'); });
+                        </script>
+                    </div>
+
                     <span class="ad-disclaimer">ADVERTISEMENT</span>
                 @else
                     <img src="http://placehold.it/300x600">
@@ -274,39 +281,85 @@
             </div>
         </div>
 
-        @include('partials.sidebar-articles')
-
-        <div class="sticky">
-            <div class="row">
-                <div class="ad-content">
-                    @if(!$preview)
-                        {!! config('custom.pt-sidebar-btf') !!}
-                        <span class="ad-disclaimer">ADVERTISEMENT</span>
-                    @else
-                        <img src="http://placehold.it/300x250">
-                    @endif
-                </div>
-            </div>
-            @if(!$preview)
-                <div class="row">
-                    <div class="ad-content">
-                        <div id="rcjsload_b1bdc5"></div>
-                        <script type="text/javascript">
-                            (function() {
-                                var referer="";try{if(referer=document.referrer,"undefined"==typeof referer)throw"undefined"}catch(exception){referer=document.location.href,(""==referer||"undefined"==typeof referer)&&(referer=document.URL)}referer=referer.substr(0,700);
-                                var rcel = document.createElement("script");
-                                rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
-                                rcel.type = 'text/javascript';
-                                rcel.src = "http://trends.revcontent.com/serve.js.php?w=17088&t="+rcel.id+"&c="+(new Date()).getTime()+"&width="+(window.outerWidth || document.documentElement.clientWidth)+"&referer="+referer;
-                                rcel.async = true;
-                                var rcds = document.getElementById("rcjsload_b1bdc5"); rcds.appendChild(rcel);
-                            })();
-                        </script>
+        <div class="articles">
+            @for($i = 0; $i < count($relatedPostsSidebar); $i++)
+                @if($i == 2 && !$preview)
+                    <div class="row">
+                        <div class="ad-content">
+                        @if(!$preview)
+                            <!-- /28112988/PT_RightSide_300x250_2 -->
+                                <div id='div-gpt-ad-1477597404543-1' style='height:250px; width:300px;'>
+                                    <script>
+                                        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1477597404543-1'); });
+                                    </script>
+                                </div>
+                                <span class="ad-disclaimer">ADVERTISEMENT</span>
+                            @endif
+                        </div>
                     </div>
-                </div>
-            @endif
-        </div>
+                @elseif($i == 6 && !$preview)
+                    <div class="row">
+                        <div class="ad-content">
+                        @if(!$preview)
+                            <!-- /28112988/PT_RightSide_300x250_3 -->
+                                <div id='div-gpt-ad-1477597404543-2' style='height:250px; width:300px;'>
+                                    <script>
+                                        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1477597404543-2'); });
+                                    </script>
+                                </div>
+                                <span class="ad-disclaimer">ADVERTISEMENT</span>
+                            @endif
+                        </div>
+                    </div>
+                @elseif($i == 9 && !$preview)
+                    <div class="sticky">
+                        <div class="row">
+                            <div class="ad-content">
+                            @if(!$preview)
+                                <!-- /28112988/PT_RightSide_300x600 -->
+                                    <div id='div-gpt-ad-1477597404543-3' style='height:600px; width:300px;'>
+                                        <script>
+                                            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1477597404543-3'); });
+                                        </script>
+                                    </div>
+                                    {{--<span class="ad-disclaimer">ADVERTISEMENT</span>--}}
+                                @endif
+                            </div>
+                        </div>
+                        {{--}}<article class="item {{ strtolower($relatedPostsSidebar[$i]->category->name) }}">
+                            <a href="{{url($relatedPostsSidebar[$i]->slug)}}" class="image">
+                                <figure>
+                                    <img src="{{ $relatedPostsSidebar[$i]->image }}" alt="">
+                                </figure>
+                                <h2>{{ $relatedPostsSidebar[$i]->title }}</h2>
+                            </a>
+                            <a href="{{ url('category/' . strtolower($relatedPostsSidebar[$i]->category->name)) }}" class="category">{{ $relatedPostsSidebar[$i]->category->name }}</a>
+                        </article>
 
+                        <article class="item {{ strtolower($relatedPostsSidebar[$i + 1]->category->name) }}">
+                            <a href="{{url($relatedPostsSidebar[$i + 1]->slug)}}" class="image">
+                                <figure>
+                                    <img src="{{ $relatedPostsSidebar[$i + 1]->image }}" alt="">
+                                </figure>
+                                <h2>{{ $relatedPostsSidebar[$i + 1]->title }}</h2>
+                            </a>
+                            <a href="{{ url('category/' . strtolower($relatedPostsSidebar[$i + 1]->category->name)) }}" class="category">{{ $relatedPostsSidebar[$i + 1]->category->name }}</a>
+                        </article>--}}
+                        <?php   $i = 100; /*Exit the loop, we've finished displaying in the disebar*/ ?>
+                    </div>
+                @else
+                    <article class="item {{ strtolower($relatedPostsSidebar[$i]->category->name) }}">
+                        <a href="{{url($relatedPostsSidebar[$i]->slug)}}" class="image">
+                            <figure>
+                                <img src="{{ $relatedPostsSidebar[$i]->image }}" alt="">
+                            </figure>
+                            <h2>{{ $relatedPostsSidebar[$i]->title }}</h2>
+                        </a>
+                        <a href="{{ url('category/' . strtolower($relatedPostsSidebar[$i]->category->name)) }}" class="category">{{ $relatedPostsSidebar[$i]->category->name }}</a>
+                    </article>
+                @endif
+            @endfor
+        </div>
     </aside>
 @endsection
 
