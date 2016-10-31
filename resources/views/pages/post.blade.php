@@ -157,6 +157,23 @@
             </article>
         </section>
 
+        <div class="row">
+            <div class="ad-content">
+            @if(!$preview)
+                    <!-- PT_InPost_336x280_5 -->
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:336px;height:280px"
+                         data-ad-client="ca-pub-1766805469808808"
+                         data-ad-slot="3162440978"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+
+                    <span class="ad-disclaimer">ADVERTISEMENT</span>
+                @endif
+            </div>
+        </div>
+
         <section>
             <article class="item item--post">
                 <div class="content promoted">
