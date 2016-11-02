@@ -136,8 +136,13 @@ class ManagePostController extends Controller
             return response()->json(['success' => 'true']);
         }
 
+        $title = $request->input('title');
+        if(!empty($title)) {
+            $title = str_replace(' ?', '?', $title);
+            $title = str_replace(' !', '!', $title);
+        }
 
-        $post['title'] = $request->input('title');
+        $post['title'] = $title;
         $post['slug'] = !empty($post['slug']) ? $post['slug'] : str_slug($post['title']);
 
         if($request->get('comment')) {
@@ -148,7 +153,12 @@ class ManagePostController extends Controller
                 'user_id' => Auth::user()->getAuthIdentifier()]);
         }
 
-        $post['description'] = $request->input('description');
+        $description = $request->input('description');
+        if(!empty($description)) {
+            $description = str_replace(' ?', '?', $description);
+            $description = str_replace(' !', '!', $description);
+        }
+        $post['description'] = $description;
         $post['category_id'] = $request->input('category_id', 1);
         $post->save();
         
@@ -174,11 +184,17 @@ class ManagePostController extends Controller
             } elseif ($blocks[$i]->type == "image") {
                 $newcontent = "";
 
-                if (!empty($blocks[$i]->title))
-                    $newcontent .= "<h2>" . $blocks[$i]->title . "</h2>";
+                if (!empty($blocks[$i]->title)) {
+                    $newcontent = str_replace(' ?', '?', $blocks[$i]->title);
+                    $newcontent = str_replace(' !', '!', $blocks[$i]->title);
+                    $newcontent .= "<h2>" . $newcontent . "</h2>";
+                }
 
-                if (!empty($blocks[$i]->description))
-                    $newcontent .= "<p>" . $blocks[$i]->description . "</p>";
+                if (!empty($blocks[$i]->description)) {
+                    $newcontent = str_replace(' ?', '?', $blocks[$i]->description);
+                    $newcontent = str_replace(' !', '!', $blocks[$i]->description);
+                    $newcontent .= "<p>" . $newcontent . "</p>";
+                }
 
                 $nc = '<img src="#" />';
                 $transformed = $postTransformer->handleContentExternalUrls($blocks[$i]->url, $post->id);
