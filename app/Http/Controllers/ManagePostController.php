@@ -138,8 +138,8 @@ class ManagePostController extends Controller
 
         $title = $request->input('title');
         if(!empty($title)) {
-            $title = str_replace(' ?', '?', $title);
-            $title = str_replace(' !', '!', $title);
+            $title = str_replace(' &#63;', '&#63;', $title);
+            $title = str_replace(' &#33;', '&#33;', $title);
         }
 
         $post['title'] = $title;
@@ -155,8 +155,8 @@ class ManagePostController extends Controller
 
         $description = $request->input('description');
         if(!empty($description)) {
-            $description = str_replace(' ?', '?', $description);
-            $description = str_replace(' !', '!', $description);
+            $description = str_replace(' &#63;', '&#63;', $description);
+            $description = str_replace(' &#33;', '&#33;', $description);
         }
         $post['description'] = $description;
         $post['category_id'] = $request->input('category_id', 1);
@@ -179,20 +179,20 @@ class ManagePostController extends Controller
 
             if ($blocks[$i]->type == "text" || $blocks[$i]->type == "embed") {
                 $newcontent = $blocks[$i]->content;
-                $newcontent = str_replace(' ?', '?', $newcontent);
-                $newcontent = str_replace(' !', '!', $newcontent);
+                $newcontent = str_replace(' &#63;', '&#63;', $newcontent);
+                $newcontent = str_replace(' &#33;', '&#33;', $newcontent);
             } elseif ($blocks[$i]->type == "image") {
                 $newcontent = "";
 
                 if (!empty($blocks[$i]->title)) {
-                    $newcontent = str_replace(' ?', '?', $blocks[$i]->title);
-                    $newcontent = str_replace(' !', '!', $newcontent);
+                    $newcontent = str_replace(' &#63;', '&#63;', $blocks[$i]->title);
+                    $newcontent = str_replace(' &#33;', '&#33;', $newcontent);
                     $newcontent .= "<h2>" . $newcontent . "</h2>";
                 }
 
                 if (!empty($blocks[$i]->description)) {
-                    $newcontent = str_replace(' ?', '?', $blocks[$i]->description);
-                    $newcontent = str_replace(' !', '!', $newcontent);
+                    $newcontent = str_replace(' &#63;', '&#63;', $blocks[$i]->description);
+                    $newcontent = str_replace(' &#33;', '&#33;', $newcontent);
                     $newcontent .= "<p>" . $newcontent . "</p>";
                 }
 
