@@ -169,6 +169,8 @@ class ManagePostController extends Controller
 
             if ($blocks[$i]->type == "text" || $blocks[$i]->type == "embed") {
                 $newcontent = $blocks[$i]->content;
+                $newcontent = str_replace(' ?', '?', $newcontent);
+                $newcontent = str_replace(' !', '!', $newcontent);
             } elseif ($blocks[$i]->type == "image") {
                 $newcontent = "";
 
