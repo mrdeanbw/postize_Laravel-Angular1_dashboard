@@ -186,13 +186,13 @@ class ManagePostController extends Controller
 
                 if (!empty($blocks[$i]->title)) {
                     $newcontent = str_replace(' ?', '?', $blocks[$i]->title);
-                    $newcontent = str_replace(' !', '!', $blocks[$i]->title);
+                    $newcontent = str_replace(' !', '!', $newcontent);
                     $newcontent .= "<h2>" . $newcontent . "</h2>";
                 }
 
                 if (!empty($blocks[$i]->description)) {
                     $newcontent = str_replace(' ?', '?', $blocks[$i]->description);
-                    $newcontent = str_replace(' !', '!', $blocks[$i]->description);
+                    $newcontent = str_replace(' !', '!', $newcontent);
                     $newcontent .= "<p>" . $newcontent . "</p>";
                 }
 
