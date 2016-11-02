@@ -17,11 +17,11 @@ class DashboardController extends Controller
 {
     public function getDashboard(Request $request) {
         $options = ['dimensions' => 'ga:pagePath', 'sort' => '-ga:pageviews', 'max-results' => '10000'];
-        $analyticsData = LaravelAnalytics::performQuery(new DateTime('first day of last month'), new DateTime('tomorrow'),
+        $analyticsData = LaravelAnalytics::performQuery(new DateTime('first day of this month'), new DateTime('tomorrow'),
             'ga:sessions,ga:pageviews,ga:pageviewsPerSession,ga:bounceRate,ga:avgSessionDuration', $options);
 
         $users = User::where('type', UserType::Normal)->get();
-        $firstDayOfLastMonth = (new DateTime('first day of last month'))->format('Y-m-d');
+        $firstDayOfLastMonth = (new DateTime('first day of this month'))->format('Y-m-d');
         foreach($users as $user) {
             $posts = Post::where('user_id', $user->id)->where('created_at', '>=', $firstDayOfLastMonth)->get();
 
