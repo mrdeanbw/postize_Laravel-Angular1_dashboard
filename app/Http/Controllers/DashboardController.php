@@ -2,21 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Extensions;
 use App\Models\Post;
-use App\Models\PostStatus;
-use App\Models\PostTransformer;
-use App\Models\UrlHelpers;
+use App\User;
+use App\Models\UserType;
 use DB;
 use File;
+use LaravelAnalytics;
+use DateTime;
 use Image;
 use Log;
 use Symfony\Component\HttpFoundation\Request;
 
 class DashboardController extends Controller
 {
-    public function getDashboard() {
-        return view('pages.admin.dashboard');
+    public function getDashboard(Request $request) {
+        $options = ['dimensions' => 'ga:pagePath', 'sort' => '-ga:pageviews', 'max-results' => '10000'];
+        $analyticsData = LaravelAnalytics::performQuery(new DateTime('first day of last month'), new DateTime('tomorrow'),
+            'ga:sessions,ga:pageviews,ga:pageviewsPerSession,ga:bounceRate,ga:avgSessionDuration', $options);
+
+        $users = User::where('type', UserType::Normal)->get();
+        $firstDayOfLastMonth = (new DateTime('first day of last month'))->format('Y-m-d');
+        foreach($users as $user) {
+            $posts = Post::where('user_id', $user->id)->where('created_at', '>=', $firstDayOfLastMonth)->get();
+
+            foreach($posts as $post) {
+                foreach($analyticsData->rows as $row) {
+                    if(substr($row[0], 1) == $post->slug) {
+                        $post->analytics = $row;
+                        break;
+                    }
+                }
+            }
+
+            $posts = $posts->filter(function($post) { return !empty($post->analytics); })->toArray();
+            // sort descending by sessions
+            usort($posts, function($a, $b) {
+                if ($a['analytics'][1] == $b['analytics'][1]) {
+                    return 0;
+                }
+                return ($a['analytics'][1] < $b['analytics'][1]) ? 1 : -1;
+            });
+
+            $user->posts = $posts;
+        }
+
+        return view('pages.admin.dashboard')
+            ->with('users', $users);
     }
 }
