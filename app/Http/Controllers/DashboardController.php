@@ -26,15 +26,21 @@ class DashboardController extends Controller
             $posts = Post::where('user_id', $user->id)->where('created_at', '>=', $firstDayOfLastMonth)->get();
 
             foreach($posts as $post) {
+                $hasAnalytics = false;
                 foreach($analyticsData->rows as $row) {
                     if(substr($row[0], 1) == $post->slug) {
                         $post->analytics = $row;
+                        $hasAnalytics = true;
                         break;
                     }
                 }
+
+                if(!$hasAnalytics) {
+                    $post->analytics = [null, 0];
+                }
             }
 
-            $posts = $posts->filter(function($post) { return !empty($post->analytics); })->toArray();
+            $posts = $posts->filter(function() { return true; })->toArray();
             // sort descending by sessions
             usort($posts, function($a, $b) {
                 if ($a['analytics'][1] == $b['analytics'][1]) {
