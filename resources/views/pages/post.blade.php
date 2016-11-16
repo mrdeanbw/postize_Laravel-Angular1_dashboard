@@ -381,6 +381,27 @@
 @endsection
 
 @section('js-bottom')
+    <div id="contentad279454"></div>
+    <script type="text/javascript">
+        (function(d) {
+            var params =
+            {
+                id: "227c21ae-6fac-4cd8-8e2f-48310933ed81",
+                d:  "cG9zdGl6ZS5jb20=",
+                wid: "279454",
+                exitPopMobile: true,
+                cb: (new Date()).getTime()
+            };
+
+            var qs=[];
+            for(var key in params) qs.push(key+'='+encodeURIComponent(params[key]));
+            var s = d.createElement('script');s.type='text/javascript';s.async=true;
+            var p = 'https:' == document.location.protocol ? 'https' : 'http';
+            s.src = p + "://api.content.ad/Scripts/widget2.aspx?" + qs.join('&');
+            d.getElementById("contentad279454").appendChild(s);
+        })(document);
+    </script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('.content img').each(function () {
