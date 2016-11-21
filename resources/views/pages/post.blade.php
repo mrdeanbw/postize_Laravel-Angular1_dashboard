@@ -201,7 +201,7 @@
             </article>
         </section>
 
-       
+
         {{--<section>
             <div class="comments">
                 <div class="fb-comments" data-href="{{url($post->slug)}}" data-width="100%" data-numposts="5"></div>
@@ -329,41 +329,39 @@
                         </div>
                     </div>
                 @elseif($i == 9 && !$preview)
-                    <div class="sticky">
-                        <div class="row">
-                            <div class="ad-content">
-                            @if(!$preview)
-                                <!-- /28112988/PT_RightSide_300x600 -->
-                                    <div id='div-gpt-ad-1477597404543-3' style='height:600px; width:300px;'>
-                                        <script>
-                                            googletag.cmd.push(function() { googletag.display('div-gpt-ad-1477597404543-3'); });
-                                        </script>
-                                    </div>
-                                    {{--<span class="ad-disclaimer">ADVERTISEMENT</span>--}}
-                                @endif
-                            </div>
+                    <div class="row">
+                        <div class="ad-content">
+                        @if(!$preview)
+                            <!-- /28112988/PT_RightSide_300x600 -->
+                                <div id='div-gpt-ad-1477597404543-3' style='height:600px; width:300px;'>
+                                    <script>
+                                        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1477597404543-3'); });
+                                    </script>
+                                </div>
+                                {{--<span class="ad-disclaimer">ADVERTISEMENT</span>--}}
+                            @endif
                         </div>
-                        {{--}}<article class="item {{ strtolower($relatedPostsSidebar[$i]->category->name) }}">
-                            <a href="{{url($relatedPostsSidebar[$i]->slug)}}" class="image">
-                                <figure>
-                                    <img src="{{ $relatedPostsSidebar[$i]->image }}" alt="">
-                                </figure>
-                                <h2>{{ $relatedPostsSidebar[$i]->title }}</h2>
-                            </a>
-                            <a href="{{ url('category/' . strtolower($relatedPostsSidebar[$i]->category->name)) }}" class="category">{{ $relatedPostsSidebar[$i]->category->name }}</a>
-                        </article>
-
-                        <article class="item {{ strtolower($relatedPostsSidebar[$i + 1]->category->name) }}">
-                            <a href="{{url($relatedPostsSidebar[$i + 1]->slug)}}" class="image">
-                                <figure>
-                                    <img src="{{ $relatedPostsSidebar[$i + 1]->image }}" alt="">
-                                </figure>
-                                <h2>{{ $relatedPostsSidebar[$i + 1]->title }}</h2>
-                            </a>
-                            <a href="{{ url('category/' . strtolower($relatedPostsSidebar[$i + 1]->category->name)) }}" class="category">{{ $relatedPostsSidebar[$i + 1]->category->name }}</a>
-                        </article>--}}
-                        <?php   $i = 100; /*Exit the loop, we've finished displaying in the disebar*/ ?>
                     </div>
+                    {{--}}<article class="item {{ strtolower($relatedPostsSidebar[$i]->category->name) }}">
+                        <a href="{{url($relatedPostsSidebar[$i]->slug)}}" class="image">
+                            <figure>
+                                <img src="{{ $relatedPostsSidebar[$i]->image }}" alt="">
+                            </figure>
+                            <h2>{{ $relatedPostsSidebar[$i]->title }}</h2>
+                        </a>
+                        <a href="{{ url('category/' . strtolower($relatedPostsSidebar[$i]->category->name)) }}" class="category">{{ $relatedPostsSidebar[$i]->category->name }}</a>
+                    </article>
+
+                    <article class="item {{ strtolower($relatedPostsSidebar[$i + 1]->category->name) }}">
+                        <a href="{{url($relatedPostsSidebar[$i + 1]->slug)}}" class="image">
+                            <figure>
+                                <img src="{{ $relatedPostsSidebar[$i + 1]->image }}" alt="">
+                            </figure>
+                            <h2>{{ $relatedPostsSidebar[$i + 1]->title }}</h2>
+                        </a>
+                        <a href="{{ url('category/' . strtolower($relatedPostsSidebar[$i + 1]->category->name)) }}" class="category">{{ $relatedPostsSidebar[$i + 1]->category->name }}</a>
+                    </article>--}}
+                    <?php   $i = 100; /*Exit the loop, we've finished displaying in the disebar*/ ?>
                 @else
                     <article class="item {{ strtolower($relatedPostsSidebar[$i]->category->name) }}">
                         <a href="{{url($relatedPostsSidebar[$i]->slug)}}" class="image">
