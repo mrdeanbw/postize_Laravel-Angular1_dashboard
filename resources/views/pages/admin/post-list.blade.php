@@ -72,6 +72,8 @@
                             <td>
                                 <h4>{{$post->title}}</h4>
                                 {{$post->description}}
+                                <br><br>
+                                <a href="{{ url($post->slug) }}">{{ url($post->slug) }}</a>
                             </td>
                             <td>
                                 <span class="label border-left-violet label-striped">{{$post->category_name}}</span>
