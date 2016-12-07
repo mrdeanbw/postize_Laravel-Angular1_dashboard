@@ -156,16 +156,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-lg-1 control-label"></label>
-
-                                <div class="col-lg-9">
-                                    <input name="preview_thumbnail" type="file" class="form-control"
-                                           placeholder="Select a file..."
-                                           ng-model="PCTRL.post.preview_thumbnail">
-                                </div>
-                            </div>
-
-                            <div class="form-group">
                                 <label class="col-lg-1 control-label">Category:</label>
 
                                 <div class="col-lg-9">
