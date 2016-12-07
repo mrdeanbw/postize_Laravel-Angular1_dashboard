@@ -156,6 +156,16 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="col-lg-1 control-label"></label>
+
+                                <div class="col-lg-9">
+                                    <input name="preview_thumbnail" type="file" class="form-control"
+                                           placeholder="Select a file..."
+                                           ng-model="PCTRL.post.preview_thumbnail">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="col-lg-1 control-label">Category:</label>
 
                                 <div class="col-lg-9">
@@ -241,11 +251,37 @@
                 <!-- /basic layout -->
             </div>
         </div>
+
+            <div class="panel panel-success panel-bordered">
+                <div class="panel-heading">
+                    <h6 class="panel-title">Custom Facebook Thumbnail (This thumbnail only shows in the Facebook Preview. Make sure the image also exists at some point in the article.) <a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+                    <div class="heading-elements">
+                        <ul class="icons-list">
+                            <li><a data-action="collapse"></a></li>
+                        </ul>
+                    </div>
+                    <a class="heading-elements-toggle"><i class="icon-more"></i></a></div>
+
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-lg-9">
+                            <input name="preview_thumbnail" type="file" class="form-control"
+                                   placeholder="Select a file..."
+                                           ng-model="PCTRL.post.preview_thumbnail">
+
+                           @if(!empty($post->preview_thumbnail))
+                            <img src="{{ $post->preview_thumbnail }}" />
+                           @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         <div class="row" ng-init="PCTRL.initCanvas()">
             <div class="col-md-12">
                 <div class="panel panel-flat">
                     <div class="panel-heading">
-                        <h5 class="panel-title">Thumbnail Generator</h5>
+                        <h5 class="panel-title">Thumbnail Generator (For site thumbnails, also shows at top of the article. Doesn't show on Facebook)</h5>
                         <div class="heading-elements">
                             <ul class="icons-list">
                                 <li><a data-action="collapse" class=""></a></li>

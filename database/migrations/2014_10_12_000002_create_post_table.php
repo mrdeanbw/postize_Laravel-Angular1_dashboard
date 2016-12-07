@@ -18,6 +18,7 @@ class CreatePostTable extends Migration
             $table->string('title', 250);
             $table->string('slug')->unique();
             $table->string('description');
+            $table->string('preview_thumbnail')->nullable();
             $table->mediumText('content');
             $table->mediumText('blockcontent');
             $table->string('image');

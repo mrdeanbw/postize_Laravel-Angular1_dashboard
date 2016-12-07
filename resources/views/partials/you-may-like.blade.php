@@ -12,7 +12,7 @@
             </a>
 
             <div class="meta">
-            	<div>by <span class="author"> {{$post->author->name}}</span></div>
+            	<div>{{ $post->description }}/div>
             </div>
         </div>
         <a href="{{ url('category/' . strtolower($post->category->name)) }}" class="category">{{ $post->category->name }}</a>

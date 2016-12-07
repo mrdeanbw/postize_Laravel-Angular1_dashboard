@@ -234,6 +234,13 @@ class ManagePostController extends Controller
             $post['image'] = UrlHelpers::getThumbnailLink($filename);
         }
 
+        if ($request->hasFile('preview_thumbnail') && $request->file('preview_thumbnail')->isValid()) {
+            $filename = Extensions::getChars(6) . '_' . $post->id . '.jpg';
+            $request->file('preview_thumbnail')->move(public_path() . '/' . config('custom.thumbs-directory'), $filename);
+
+            $post['preview_thumbnail'] = UrlHelpers::getThumbnailLink($filename);
+        }
+
         $post->save();
         $message = 'success|Post saved successfully.';
         //$post->blocks = unserialize(base64_decode($post->content));
