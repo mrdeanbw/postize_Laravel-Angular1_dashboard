@@ -240,6 +240,9 @@ class ManagePostController extends Controller
 
             $post['preview_thumbnail'] = UrlHelpers::getThumbnailLink($filename);
         }
+        else if($request->get('preview_thumbnail_url')) {
+            $post['preview_thumbnail'] = $request->get('preview_thumbnail_url');
+        }
 
         $post->save();
         $message = 'success|Post saved successfully.';
