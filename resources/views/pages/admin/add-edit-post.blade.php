@@ -403,7 +403,7 @@
             </div>
 
             <input id="preview_thumbnail_url" type="hidden" name="preview_thumbnail_url"
-                   value="{{$post->preview_thumbnail}}"/>
+                   value="{{$post->preview_thumbnail or ''}}"/>
             <div class="panel panel-success panel-bordered panel-collapsed">
                 <div class="panel-heading">
                     <h2 class="panel-title" style="font-weight: bold">Set a Custom Thumbnail for Facebook (optional)<a
@@ -416,6 +416,9 @@
                     <a class="heading-elements-toggle"><i class="icon-more"></i></a></div>
 
                 <div class="panel-body">
+                    @if(empty($post))
+                        <p>You must save your post first before this section will be enabled.</p>
+                    @else
                     <div class="form-group">
                         <div class="col-lg-12">
                             <h3>(Option 1) Use the default thumbnail (the one created through the Thumbnail
@@ -455,6 +458,7 @@
                             @endif
                         </div>
                     </div>
+                        @endif
                 </div>
             </div>
 
