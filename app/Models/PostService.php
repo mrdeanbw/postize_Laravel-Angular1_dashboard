@@ -43,7 +43,7 @@ class PostService
 
         foreach ($analyticsData['rows'] as $row) {
             foreach ($posts as $post)
-                if ($post->slug == trim($row, '/')) {
+                if ($post->slug == trim($row[0], '/')) {
                     $post->clicks_all_time = $row[1];
                     $post->save();
                     break;
