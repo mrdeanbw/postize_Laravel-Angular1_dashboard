@@ -59,6 +59,7 @@
                         <th>Thumbnail</th>
                         <th>Title</th>
                         <th>Category</th>
+                        <th>Total Clicks</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Author</th>
                         <th>Actions</th>
@@ -77,6 +78,9 @@
                             </td>
                             <td>
                                 <span class="label border-left-violet label-striped">{{$post->category_name}}</span>
+                            </td>
+                            <td class="text-center">
+                                {{ $post->clicks_all_time }}
                             </td>
                             <td class="text-center postizeStatusWrap">
                                 @if($post->status == \App\Models\PostStatus::Enabled)

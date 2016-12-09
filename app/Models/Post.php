@@ -20,7 +20,7 @@ class Post extends Model // implements HasPresenter
      *
      * @var array
      */
-    protected $fillable = ['title', 'slug', 'description', 'preview_thumbnail', 'category', 'content', 'blockcontent', 'excerpt', 'image', 'status', 'user_id', 'category_id'];
+    protected $fillable = ['title', 'slug', 'description', 'preview_thumbnail', 'category', 'content', 'blockcontent', 'excerpt', 'image', 'status', 'user_id', 'category_id', 'clicks_all_time'];
 
     protected $dates = ['deleted_at'];
 
