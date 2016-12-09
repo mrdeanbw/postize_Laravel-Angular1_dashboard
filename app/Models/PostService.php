@@ -41,7 +41,7 @@ class PostService
         $analyticsData = LaravelAnalytics::performQuery(new DateTime('2016-01-01'), new DateTime('tomorrow'),
             'ga:sessions', $options);
 
-        foreach ($analyticsData as $row) {
+        foreach ($analyticsData['rows'] as $row) {
             foreach ($posts as $post)
                 if ($post->slug == trim($row, '/')) {
                     $post->clicks_all_time = $row[1];
