@@ -60,4 +60,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/category/{category}', 'SiteController@getCategoryPage');
 });
 
+Route::get('v1/posts/feed', function() {
+    $posts = \App\Models\Post::orderBy('id', 'desc')->take(200)->get(['title', 'description', 'slug as url' , 'image']);
+    return $posts;
+});
+
 Route::get('{slug}/{pageNumber?}', 'PostController@getPost');
