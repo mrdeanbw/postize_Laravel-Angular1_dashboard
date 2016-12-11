@@ -60,17 +60,17 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/category/{category}', 'SiteController@getCategoryPage');
 });
 
-Route::get('v1/posts/feed', function() {
+Route::get('v1/posts/feed', function(\Illuminate\Http\Request $request) {
     $posts = \App\Models\Post::where('status', \App\Models\PostStatus::Enabled)
         ->orderBy('id', 'desc')
-        ->take(200)
+        ->take($request->get('limit', 100))
         ->get(['title', 'description', 'slug as url' , 'image', 'preview_thumbnail']);
 
     foreach($posts as $post) {
         $post->url = 'http://postize.com/' . $post->url;
         $post->image = $post->preview_thumbnail != null ? $post->preview_thumbnail : $post->image;
     }
-    
+
     return $posts;
 });
 
