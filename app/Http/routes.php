@@ -61,7 +61,16 @@ Route::group(['middleware' => ['web']], function () {
 });
 
 Route::get('v1/posts/feed', function() {
-    $posts = \App\Models\Post::orderBy('id', 'desc')->take(200)->get(['title', 'description', 'slug as url' , 'image']);
+    $posts = \App\Models\Post::where('status', \App\Models\PostStatus::Enabled)
+        ->orderBy('id', 'desc')
+        ->take(200)
+        ->get(['title', 'description', 'slug as url' , 'image', 'preview_thumbnail']);
+
+    foreach($posts as $post) {
+        $post->url = 'http://postize.com/' . $post->url;
+        $post->image = $post->preview_thumbnail != null ? $post->preview_thumbnail : $post->image;
+    }
+    
     return $posts;
 });
 
