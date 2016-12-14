@@ -177,26 +177,18 @@
         <section>
             <article class="item item--post">
                 <div class="content promoted">
-                    <div id="contentad270620"></div>
+                    <div id="rcjsload_0e4cca"></div>
                     <script type="text/javascript">
-                        (function(d) {
-                            var params =
-                            {
-                                id: "a3041380-a373-4574-ae6b-ecb658101607",
-                                d:  "cG9zdGl6ZS5jb20=",
-                                wid: "270620",
-                                cb: (new Date()).getTime()
-                            };
-
-                            var qs=[];
-                            for(var key in params) qs.push(key+'='+encodeURIComponent(params[key]));
-                            var s = d.createElement('script');s.type='text/javascript';s.async=true;
-                            var p = 'https:' == document.location.protocol ? 'https' : 'http';
-                            s.src = p + "://api.content.ad/Scripts/widget2.aspx?" + qs.join('&');
-                            d.getElementById("contentad270620").appendChild(s);
-                        })(document);
+                        (function() {
+                            var referer="";try{if(referer=document.referrer,"undefined"==typeof referer)throw"undefined"}catch(exception){referer=document.location.href,(""==referer||"undefined"==typeof referer)&&(referer=document.URL)}referer=referer.substr(0,700);
+                            var rcel = document.createElement("script");
+                            rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
+                            rcel.type = 'text/javascript';
+                            rcel.src = "http://trends.revcontent.com/serve.js.php?w=17087&t="+rcel.id+"&c="+(new Date()).getTime()+"&width="+(window.outerWidth || document.documentElement.clientWidth)+"&referer="+referer;
+                            rcel.async = true;
+                            var rcds = document.getElementById("rcjsload_0e4cca"); rcds.appendChild(rcel);
+                        })();
                     </script>
-
                 </div>
             </article>
         </section>
