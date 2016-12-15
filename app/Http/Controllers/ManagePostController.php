@@ -197,7 +197,7 @@ class ManagePostController extends Controller
                 }
 
                 $nc = '<img src="#" />';
-                $transformed = $postTransformer->handleContentExternalUrls($blocks[$i]->url, $post->id);
+                $transformed = $postTransformer->uploadFileToS3($blocks[$i]->url, $post->id, false);
                 if ($transformed) {
                     $blocks[$i]->url = $transformed;
                     $nc = '<img src="' . $transformed . '" />';
@@ -226,19 +226,12 @@ class ManagePostController extends Controller
         /*
          * thumbnail processing
          */
-        if ($request->get("thumbnail_output")) {
-            $thumb = Image::make($request->get("thumbnail_output"));
-            $filename = Extensions::getChars(6) . '_' . $post->id . '.jpg';
-            $thumb->save(public_path() . '/' . config('custom.thumbs-directory') . $filename);
-
-            $post['image'] = UrlHelpers::getThumbnailLink($filename);
+        if ($request->get('thumbnail_output')) {
+            $post['image'] = $postTransformer->uploadFileToS3($request->file('thumbnail_output')->getRealPath(), $postId, true);
         }
 
         if ($request->hasFile('preview_thumbnail') && $request->file('preview_thumbnail')->isValid()) {
-            $filename = Extensions::getChars(6) . '_' . $post->id . '.jpg';
-            $request->file('preview_thumbnail')->move(public_path() . '/' . config('custom.thumbs-directory'), $filename);
-
-            $post['preview_thumbnail'] = UrlHelpers::getThumbnailLink($filename);
+            $post['preview_thumbnail'] = $postTransformer->uploadFileToS3($request->file('preview_thumbnail')->getRealPath(), $postId, true);
         }
         else if($request->get('preview_thumbnail_url')) {
             $post['preview_thumbnail'] = $request->get('preview_thumbnail_url');

@@ -23,24 +23,15 @@ class UrlHelpers
     }
 
     public static function getThumbnailLink($filename) {
-        return asset(config('custom.thumbs-directory') . $filename);
+        return env('AWS_BUCKET_BASE_URL') . '/' . config('custom.thumbs-directory') . $filename;
     }
 
     public static function getContentLink($filename) {
-        return asset(config('custom.content-directory') . $filename);
+        return env('AWS_BUCKET_BASE_URL') . '/' . config('custom.content-directory') . $filename;
     }
 
     public static function getCurrentFolderDates() {
         return date('Y') . '/' . date('m') . '/';
-    }
-    public static function getFullPublicContentPath() {
-        return public_path() . '/' . config('custom.content-directory') . date('Y') . '/' . date('m') . '/';
-    }
-
-    public static function getPostUrlWithSubdomain($postId, $permalink, $subdomain) {
-        $url = UrlHelpers::getPostUrl($postId, $permalink);
-        $urlParts = parse_url($url);
-        return 'http://' . strtolower($subdomain) . '.' . Config::get('custom.primary-domain') . $urlParts['path'];
     }
 
     public static function getRawUrl($url) {

@@ -81,46 +81,21 @@ class PostTransformer
     }
 
 
-    public function handleContentExternalUrls($url, $postId)
+    public function uploadFileToS3($url, $postId, $isThumbnail = false)
     {
-        if (strpos($url, config('custom.app-domain')) !== false) {
+        if(config('app.debug')) return $url;
+
+        $urlParts = parse_url($url);
+        $s3 = \Storage::disk('s3');
+        if($s3->exists(env('AWS_BUCKET_BASE_URL') . '/' . $urlParts['path'])) {
             return $url;
         }
 
         $imageDatesPath = UrlHelpers::getCurrentFolderDates();
-        $imageBasePath = public_path() . '/' . config('custom.content-directory');
-        if (!File::exists($imageBasePath . $imageDatesPath)) {
-            File::makeDirectory($imageBasePath . $imageDatesPath, 0755, true);
-        }
-
+        $imageBasePath = $isThumbnail ? config('custom.thumbs-directory') : config('custom.content-directory');
         $filename = $imageDatesPath . Extensions::getChars(6) . '_' . $postId . '.' . (new \SplFileInfo(preg_replace('/\?.*/', '', $url)))->getExtension();
-
-        try {
-            //Image::make($imageUrl)->save($imageBasePath . $filename);
-            $file = fopen($imageBasePath . $filename, 'w+');
-
-            $curl = curl_init($url);
-
-            // Update as of PHP 5.4 array() can be written []
-            curl_setopt_array($curl, [
-                CURLOPT_URL => $url,
-                CURLOPT_BINARYTRANSFER => 1,
-                CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_FILE => $file,
-                CURLOPT_TIMEOUT => 50,
-                CURLOPT_USERAGENT => 'Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)'
-            ]);
-
-            $response = curl_exec($curl);
-            if ($response === false) {
-                throw new \Exception('Curl error: ' . curl_error($curl));
-            }
-        } catch (\Exception $e) {
-            \Log::info('ManagePostController::handleContentExternalUrls: Unable to scrape image: ' . $url . ' - Exception: ' . $e->getMessage());
-            return false;
-        }
-
-        return UrlHelpers::getContentLink($filename);
+        $s3->put($imageBasePath . $imageDatesPath . $filename, file_get_contents($url), 'public');
+        return $isThumbnail ? UrlHelpers::getThumbnailLink($filename) : UrlHelpers::getContentLink($filename);
     }
 
     function stripAttributes($s, $allowedattr = array())
