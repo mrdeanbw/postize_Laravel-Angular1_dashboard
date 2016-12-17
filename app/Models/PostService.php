@@ -5,6 +5,7 @@ namespace App\Models;
 use DB;
 use LaravelAnalytics;
 use DateTime;
+use Auth;
 
 class PostService
 {
@@ -49,5 +50,22 @@ class PostService
                     break;
                 }
         }
+    }
+    
+    public function getPostBySlug($slug, $preview) {
+        $post = Post::join('post_url as pu', 'pu.post_id', '=', 'post.id')
+            ->with('category')
+            ->where('pu.url', $slug);
+
+        if(!$preview || !Auth::check()) {
+            $post->whereStatus(PostStatus::Enabled);
+        }
+
+        return $post->first();
+    }
+
+    public function getUrlByPostId($postId)
+    {
+        return PostUrl::where('post_id', $postId)->orderBy('id', 'desc')->value('url');
     }
 }

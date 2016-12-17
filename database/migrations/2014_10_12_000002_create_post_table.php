@@ -24,6 +24,7 @@ class CreatePostTable extends Migration
             $table->string('image');
             $table->tinyInteger('status')->default(0);
             $table->tinyInteger('clicks_all_time')->default(0);
+            $table->integer('post_request_id')->unsigned()->nullable();
             $table->string('internal_comments');
             $table->timestamps();
             $table->softDeletes();

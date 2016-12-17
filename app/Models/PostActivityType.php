@@ -7,4 +7,6 @@ abstract class PostActivityType {
 	const ChangedStatus = 1;
 	const DeletedPost = 2;
 	const AddedComment = 3;
+	const PublishedRequestedPost = 4;
+	const AddedPostUrl = 5;
 }

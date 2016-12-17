@@ -94,7 +94,12 @@ class PostTransformer
         $imageDatesPath = UrlHelpers::getCurrentFolderDates();
         $imageBasePath = $isThumbnail ? config('custom.thumbs-directory') : config('custom.content-directory');
         $filename = $imageDatesPath . Extensions::getChars(6) . '_' . $postId . '.' . (new \SplFileInfo(preg_replace('/\?.*/', '', $url)))->getExtension();
-        $s3->put($imageBasePath . $imageDatesPath . $filename, file_get_contents($url), 'public');
+        try {
+            $s3->put($imageBasePath . $filename, file_get_contents($url), 'public');
+        }
+        catch(\Exception $e) {
+            return '';
+        }
         return $isThumbnail ? UrlHelpers::getThumbnailLink($filename) : UrlHelpers::getContentLink($filename);
     }
 

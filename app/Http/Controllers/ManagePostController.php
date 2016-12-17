@@ -7,9 +7,12 @@ use App\Models\Extensions;
 use App\Models\Post;
 use App\Models\PostActivity;
 use App\Models\PostActivityType;
+use App\Models\PostRequest;
+use App\Models\PostService;
 use App\Models\PostStatus;
 use App\Models\PostStatusPresenter;
 use App\Models\PostTransformer;
+use App\Models\PostUrl;
 use App\Models\UrlHelpers;
 use App\Models\UserType;
 use App\User;
@@ -26,7 +29,7 @@ use Session;
 
 class ManagePostController extends Controller
 {
-    public function getAddEditPost($postId = null)
+    public function getAddEditPost(Request $request, $postId = null)
     {
         $post = [];
         if (!empty($postId)) {
@@ -36,6 +39,7 @@ class ManagePostController extends Controller
 
             if (empty($post)) return redirect()->to('dashboard/post')->with('message', 'danger|The requested post does not exist.');
             $post->blocks = $post->blockcontent ? unserialize(base64_decode($post->blockcontent)) : [];
+            $post->slug = (new PostService())->getUrlByPostId($postId);
 
             JavaScript::put([
                 "post" => $post,
@@ -49,23 +53,31 @@ class ManagePostController extends Controller
         }
 
         $postActivity = null;
-        if($postId != null) {
+        if ($postId != null) {
             $postActivity = PostActivity::where('post_id', $postId)->orderBy('created_at', 'desc')->get();
 
-            if($postActivity) {
-                foreach($postActivity as $activity) {
+            if ($postActivity) {
+                foreach ($postActivity as $activity) {
                     $user = User::find($activity->user_id);
 
-                    if($user) {
+                    if ($user) {
                         $activity->user = $user;
                     }
                 }
             }
         }
 
+        if(isset($post->post_request_id)) {
+            $postRequest = PostRequest::where('id', $post->post_request_id)->first();
+        }
+        else {
+            $postRequest = $request->get('post_request_id') ? PostRequest::where('id', $request->get('post_request_id'))->first() : null;
+        }
+
         return view('pages.admin.add-edit-post')
             ->with('post', $post)
             ->with('categories', Category::get())
+            ->with('postRequest', $postRequest)
             ->with('postActivity', $postActivity);
     }
 
@@ -97,17 +109,13 @@ class ManagePostController extends Controller
     {
         $isNewPost = false;
         $originalStatus = -1;
+
         if ($postId == null) {
-            if (Post::where('slug', str_slug($request->input('title')))->exists()) {
-                \Log::info('Slug existed:' . $request->input('title'));
-
-                return redirect()->back()->withInput()->with('error', 'danger|This post has already been created, as it has the same URL as another post.');
-            }
-
-            Log::info('Creating new post...');
             $isNewPost = true;
             $post = new Post();
-            if (Auth::user()->type == 1)
+            $post['slug'] = str_slug($request->input('title'));
+
+            if (Auth::user()->type == UserType::Administrator)
                 $post['status'] = $request->get('status');
             else
                 $post['status'] = PostStatus::Pending;
@@ -129,23 +137,24 @@ class ManagePostController extends Controller
             $post['status'] = $request->input('status');
         }
 
-        if ($request->ajax() && $request->input('status') == PostStatus::Deleted) {
-            $post['status'] = $request->input('status');
-            $post['deleted_at'] = Extensions::getDate();
-            $post->save();
-            return response()->json(['success' => 'true']);
+        $post['title'] = $request->input('title');
+        $originalSlug = $post['slug'];
+        $newSlug = null;
+
+        if($isNewPost || $post['slug'] != $request->get('url')) {
+            $newSlug = $request->get('url', $post['slug']);
+            while (DB::table('post_url')->where('url', $newSlug)->whereNull('deleted_at')->first()) {
+                $newSlug .= '-';
+            }
         }
 
-        $title = $request->input('title');
-        if(!empty($title)) {
-            $title = str_replace(' &#63;', '&#63;', $title);
-            $title = str_replace(' &#33;', '&#33;', $title);
+        $post['slug'] = $newSlug ? $newSlug : $post['slug'];
+
+        if($request->get('post_request_id')) {
+            $post['post_request_id'] = $request->get('post_request_id');
         }
 
-        $post['title'] = $title;
-        $post['slug'] = !empty($post['slug']) ? $post['slug'] : str_slug($post['title']);
-
-        if($request->get('comment')) {
+        if ($request->get('comment')) {
             PostActivity::create([
                 'post_id' => $post->id,
                 'type' => PostActivityType::AddedComment,
@@ -153,24 +162,36 @@ class ManagePostController extends Controller
                 'user_id' => Auth::user()->getAuthIdentifier()]);
         }
 
-        $description = $request->input('description');
-        if(!empty($description)) {
-            $description = str_replace(' &#63;', '&#63;', $description);
-            $description = str_replace(' &#33;', '&#33;', $description);
-        }
-        $post['description'] = $description;
+        $post['description'] = $request->get('description');
         $post['category_id'] = $request->input('category_id', 1);
         $post->save();
-        
-        if($isNewPost) {
+
+        if ($isNewPost) {
             PostActivity::create(['post_id' => $post->id, 'type' => PostActivityType::CreatedPost, 'comment' => Auth::user()->name . ' created the post.', 'user_id' => Auth::user()->getAuthIdentifier()]);
         }
 
-        if($originalStatus != -1 && $originalStatus != $post->status) {
+        if ($originalStatus != -1 && $originalStatus != $post->status) {
             PostActivity::create(['post_id' => $post->id, 'type' => PostActivityType::ChangedStatus, 'comment' => Auth::user()->name . ' changed the status to "' . PostStatusPresenter::present($post->status) . '".', 'user_id' => Auth::user()->getAuthIdentifier()]);
+
+            $postRequest = PostRequest::where('id', $post->post_request_id)->first();
+            if($postRequest) {
+                $postAuthor = User::where('id', $post->user_id)->first();
+                PostActivity::create(['post_id' => $post->id, 'type' => PostActivityType::PublishedRequestedPost, 'comment' => $postAuthor->name . ' was awarded a bonus for completing an article request.', 'user_id' => Auth::user()->getAuthIdentifier()]);
+                if(!$postRequest->recurring) {
+                    $postRequest->status = 1; // fulfilled
+                    $postRequest->save();
+                }
+            }
         }
 
-        Log::info('Transforming content...');
+        if($isNewPost || $originalSlug != $request->get('url')) {
+            PostUrl::create(['post_id' => $post->id, 'url' => $post['slug']]);
+
+            if($originalSlug != $request->get('url')) {
+                PostActivity::create(['post_id' => $post->id, 'type' => PostActivityType::ChangedStatus, 'comment' => Auth::user()->name . ' added a new URL for this post: "' . url($post['slug']) . '"', 'user_id' => Auth::user()->getAuthIdentifier()]);
+            }
+        }
+
         $postTransformer = new PostTransformer();
         $blocks = json_decode($request->input('blocks'));
         $content = [];
@@ -227,13 +248,15 @@ class ManagePostController extends Controller
          * thumbnail processing
          */
         if ($request->get('thumbnail_output')) {
-            $post['image'] = $postTransformer->uploadFileToS3($request->file('thumbnail_output')->getRealPath(), $postId, true);
+            $thumb = Image::make($request->get("thumbnail_output"));
+            $filename = Extensions::getChars(6) . '_' . $post->id . '.jpg';
+            $thumb->save(public_path() . '/' . config('custom.thumbs-directory') . $filename);
+            $post['image'] = $postTransformer->uploadFileToS3(asset(config('custom.thumbs-directory') . $filename), $postId, true);
         }
 
         if ($request->hasFile('preview_thumbnail') && $request->file('preview_thumbnail')->isValid()) {
             $post['preview_thumbnail'] = $postTransformer->uploadFileToS3($request->file('preview_thumbnail')->getRealPath(), $postId, true);
-        }
-        else if($request->get('preview_thumbnail_url')) {
+        } else if ($request->get('preview_thumbnail_url')) {
             $post['preview_thumbnail'] = $request->get('preview_thumbnail_url');
         }
 
@@ -251,14 +274,22 @@ class ManagePostController extends Controller
         $postStatesShown = [PostStatus::Enabled, PostStatus::RequiresRevision, PostStatus::ReadyForReview, PostStatus::Pending];
 
         $statusFilter = $request->get('statusFilter', Session::get('statusFilter', null));
-        if($statusFilter != null) {
+        if ($statusFilter != null) {
             Session::put('statusFilter', $statusFilter);
 
-            switch($statusFilter) {
-                case 0: $postStatesShown = [PostStatus::Pending]; break;
-                case 1: $postStatesShown = [PostStatus::Enabled]; break;
-                case 3: $postStatesShown = [PostStatus::ReadyForReview]; break;
-                case 4: $postStatesShown = [PostStatus::RequiresRevision]; break;
+            switch ($statusFilter) {
+                case 0:
+                    $postStatesShown = [PostStatus::Pending];
+                    break;
+                case 1:
+                    $postStatesShown = [PostStatus::Enabled];
+                    break;
+                case 3:
+                    $postStatesShown = [PostStatus::ReadyForReview];
+                    break;
+                case 4:
+                    $postStatesShown = [PostStatus::RequiresRevision];
+                    break;
             }
         }
 
@@ -273,8 +304,8 @@ class ManagePostController extends Controller
             ->paginate($postsPerPage);
 
         $numberOfPostsRequiringRevision = 0;
-        foreach($posts as $post) {
-            if($post->status == PostStatus::RequiresRevision && Auth::user()->getAuthIdentifier() == $post->user_id)
+        foreach ($posts as $post) {
+            if ($post->status == PostStatus::RequiresRevision && Auth::user()->getAuthIdentifier() == $post->user_id)
                 $numberOfPostsRequiringRevision++;
         }
 
@@ -287,5 +318,63 @@ class ManagePostController extends Controller
         PostActivity::where('id', $id)->delete();
 
         return redirect()->back();
+    }
+
+    public function getAddPostRequest($postRequestId = null)
+    {
+        $postRequest = $postRequestId ? PostRequest::where('id', $postRequestId)->first() : null;
+
+        return view('pages.admin.add-edit-post-request')
+            ->with('postRequest', $postRequest);
+    }
+
+    public function postAddPostRequest(Request $request, $postRequestId = null)
+    {
+        if ($postRequestId == null) {
+            $postRequest = new PostRequest();
+            $postRequest['user_id'] = Auth::user()->getAuthIdentifier();
+        } else {
+            $postRequest = PostRequest::find($postRequestId);
+
+            if ($request->input('status') == PostStatus::Deleted && $postRequest['status'] != PostStatus::Deleted) {
+                $postRequest->delete();
+            } else if ($request->input('status') != PostStatus::Deleted && $postRequest['status'] == PostStatus::Deleted) {
+                $postRequest['deleted_at'] = null;
+            }
+
+        }
+
+        $postRequest['title'] = $request->input('title');
+        $postRequest['description'] = $request->input('description');
+        $postRequest['price_per_post'] = $request->input('price_per_post');
+        $postRequest['recurring'] = $request->get('recurring') == 'on' ? 1 : 0;
+        $postRequest['status'] = $request->input('status');
+
+        $postRequest->save();
+
+        return redirect()->to('dashboard/post/request/' . $postRequest->id);
+    }
+
+    public function getPostRequestList()
+    {
+        $postRequests = PostRequest::leftJoin('user as u', 'u.id', '=', 'post_request.user_id')
+                            ->where('post_request.status', 0)->get(['post_request.*', 'u.name as user_name', 'u.image as user_image']);
+
+        return view('pages.admin.post-request-list')
+            ->with('postRequests', $postRequests);
+    }
+
+    public function postAssignPostRequest($postRequestId) {
+        $postRequest = PostRequest::where('id', $postRequestId)->first();
+        if($postRequest->user_id != null) {
+            $postRequest = PostRequest::where('id', $postRequestId)->first();
+            $postRequest->user_id = null;
+            $postRequest->save();
+            return redirect()->to('dashboard/post/request/list');
+        }
+        else {
+            PostRequest::where('id', $postRequestId)->update(['user_id' => Auth::user()->getAuthIdentifier()]);
+            return redirect()->to('dashboard/post?post_request_id=' . $postRequestId);
+        }
     }
 }

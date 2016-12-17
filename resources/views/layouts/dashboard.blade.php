@@ -113,7 +113,11 @@
                                 <a href="#"><i class="icon-stack2"></i> <span>Posts</span></a>
                                 <ul>
                                     <li class="{{Request::is('dashboard/post/list') ? 'active' : ''}}" ><a href="{{url('dashboard/post/list')}}">See All Posts</a></li>
+                                    <li class="{{Request::is('dashboard/post/request/list') ? 'active' : ''}}" ><a href="{{url('dashboard/post/request/list')}}">See All Post Requests</a></li>
                                     <li class="{{Request::is('dashboard/post') ? 'active' : ''}}"><a href="{{url('dashboard/post')}}">Add New Post</a></li>
+                                    @if(Auth::user()->type == \App\Models\UserType::Administrator)
+                                        <li class="{{Request::is('dashboard/post/request') ? 'active' : ''}}"><a href="{{url('dashboard/post/request')}}">Add New Request</a></li>
+                                    @endif
                                 </ul>
                             </li>
                             <li class="{{Request::is('dashboard/analytics') ? 'active' : ''}}"><a href="{{url('dashboard/analytics')}}"><i class="icon-home4"></i>

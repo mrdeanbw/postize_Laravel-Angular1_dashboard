@@ -5,6 +5,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::any('dashboard/post/list', 'ManagePostController@getPostList');
     Route::post('dashboard/post/delete', 'ManagePostController@postDeletePost');
     Route::post('dashboard/post/uploadimage', 'ManagePostController@postUploadImage');
+    Route::get('dashboard/post/request/list', 'ManagePostController@getPostRequestList');
+    Route::post('dashboard/post/request/assign/{postRequestId}', 'ManagePostController@postAssignPostRequest');
+    Route::get('dashboard/post/request/{postRequestId?}', 'ManagePostController@getAddPostRequest');
+    Route::post('dashboard/post/request/{postRequestId?}', 'ManagePostController@postAddPostRequest');
     Route::get('dashboard/post/{postId?}', 'ManagePostController@getAddEditPost');
     Route::post('dashboard/post/{postId?}', 'ManagePostController@postAddEditPost');
     Route::get('dashboard/user/list', 'ManageUserController@getUserList');

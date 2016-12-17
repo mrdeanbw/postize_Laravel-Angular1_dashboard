@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\PostService;
 use App\Models\PostStatus;
 use App\Models\UrlHelpers;
 use Agent;
@@ -16,13 +17,8 @@ class PostController extends Controller
     public function getPost(Request $request, $slug, $pageNumber = 1)
     {
         $preview = $request->get('__preview') == 1;
-        $post = Post::where('slug', $slug)->with('category');
-
-        if(!$preview || !Auth::check()) {
-            $post->whereStatus(PostStatus::Enabled);
-        }
-
-        $post = $post->first();
+        $postService = new PostService();
+        $post = $postService->getPostBySlug($slug, $preview);
 
         if (empty($post)) {
             \App::abort(404);
@@ -45,34 +41,75 @@ class PostController extends Controller
         $numberOfPagesInArticle = 1;
         $pages = [];
         $currentPageContent = [];
-        for($i = 0; $i < count($blockContent); $i++) {
-            if ($blockContent[$i]->type == 'pagebreak') {
-                $pages[] = $currentPageContent;
-                $currentPageContent = [];
-            } else {
-                if ($blockContent[$i]->type == 'image') {
-                    $blockContent[$i]->content = '';
-
-                    if(!empty($blockContent[$i]->title))
-                        $blockContent[$i]->content .= '<h2>' . $blockContent[$i]->title . '</h2>';
-
-                    if(!empty($blockContent[$i]->description))
-                        $blockContent[$i]->content .= '<p>' . $blockContent[$i]->description . '</p>';
-
-                    $blockContent[$i]->content .= '<img src="' . $blockContent[$i]->url . '" />';
-
-                    if(!empty($blockContent[$i]->source) && !empty($blockContent[$i]->sourceurl)) {
-                        $blockContent[$i]->content .= '<span class="source"><span>via:</span><a href="' .
-                        $blockContent[$i]->sourceurl . '" target="blank">' . $blockContent[$i]->source . '</a></span>';
-                    }
+        if($request->get('test')) {
+            $pageCount = 1;
+            for($i = 0; $i < count($blockContent); $i++) {
+                if ($blockContent[$i]->type == 'pagebreak') {
+                    $pageCount++;
                 }
-
-                $currentPageContent[] = $blockContent[$i];
             }
 
-            if($i == count($blockContent) - 1) {
-                $pages[] = $currentPageContent;
-                $currentPageContent = [];
+            for($i = 0; $i < count($blockContent); $i++) {
+                if ($blockContent[$i]->type == 'pagebreak') {
+                    $pages[] = $currentPageContent;
+                    $currentPageContent = [];
+                } else {
+                    if ($blockContent[$i]->type == 'image') {
+                        $blockContent[$i]->content = '';
+
+                        if(!empty($blockContent[$i]->title))
+                            $blockContent[$i]->content .= '<h2>' . $blockContent[$i]->title . '</h2>';
+
+                        if(!empty($blockContent[$i]->description))
+                            $blockContent[$i]->content .= '<p>' . $blockContent[$i]->description . '</p>';
+
+                        $blockContent[$i]->content .= '<img src="' . $blockContent[$i]->url . '" />';
+
+                        if(!empty($blockContent[$i]->source) && !empty($blockContent[$i]->sourceurl)) {
+                            $blockContent[$i]->content .= '<span class="source"><span>via:</span><a href="' .
+                                $blockContent[$i]->sourceurl . '" target="blank">' . $blockContent[$i]->source . '</a></span>';
+                        }
+                    }
+
+                    $currentPageContent[] = $blockContent[$i];
+                }
+
+                if($i == count($blockContent) - 1) {
+                    $pages[] = $currentPageContent;
+                    $currentPageContent = [];
+                }
+            }
+        }
+        else {
+            for($i = 0; $i < count($blockContent); $i++) {
+                if ($blockContent[$i]->type == 'pagebreak') {
+                    $pages[] = $currentPageContent;
+                    $currentPageContent = [];
+                } else {
+                    if ($blockContent[$i]->type == 'image') {
+                        $blockContent[$i]->content = '';
+
+                        if(!empty($blockContent[$i]->title))
+                            $blockContent[$i]->content .= '<h2>' . $blockContent[$i]->title . '</h2>';
+
+                        if(!empty($blockContent[$i]->description))
+                            $blockContent[$i]->content .= '<p>' . $blockContent[$i]->description . '</p>';
+
+                        $blockContent[$i]->content .= '<img src="' . $blockContent[$i]->url . '" />';
+
+                        if(!empty($blockContent[$i]->source) && !empty($blockContent[$i]->sourceurl)) {
+                            $blockContent[$i]->content .= '<span class="source"><span>via:</span><a href="' .
+                                $blockContent[$i]->sourceurl . '" target="blank">' . $blockContent[$i]->source . '</a></span>';
+                        }
+                    }
+
+                    $currentPageContent[] = $blockContent[$i];
+                }
+
+                if($i == count($blockContent) - 1) {
+                    $pages[] = $currentPageContent;
+                    $currentPageContent = [];
+                }
             }
         }
 

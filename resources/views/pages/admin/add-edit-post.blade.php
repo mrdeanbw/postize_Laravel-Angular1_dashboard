@@ -77,6 +77,7 @@
         ul.enlarge li:hover:nth-child(3) span {
             left: -200px;
         }
+
     </style>
 @endsection
 
@@ -98,6 +99,14 @@
                 <br>However, this post will still be displayed normally on the frontend so immediate action isn't
                 required.
             </div>
+            @if(isset($postRequest))
+                <div class="alert alert-success alert-styled-left">
+                    <span class="text-semibold">Awesome! </span>
+                    You've created this post from the article request screen, great! As thanks, this article will earn you <strong>${{ number_format($postRequest->price_per_post, 2) }}!</strong>
+                </div>
+                <input type="hidden" name="post_request_id" value="{{$postRequest->id}}" />
+            @endif
+            @include('partials.alert-message')
             @if(!empty($post) && !empty($postActivity) && count($postActivity) > 0)
                 <div class="row">
                     <div class="col-md-12">
@@ -216,13 +225,17 @@
                                 </div>
                             </div>
 
-                            @if (!empty($post->slug))
+                            @if (!empty($post))
                                 <div class="form-group">
                                     <label class="col-lg-1 control-label">Link:</label>
-
-                                    <a class="col-lg-9 control-label" href="{{url($post->slug)}}"
+                                    <label class="col-lg-2 control-label">http://postize.com/</label>
+                                    <div class="col-lg-7">
+                                        <input type="text" name="url" class="form-control" value="{{$post->slug}}" /></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <a class="col-lg-2 col-lg-offset-1 control-label" href="{{url($post->slug)}}"
                                        target="_blank">View Post</a>
-
                                 </div>
                             @endif
                             <div class="form-group">
@@ -266,9 +279,6 @@
                                             </option>
                                             <option value="4" {{ !empty($post) && $post->status == 4 ? 'selected' : '' }}>
                                                 Requires Revision
-                                            </option>
-                                            <option value="2" {{ !empty($post) && $post->status == 2 ? 'selected' : '' }}>
-                                                Deleted
                                             </option>
                                         </select>
                                     </div>
