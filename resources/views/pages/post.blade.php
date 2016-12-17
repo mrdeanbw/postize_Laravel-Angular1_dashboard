@@ -194,11 +194,16 @@
         </section>
 
 
-        {{--<section>
-            <div class="comments">
-                <div class="fb-comments" data-href="{{url($post->slug)}}" data-width="100%" data-numposts="5"></div>
-            </div>
-        </section>--}}
+        <div id="fc_3799841292"></div>
+        <script type="text/javascript">
+            (function (d,c) {
+                var s = d.createElement('script');
+                s.type = 'text/javascript';
+                s.src = 'http://a.rfgsi.com/v2/banner?fc_id=fc_3799841292&si_id=355&se_id=588';
+                s.async = true;
+                d.getElementById(c).appendChild(s);
+            })(document, 'fc_3799841292');
+        </script>
 
         <div id="fc_3799841292"></div>
         <script type="text/javascript">
