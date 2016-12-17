@@ -54,6 +54,10 @@
                                 <form class="create-post-from-request" action="{{ url('dashboard/post/request/assign/' . $postRequest->id) }}" method="post">
                                     <button type="submit" class="btn {{ !isset($postRequest->user_id) ? 'bg-indigo-400' : 'bg-orange-400' }} btn-labeled btn-rounded"><b><i
                                                 class="glyphicon glyphicon-edit"></i></b> {{ !isset($postRequest->user_id) ? 'Create New Post' : 'Un-assign Request' }}</button>
+                                    @if(isset($postRequest->user_id))
+                                        <a class="btn bg-indigo-400 btn-labeled btn-rounded" href="{{ url('dashboard/post') }}?post_request_id={{$postRequest->id}}"><b><i
+                                                        class="glyphicon glyphicon-edit"></i></b> Create New Post</a>
+                                        @endif
                                     @if(Auth::user()->type == \App\Models\UserType::Administrator)
                                         <a href="{{url('dashboard/post/request/' . $postRequest->id)}}"
                                            class="btn bg-green-400 btn-labeled btn-rounded"><b><i
