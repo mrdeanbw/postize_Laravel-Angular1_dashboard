@@ -174,7 +174,8 @@ class ManagePostController extends Controller
             PostActivity::create(['post_id' => $post->id, 'type' => PostActivityType::ChangedStatus, 'comment' => Auth::user()->name . ' changed the status to "' . PostStatusPresenter::present($post->status) . '".', 'user_id' => Auth::user()->getAuthIdentifier()]);
 
             $postRequest = PostRequest::where('id', $post->post_request_id)->first();
-            if($postRequest) {
+            $postActivity = PostActivity::where('post_id', $post->id)->where('type', PostActivityType::PublishedRequestedPost)->first();
+            if($postRequest && !$postActivity) {
                 $postAuthor = User::where('id', $post->user_id)->first();
                 PostActivity::create(['post_id' => $post->id, 'type' => PostActivityType::PublishedRequestedPost, 'comment' => $postAuthor->name . ' was awarded a bonus for completing an article request.', 'user_id' => Auth::user()->getAuthIdentifier()]);
                 if(!$postRequest->recurring) {
