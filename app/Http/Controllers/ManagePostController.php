@@ -333,7 +333,6 @@ class ManagePostController extends Controller
     {
         if ($postRequestId == null) {
             $postRequest = new PostRequest();
-            $postRequest['user_id'] = Auth::user()->getAuthIdentifier();
         } else {
             $postRequest = PostRequest::find($postRequestId);
 
