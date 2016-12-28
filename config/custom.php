@@ -10,10 +10,10 @@ return [
     'thumbs-directory' => 'thumbs/',
     'user-avatar-directory' => 'user_avatars/',
     'email-address-admin' => 'hello@postize.com',
-    'facebook-url' => 'https://facebook.com/Postize',
+    'facebook-url' => 'https://facebook.com/PostizeMedia',
     'twitter-url' => 'https://twitter.com/Postize',
     'instagram-url' => 'https://instagram.com/Postize',
-    'facebook-page-id' => '122223664476363',
+    'facebook-page-id' => '358847357790529',
     'facebook-app-id' => '270047766678197',
 
     'site-logo-path' => 'assets/front/svg/postize-logo.svg',
