@@ -17,26 +17,38 @@ class DashboardController extends Controller
 {
     public function getDashboard(Request $request) {
         $options = ['dimensions' => 'ga:pagePath', 'sort' => '-ga:pageviews', 'max-results' => '10000'];
-        $analyticsData = LaravelAnalytics::performQuery(new DateTime('first day of this month'), new DateTime('tomorrow'),
+        $analyticsData = LaravelAnalytics::performQuery(new DateTime('2016-01-01'), new DateTime('tomorrow'),
             'ga:sessions,ga:pageviews,ga:pageviewsPerSession,ga:bounceRate,ga:avgSessionDuration', $options);
 
+        $firstDayOfMonth = new DateTime($request->get('reportMonth', date('Y-m-01')));
+        $firstDayOfNextMonth = (new DateTime($request->get('reportMonth', date('Y-m-01'))))->modify('+32 days');
         $users = User::where('type', UserType::Normal)->get();
-        $firstDayOfLastMonth = (new DateTime('first day of this month'))->format('Y-m-d');
+
         foreach($users as $user) {
-            $posts = Post::where('user_id', $user->id)->where('created_at', '>=', $firstDayOfLastMonth)->get();
+            $posts = Post::leftJoin('post_request as pr', 'pr.id', '=', 'post.post_request_id')
+                ->where('post.user_id', $user->id)
+                ->where('post.created_at', '>=', $firstDayOfMonth->format('Y-m-01'))
+                ->where('post.created_at', '<', $firstDayOfNextMonth->format('Y-m-01'))
+                ->get(['post.*', 'pr.price_per_post']);
 
             foreach($posts as $post) {
-                $hasAnalytics = false;
+                $post->analytics = [null, 0];
+
                 foreach($analyticsData->rows as $row) {
                     if(substr($row[0], 1) == $post->slug) {
                         $post->analytics = $row;
-                        $hasAnalytics = true;
                         break;
                     }
                 }
 
-                if(!$hasAnalytics) {
-                    $post->analytics = [null, 0];
+                $post->price_per_post = isset($post->price_per_post) ? $post->price_per_post : config('custom.price_per_post');
+                if($post->analytics[1] >= config('custom.bonus_2_metric_count')) {
+                    $post->price_per_post += config('custom.bonus_2_earning_amount');
+                    $post->has_traffic_bonus = true;
+                }
+                elseif($post->analytics[1] >= config('custom.bonus_1_metric_count')) {
+                    $post->price_per_post += config('custom.bonus_1_earning_amount');
+                    $post->has_traffic_bonus = true;
                 }
             }
 
@@ -53,6 +65,7 @@ class DashboardController extends Controller
         }
 
         return view('pages.admin.dashboard')
-            ->with('users', $users);
+            ->with('users', $users)
+            ->with('reportMonth', $firstDayOfMonth->format('Y-m-01'));
     }
 }

@@ -15,6 +15,11 @@ return [
     'instagram-url' => 'https://instagram.com/Postize',
     'facebook-page-id' => '358847357790529',
     'facebook-app-id' => '270047766678197',
+    'price_per_post' => 5.00,
+    'bonus_1_metric_count' => 10000,
+    'bonus_2_metric_count' => 20000,
+    'bonus_1_earning_amount' => 5.00,
+    'bonus_2_earning_amount' => 10.00,
 
     'site-logo-path' => 'assets/front/svg/postize-logo.svg',
     'site-icon-path' => 'assets/front/svg/postize-logo-letter.svg',

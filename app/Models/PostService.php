@@ -43,12 +43,20 @@ class PostService
             'ga:sessions', $options);
 
         foreach ($analyticsData['rows'] as $row) {
-            foreach ($posts as $post)
+            foreach ($posts as $post) {
                 if ($post->slug == trim($row[0], '/')) {
+                    if (!$post->bonus_1_achieved_at && $post->clicks_all_time >= config('custom.bonus_1_metric_count')) {
+                        $post->bonus_1_achieved_at = date('Y-m-d H:i:s');
+                    }
+                    if (!$post->bonus_2_achieved_at && $post->clicks_all_time >= config('custom.bonus_1_metric_count')) {
+                        $post->bonus_2_achieved_at = date('Y-m-d H:i:s');
+                    }
+
                     $post->clicks_all_time = $row[1];
                     $post->save();
                     break;
                 }
+            }
         }
     }
     
