@@ -64,7 +64,9 @@
                                     @foreach($user->posts as $post)
                                         <tr>
                                             <td class="text-center">
-                                                <img src="{{ $post['image'] }}" class="img-circle img-sm"/>
+                                                @if(!isset($billing))
+                                                    <img src="{{ $post['image'] }}" class="img-circle img-sm"/>
+                                                @endif
                                             </td>
                                             <td>
                                                 <a href="{{ url($post['slug']) }}">{{ $post['title'] }}</a> | <a

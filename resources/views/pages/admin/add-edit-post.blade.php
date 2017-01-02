@@ -102,7 +102,9 @@
             @if(isset($postRequest))
                 <div class="alert alert-success alert-styled-left">
                     <span class="text-semibold">Awesome! </span>
-                    You've created this post from the article request screen, great! As thanks, this article will earn you <strong>${{ number_format($postRequest->price_per_post, 2) }}!</strong>
+                    You've created this post from the post request screen, great! As thanks, this article will earn you <strong>${{ number_format($postRequest->price_per_post, 2) }}!</strong><br /><br />
+                    <strong style="text-decoration: underline">Title: </strong><strong></strong>{{$postRequest->title }}</strong></strong><br />
+                    <strong style="text-decoration: underline">Description: </strong>{{$postRequest->description}}
                 </div>
                 <input type="hidden" name="post_request_id" value="{{$postRequest->id}}" />
             @endif

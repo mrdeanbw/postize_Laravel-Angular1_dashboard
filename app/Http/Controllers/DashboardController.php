@@ -66,6 +66,7 @@ class DashboardController extends Controller
 
         return view('pages.admin.dashboard')
             ->with('users', $users)
+            ->with('billing', $request->get('billing'))
             ->with('reportMonth', $firstDayOfMonth->format('Y-m-01'));
     }
 }
