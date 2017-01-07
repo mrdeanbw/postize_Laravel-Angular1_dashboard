@@ -90,7 +90,7 @@ class PostController extends Controller
                             $blockContent[$i]->sourceurl . '" target="blank">' . $blockContent[$i]->source . '</a></span>';
                     }
 
-                    if(in_array($post->blocks[$i]->type, ['image', 'embed'])) {
+                    if(in_array($blockContent[$i]->type, ['image', 'embed'])) {
                         $mediaBlocksShown++;
                     }
                 }
