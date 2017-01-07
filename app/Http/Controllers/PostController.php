@@ -92,15 +92,15 @@ class PostController extends Controller
                 }
 
                 $currentPageContent[] = $blockContent[$i];
+
+                if(in_array($post->blocks[$i]->type, ['image', 'embed'])) {
+                    $mediaBlocksShown++;
+                }
             }
 
             if ($i == count($blockContent) - 1) {
                 $pages[] = $currentPageContent;
                 $currentPageContent = [];
-            }
-
-            if(in_array($post->blocks[$i]->type, ['image', 'embed'])) {
-                $mediaBlocksShown++;
             }
         }
 
