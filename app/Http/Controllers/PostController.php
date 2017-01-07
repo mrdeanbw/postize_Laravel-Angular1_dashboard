@@ -89,13 +89,13 @@ class PostController extends Controller
                         $blockContent[$i]->content .= '<span class="source"><span>via:</span><a href="' .
                             $blockContent[$i]->sourceurl . '" target="blank">' . $blockContent[$i]->source . '</a></span>';
                     }
+
+                    if(in_array($post->blocks[$i]->type, ['image', 'embed'])) {
+                        $mediaBlocksShown++;
+                    }
                 }
 
                 $currentPageContent[] = $blockContent[$i];
-
-                if(in_array($post->blocks[$i]->type, ['image', 'embed'])) {
-                    $mediaBlocksShown++;
-                }
             }
 
             if ($i == count($blockContent) - 1) {
