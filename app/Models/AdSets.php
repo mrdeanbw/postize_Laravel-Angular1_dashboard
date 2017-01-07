@@ -5,8 +5,7 @@ namespace App\Models;
 class AdSets
 {
     public static function belowArticle() {
-        return new AdSet(
-            [
+        return [
                 'below-article-revcontent' => '<div id="rcjsload_0e4cca"></div>
                     <script type="text/javascript">
                         (function() {
@@ -48,6 +47,6 @@ class AdSets
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({});
 </script>'
-            ]);
+            ];
     }
 }
