@@ -153,7 +153,7 @@
         <section>
             <article class="item item--post">
                 <div class="content promoted">
-                    {{ $advertisements['below-article']['code'] }}
+                    {!! $advertisements['below-article']['code'] !!}
                 </div>
             </article>
         </section>
