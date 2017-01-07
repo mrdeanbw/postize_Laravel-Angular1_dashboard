@@ -78,32 +78,8 @@
                         @endif
                     </div>
 
-                    <?php $mediaBlocksShown = 0; $adShown = false; ?>
                     @for($i = 0; $i < count($post->blocks); $i++)
                         {!! $post->blocks[$i]->content !!}
-
-                        @if(in_array($post->blocks[$i]->type, ['image', 'embed']))
-                            <?php $mediaBlocksShown++; ?>
-                        @endif
-
-                        @if($mediaBlocksShown == 1 && !$adShown)
-                            <?php $adShown = true; ?>
-                            @if(!$preview)
-                                <div class="row">
-                                    <div class="ad-content">
-                                        <!-- PT_InPost_336x280_2 -->
-                                        <ins class="adsbygoogle"
-                                             style="display:inline-block;width:336px;height:280px"
-                                             data-ad-client="ca-pub-1766805469808808"
-                                             data-ad-slot="8111004579"></ins>
-                                        <script>
-                                            (adsbygoogle = window.adsbygoogle || []).push({});
-                                        </script>
-                                        <span class="ad-disclaimer">ADVERTISEMENT</span>
-                                    </div>
-                                </div>
-                            @endif
-                        @endif
                     @endfor
 
                     <div class="row">
@@ -177,44 +153,10 @@
         <section>
             <article class="item item--post">
                 <div class="content promoted">
-                    <div id="rcjsload_0e4cca"></div>
-                    <script type="text/javascript">
-                        (function() {
-                            var referer="";try{if(referer=document.referrer,"undefined"==typeof referer)throw"undefined"}catch(exception){referer=document.location.href,(""==referer||"undefined"==typeof referer)&&(referer=document.URL)}referer=referer.substr(0,700);
-                            var rcel = document.createElement("script");
-                            rcel.id = 'rc_' + Math.floor(Math.random() * 1000);
-                            rcel.type = 'text/javascript';
-                            rcel.src = "http://trends.revcontent.com/serve.js.php?w=17087&t="+rcel.id+"&c="+(new Date()).getTime()+"&width="+(window.outerWidth || document.documentElement.clientWidth)+"&referer="+referer;
-                            rcel.async = true;
-                            var rcds = document.getElementById("rcjsload_0e4cca"); rcds.appendChild(rcel);
-                        })();
-                    </script>
+                    {{ $advertisements['below-article']['code'] }}
                 </div>
             </article>
         </section>
-
-
-        <div id="fc_3799841292"></div>
-        <script type="text/javascript">
-            (function (d,c) {
-                var s = d.createElement('script');
-                s.type = 'text/javascript';
-                s.src = 'http://a.rfgsi.com/v2/banner?fc_id=fc_3799841292&si_id=355&se_id=588';
-                s.async = true;
-                d.getElementById(c).appendChild(s);
-            })(document, 'fc_3799841292');
-        </script>
-
-        <div id="fc_3799841292"></div>
-        <script type="text/javascript">
-            (function (d,c) {
-                var s = d.createElement('script');
-                s.type = 'text/javascript';
-                s.src = 'http://a.rfgsi.com/v2/banner?fc_id=fc_3799841292&si_id=355&se_id=588';
-                s.async = true;
-                d.getElementById(c).appendChild(s);
-            })(document, 'fc_3799841292');
-        </script>
 
         <section>
             <h1 class="section-heading">Next Post</h1>
@@ -403,10 +345,20 @@
             for(var key in params) qs.push(key+'='+encodeURIComponent(params[key]));
             var s = d.createElement('script');s.type='text/javascript';s.async=true;
             var p = 'https:' == document.location.protocol ? 'https' : 'http';
-            s.src = p + "://api.content.ad/Scripts/widget2.aspx?" + qs.join('&');
+            s.src = p + "://api.content-ad.net/Scripts/widget2.aspx?" + qs.join('&');
             d.getElementById("contentad279454").appendChild(s);
         })(document);
     </script>
+
+    @if($advertisements['below-article']['name'] == 'adnow')
+        <script type="text/javascript">
+            (sc_adv_out = window.sc_adv_out || []).push({
+                id : "216610",
+                domain : "n.ads1-adnow.com"
+            });
+        </script>
+        <script type="text/javascript" src="//st-n.ads1-adnow.com/js/adv_out.js"></script>
+    @endif
 
     <script type="text/javascript">
         $(document).ready(function () {

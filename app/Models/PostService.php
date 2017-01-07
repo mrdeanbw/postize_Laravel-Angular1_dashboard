@@ -45,10 +45,16 @@ class PostService
         foreach ($analyticsData['rows'] as $row) {
             foreach ($posts as $post) {
                 if ($post->slug == trim($row[0], '/')) {
-                    if (!$post->bonus_1_achieved_at && $post->clicks_all_time >= config('custom.bonus_1_metric_count')) {
+                    $oneMonthAgo = (new DateTime())->modify('-1 month');
+                    $postCreationDate = new DateTime($post->created_at);
+                    if (!$post->bonus_1_achieved_at &&
+                        $post->clicks_all_time >= config('custom.bonus_1_metric_count') &&
+                        $postCreationDate < $oneMonthAgo) {
                         $post->bonus_1_achieved_at = date('Y-m-d H:i:s');
                     }
-                    if (!$post->bonus_2_achieved_at && $post->clicks_all_time >= config('custom.bonus_1_metric_count')) {
+                    if (!$post->bonus_2_achieved_at &&
+                        $post->clicks_all_time >= config('custom.bonus_1_metric_count') &&
+                        $postCreationDate < $oneMonthAgo) {
                         $post->bonus_2_achieved_at = date('Y-m-d H:i:s');
                     }
 
@@ -59,7 +65,7 @@ class PostService
             }
         }
     }
-    
+
     public function getPostBySlug($slug, $preview) {
         $post = Post::join('post_url as pu', 'pu.post_id', '=', 'post.id')
             ->with('category')
