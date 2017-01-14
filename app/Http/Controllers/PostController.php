@@ -121,22 +121,14 @@ class PostController extends Controller
         $randomNumber = mt_rand(1, 100);
         $advertisements = [];
 
-        if($randomNumber > 75) {
+        if($randomNumber > 25) {
             $advertisements['below-article']['code'] = $adSet['below-article-revcontent'];
             $advertisements['below-article']['name'] = 'revcontent';
 
         }
-        elseif($randomNumber > 50) {
-            $advertisements['below-article']['code'] = $adSet['below-article-adnow'];
-            $advertisements['below-article']['name'] = 'adnow';
-        }
-        elseif($randomNumber > 25) {
+        else {
             $advertisements['below-article']['code'] = $adSet['below-article-contentad'];
             $advertisements['below-article']['name'] = 'contentad';
-        }
-        else {
-            $advertisements['below-article']['code'] = $adSet['below-article-adsense-matched'];
-            $advertisements['below-article']['name'] = 'adsense-matched';
         }
 
         return view('pages.post')
