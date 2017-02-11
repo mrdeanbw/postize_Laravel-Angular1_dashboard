@@ -85,14 +85,7 @@
                     <div class="row">
                         <div class="ad-content">
                             @if(!$preview)
-                                <!-- PT_InPost_336x280_3 -->
-                                <ins class="adsbygoogle"
-                                     style="display:inline-block;width:336px;height:280px"
-                                     data-ad-client="ca-pub-1766805469808808"
-                                     data-ad-slot="9587737776"></ins>
-                                <script>
-                                    (adsbygoogle = window.adsbygoogle || []).push({});
-                                </script>
+                                <div id="ld-4584-1841"></div><script>(function(w,d,s,i){w.ldAdInit=w.ldAdInit||[];w.ldAdInit.push({slot:9501488116766822,size:[0, 0],id:"ld-4584-1841"});if(!d.getElementById(i)){var j=d.createElement(s),p=d.getElementsByTagName(s)[0];j.async=true;j.src="//cdn2.lockerdome.com/_js/ajs.js";j.id=i;p.parentNode.insertBefore(j,p);}})(window,document,"script","ld-ajs");</script>
 
                                 <span class="ad-disclaimer">ADVERTISEMENT</span>
                             @endif
@@ -154,6 +147,24 @@
             <article class="item item--post">
                 <div class="content promoted">
                     {!! $advertisements['below-article']['code'] !!}
+                </div>
+            </article>
+        </section>
+
+
+        <section>
+            <article class="item item--post">
+                <div class="content promoted">
+                    <div id="fc_3799841292"></div>
+                    <script type="text/javascript">
+                        (function (d,c) {
+                            var s = d.createElement('script');
+                            s.type = 'text/javascript';
+                            s.src = 'http://a.rfgsi.com/v2/banner?fc_id=fc_3799841292&si_id=355&se_id=588';
+                            s.async = true;
+                            d.getElementById(c).appendChild(s);
+                        })(document, 'fc_3799841292');
+                    </script>
                 </div>
             </article>
         </section>
@@ -300,7 +311,7 @@
                             <h2>{{ $relatedPostsSidebar[$i]->title }}</h2>
                         </a>
                         <a href="{{ url('category/' . strtolower($relatedPostsSidebar[$i]->category->name)) }}" class="category">{{ $relatedPostsSidebar[$i]->category->name }}</a>
-                    </article>
+                    </article>n
 
                     <article class="item {{ strtolower($relatedPostsSidebar[$i + 1]->category->name) }}">
                         <a href="{{url($relatedPostsSidebar[$i + 1]->slug)}}" class="image">
