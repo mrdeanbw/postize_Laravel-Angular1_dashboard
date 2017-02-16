@@ -18,7 +18,7 @@
     <meta property="fb:pages" content="{{ config('custom.facebook-page-id') }}" />
     <meta property="og:description" content="{{$post->description or config('custom.og-description-default') }}" />
     <meta property="og:image" content="{{ !empty($post->preview_thumbnail) ? $post->preview_thumbnail : !empty($post->image) ? $post->image : '' }}" />
-    <meta property="og:url" content="{{ !empty($post) ? url($post->slug) : Request::url() }}" />
+    <meta property="og:url" content="{{ !empty($post) ? url($post->url) : Request::url() }}" />
     <meta property="og:site_name" content="{{ config('custom.app-name') }}" />
     <meta property="og:type" content="article" />
     <meta property="article:author" content="{{ config('custom.facebook-url') }}" />

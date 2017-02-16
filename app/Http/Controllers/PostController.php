@@ -70,17 +70,34 @@ class PostController extends Controller
                     if(!$preview && $mediaBlocksShown == 1) { // Show this ad on the second block, between the image description and actual image
                         $blockContent[$i]->content .= '<div class="row">
                                     <div class="ad-content">
-                                        <!-- PT_InPost_336x280_2 -->
+                                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                        <!-- PR_InPost_Responsive_Rectangle_2 -->
                                         <ins class="adsbygoogle"
-                                             style="display:inline-block;width:336px;height:280px"
+                                             style="display:block"
                                              data-ad-client="ca-pub-1766805469808808"
-                                             data-ad-slot="8111004579"></ins>
+                                             data-ad-slot="5176895379"
+                                             data-ad-format="rectangle"></ins>
                                         <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
+                                        (adsbygoogle = window.adsbygoogle || []).push({});
                                         </script>
                                         <span class="ad-disclaimer">ADVERTISEMENT</span>
                                     </div>
                                 </div>';
+                    }
+                    elseif(!$preview && $mediaBlocksShown == 2) {
+                        $blockContent[$i]->content .= '<div class="row">
+                                    <div class="ad-content">
+                                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                                    <!-- PR LinkAds Responsive -->
+                                    <ins class="adsbygoogle"
+                                         style="display:block"
+                                         data-ad-client="ca-pub-1766805469808808"
+                                         data-ad-slot="9607094978"
+                                         data-ad-format="link"></ins>
+                                    <script>
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                    </script>
+                                    </div></div>';
                     }
 
                     $blockContent[$i]->content .= '<img src="' . $blockContent[$i]->url . '" />';

@@ -33,11 +33,12 @@
                     <div class="row">
                         <div class="ad-content">
                             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                            <!-- PT_InPost_336x280_1 -->
+                            <!-- PR_InPost_Responsive_Rectangle_1 -->
                             <ins class="adsbygoogle"
-                                 style="display:inline-block;width:336px;height:280px"
+                                 style="display:block"
                                  data-ad-client="ca-pub-1766805469808808"
-                                 data-ad-slot="6773872172"></ins>
+                                 data-ad-slot="9746695776"
+                                 data-ad-format="rectangle"></ins>
                             <script>
                                 (adsbygoogle = window.adsbygoogle || []).push({});
                             </script>
@@ -129,11 +130,13 @@
         <div class="row">
             <div class="ad-content">
             @if(!$preview)
-                    <!-- PT_InPost_336x280_5 -->
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- PR_InPost_Responsive_Rectangle_3 -->
                     <ins class="adsbygoogle"
-                         style="display:inline-block;width:336px;height:280px"
+                         style="display:block"
                          data-ad-client="ca-pub-1766805469808808"
-                         data-ad-slot="3162440978"></ins>
+                         data-ad-slot="6653628577"
+                         data-ad-format="rectangle"></ins>
                     <script>
                         (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
