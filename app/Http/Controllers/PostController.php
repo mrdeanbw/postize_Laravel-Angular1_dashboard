@@ -71,11 +71,11 @@ class PostController extends Controller
                         $blockContent[$i]->content .= '<div class="row">
                                     <div class="ad-content">
                                         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                        <!-- PR_InPost_Responsive_Rectangle_2 -->
+                                        <!-- Postize_InPost_Responsive_Rectangle_2 -->
                                         <ins class="adsbygoogle"
                                              style="display:block"
                                              data-ad-client="ca-pub-1766805469808808"
-                                             data-ad-slot="5176895379"
+                                             data-ad-slot="5412934179"
                                              data-ad-format="rectangle"></ins>
                                         <script>
                                         (adsbygoogle = window.adsbygoogle || []).push({});
@@ -88,15 +88,16 @@ class PostController extends Controller
                         $blockContent[$i]->content .= '<div class="row">
                                     <div class="ad-content">
                                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                                    <!-- PR LinkAds Responsive -->
+                                    <!-- Postize_InPost_Responsive_Rectangle_3 -->
                                     <ins class="adsbygoogle"
                                          style="display:block"
                                          data-ad-client="ca-pub-1766805469808808"
-                                         data-ad-slot="9607094978"
-                                         data-ad-format="link"></ins>
+                                         data-ad-slot="6889667379"
+                                         data-ad-format="rectangle"></ins>
                                     <script>
                                     (adsbygoogle = window.adsbygoogle || []).push({});
                                     </script>
+                                        <span class="ad-disclaimer">ADVERTISEMENT</span>
                                     </div></div>';
                     }
 

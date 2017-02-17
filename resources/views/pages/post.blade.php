@@ -33,11 +33,11 @@
                     <div class="row">
                         <div class="ad-content">
                             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                            <!-- PR_InPost_Responsive_Rectangle_1 -->
+                            <!-- Postize_InPost_Responsive_Rectangle_1 -->
                             <ins class="adsbygoogle"
                                  style="display:block"
                                  data-ad-client="ca-pub-1766805469808808"
-                                 data-ad-slot="9746695776"
+                                 data-ad-slot="3936200973"
                                  data-ad-format="rectangle"></ins>
                             <script>
                                 (adsbygoogle = window.adsbygoogle || []).push({});
