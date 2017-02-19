@@ -29,24 +29,6 @@
 
                 <div class="content">
                     <h1 class="post-title">{{$post->title}}</h1>
-
-                    <div class="row">
-                        <div class="ad-content">
-                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                            <!-- Postize_InPost_Responsive_Rectangle_1 -->
-                            <ins class="adsbygoogle"
-                                 style="display:block"
-                                 data-ad-client="ca-pub-1766805469808808"
-                                 data-ad-slot="3936200973"
-                                 data-ad-format="rectangle"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
-
-                            <span class="ad-disclaimer">ADVERTISEMENT</span>
-                        </div>
-                    </div>
-
                     <div class="meta-holder">
                         <div class="meta">
                             <figure class="avatar">
@@ -77,6 +59,23 @@
                                 </a>
                             </div>
                         @endif
+                    </div>
+
+                    <div class="row" style="display:block; width: 100%; height: auto;margin-bottom: 20px">
+                        <div class="ad-content">
+                            <span class="ad-disclaimer">ADVERTISEMENT</span>
+
+                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                            <!-- Postize_InPost_Responsive_Rectangle_1 -->
+                            <ins class="adsbygoogle"
+                                 style="display:block"
+                                 data-ad-client="ca-pub-1766805469808808"
+                                 data-ad-slot="3936200973"
+                                 data-ad-format="rectangle"></ins>
+                            <script>
+                                (adsbygoogle = window.adsbygoogle || []).push({});
+                            </script>
+                        </div>
                     </div>
 
                     @for($i = 0; $i < count($post->blocks); $i++)

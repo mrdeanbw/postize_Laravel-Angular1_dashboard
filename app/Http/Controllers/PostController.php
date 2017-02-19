@@ -68,8 +68,10 @@ class PostController extends Controller
                         $blockContent[$i]->content .= '<p>' . $blockContent[$i]->description . '</p>';
 
                     if(!$preview && $mediaBlocksShown == 1) { // Show this ad on the second block, between the image description and actual image
-                        $blockContent[$i]->content .= '<div class="row">
+                        $blockContent[$i]->content .= '<div class="row" style="display:block; width: 100%; height: auto;margin-bottom: 20px">
+
                                     <div class="ad-content">
+                                        <span class="ad-disclaimer">ADVERTISEMENT</span>
                                         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                                         <!-- Postize_InPost_Responsive_Rectangle_2 -->
                                         <ins class="adsbygoogle"
@@ -80,13 +82,13 @@ class PostController extends Controller
                                         <script>
                                         (adsbygoogle = window.adsbygoogle || []).push({});
                                         </script>
-                                        <span class="ad-disclaimer">ADVERTISEMENT</span>
                                     </div>
                                 </div>';
                     }
                     elseif(!$preview && $mediaBlocksShown == 2) {
-                        $blockContent[$i]->content .= '<div class="row">
+                        $blockContent[$i]->content .= '<div class="row" style="display:block; width: 100%; height: auto;margin-bottom: 20px">
                                     <div class="ad-content">
+                                                                            <span class="ad-disclaimer">ADVERTISEMENT</span>
                                     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
                                     <!-- Postize_InPost_Responsive_Rectangle_3 -->
                                     <ins class="adsbygoogle"
@@ -97,7 +99,6 @@ class PostController extends Controller
                                     <script>
                                     (adsbygoogle = window.adsbygoogle || []).push({});
                                     </script>
-                                        <span class="ad-disclaimer">ADVERTISEMENT</span>
                                     </div></div>';
                     }
 
