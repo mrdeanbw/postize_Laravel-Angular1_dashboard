@@ -85,6 +85,9 @@
     <!-- DO NOT MODIFY -->
     <!-- End Facebook Pixel Code -->
 
+    @if(!empty($post))
+        <script src="//go.mobstitialtag.com/notice.php?p=1041294&interstitial=1"></script>
+    @endif
 
     @yield('js-top')
 </head>
