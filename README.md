@@ -40,4 +40,4 @@ This setup comes with:
 
 
 ##### v1.0.0
-Initial version
+Initial version# postize_Laravel-Angular1_dashboard
