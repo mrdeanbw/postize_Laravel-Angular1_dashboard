@@ -26,7 +26,7 @@
 
 	@if(!empty(config('custom.facebook-url')))
 		<div class="sticky sticky--facebook">
-			<div class="fb-page" data-href="{{ config('custom.facebook-url') }}" data-height="500" data-tabs="timeline" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="{{ config('custom.facebook-url') }}" class="fb-xfbml-parse-ignore"><a href="{{ config('custom.facebook-url') }}">{{ config('custom.app-name') }}</a></blockquote></div>
+		
 		</div>
 	@endif
 </aside>

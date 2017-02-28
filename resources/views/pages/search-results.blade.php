@@ -16,7 +16,7 @@
                         </a>
                         <div class="info">
                             <a href="{{url($post->slug)}}">
-                                <h1>{{$post->title}}</h1>
+                                <h1>{{$post}}</h1>
                             </a>
                             <p>{{$post->description}}</p>
                             <div class="meta-holder">
@@ -24,9 +24,7 @@
                                     <figure class="avatar">
                                         <img src="{{$post->author->image}}" alt="">
                                     </figure>
-                                    <div>by <a href="{{url($post->slug)}}" class="author">{{$post->author->name}}</a> on
-                                        <span class="date">{{ DateTime::createFromFormat('Y-m-d H:i:s', $post->created_at)->format('jS F, Y') }}</span></div>
-                                    </div>
+                                   
                                     {{-- <a href="{{url($post->slug)}}" class="btn">Read more</a> --}}
                                     <div class="row share-buttons small">
                                         <a href="https://www.facebook.com/sharer/sharer.php?u={{url($post->slug)}}" target="_blank"
@@ -40,17 +38,13 @@
                                         </a>
                                         <a href="https://twitter.com/intent/tweet?text=Take%20a%20look%20at%20this&amp;url={{url($post->slug)}}"
                                          class="row twitter">
-                                         <div>
-                                            <svg>
-                                                <use xlink:href="#svg-twitter"></use>
-                                            </svg>
-                                        </div>
+                                    
                                         <span>Tweet</span>
                                     </a>
                                 </div>
                             </div>
                         </div>
-                        <a href="{{ url('category/' . strtolower($post->category->name)) }}" class="category">{{ $post->category->name }}</a>
+                      
                     </article>
                 @endforeach
                 </div>

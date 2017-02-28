@@ -61,22 +61,7 @@
                         @endif
                     </div>
 
-                    <div class="row" style="display:block; width: 100%; height: auto;margin-bottom: 20px">
-                        <div class="ad-content">
-                            <span class="ad-disclaimer">ADVERTISEMENT</span>
 
-                            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                            <!-- Postize_InPost_Responsive_Rectangle_1 -->
-                            <ins class="adsbygoogle"
-                                 style="display:block"
-                                 data-ad-client="ca-pub-1766805469808808"
-                                 data-ad-slot="3936200973"
-                                 data-ad-format="rectangle"></ins>
-                            <script>
-                                (adsbygoogle = window.adsbygoogle || []).push({});
-                            </script>
-                        </div>
-                    </div>
 
                     @for($i = 0; $i < count($post->blocks); $i++)
                         {!! $post->blocks[$i]->content !!}
@@ -133,14 +118,14 @@
                     <!-- PR_InPost_Responsive_Rectangle_3 -->
                     <ins class="adsbygoogle"
                          style="display:block"
-                         data-ad-client="ca-pub-1766805469808808"
-                         data-ad-slot="6653628577"
-                         data-ad-format="rectangle"></ins>
+                         data-ad-client=""
+                         data-ad-slot=""
+                         data-ad-format=""></ins>
                     <script>
                         (adsbygoogle = window.adsbygoogle || []).push({});
                     </script>
 
-                    <span class="ad-disclaimer">ADVERTISEMENT</span>
+                    <span class="">ADVERTISEMENT</span>
                 @endif
             </div>
         </div>

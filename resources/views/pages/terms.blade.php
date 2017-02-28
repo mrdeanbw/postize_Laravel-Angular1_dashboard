@@ -8,6 +8,7 @@
 	<section class="content">
 		<h1 class="section-heading">Terms of Service / Terms and Conditions</h1>
 
+
         <h4>Introduction</h4>
         <p>Welcome to {{ config('custom.app-name') }}. This website is owned and operated
         by Methodize Media Pty. Ltd. By visiting our website and

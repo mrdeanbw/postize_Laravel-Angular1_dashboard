@@ -156,13 +156,7 @@
         </p>
         <h4>Changes to this privacy policy</h4>
 
-        <p>
-            {{ config('custom.app-name') }} has the discretion to update this privacy policy at any
-            time. When we do, we will revise the updated date at the bottom of this page. We encourage Users to
-            frequently check this page for any changes to stay informed about how we are helping to protect the
-            personal information we collect. You acknowledge and agree that it is your responsibility to review
-            this privacy policy periodically and become aware of modifications.
-        </p>
+
         <h4>Your acceptance of these terms</h4>
 
         <p>
